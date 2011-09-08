@@ -18,14 +18,17 @@ Usage
 Mapping to "world-now.png"
 > `map`
 
-Map to a file in the format "terraria-2011-09-07_15-23.png"
+Map to a file in the format "terraria-2011-09-07_15-23-00.png"
 > `map -t`
 
 Map to a specified imagename
 > `map -n imagename.png`
 
+Reload mapoutput-path from map.properties
+> `map -L`
+
 Options
 -------
 
-You can change the output path in the properties file. On first run the default path is the server directory where Terraria_Server.exe is located.
+The default path is the server directory where Terraria_Server.exe is located.
 
