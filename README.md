@@ -28,14 +28,16 @@ Reload mapoutput-path from map.properties
 > `map -L`
 
 To specify path ingame you use (doesn't save)
-> `map -p /path/to/output`
+> map -p /path/to/output
+
 or in windows
-> `map -p C:\\path\\to\\output` (and yes you have to do two slashes because of how the tokenizer works)
+> map -p C:\\path\\to\\output (and yes you have to do two slashes because of how the tokenizer works)
 
 To specify a path ingame and also save it to map.properties
-> `map -s -p /path/to/output`
+> map -s -p /path/to/output
+
 or in windows
-> `map -s -p C:\\path\\to\\output` (and yes you have to do two slashes because of how the tokenizer works)
+> map -s -p C:\\path\\to\\output (and yes you have to do two slashes because of how the tokenizer works)
 
 Options
 -------
