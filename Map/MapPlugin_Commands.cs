@@ -18,12 +18,15 @@ namespace MapPlugin
 				var p = mapoutputpath;
 				var timestamp = false;
 				var reload = false;
+				var savefromcommand = false;
 				string filename = "world-now.png";
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
 					{ "n|name=", v => filename = v },
 					{ "L|reload", v => reload = true },
+					{ "s|save", v => savefromcommand = true },
+					{ "p|path=", v => p = v },
 				};
 				var args = options.Parse (argz);
 				
@@ -38,7 +41,7 @@ namespace MapPlugin
 					properties.Load ();
 					var msg = string.Concat (
 					"Settings: mapoutputpath=", p);
-					if ( !(Directory.Exists(mapoutputpath)) ){
+					if ( !(Directory.Exists(p)) ){
 						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
 						ProgramLog.Admin.Log ("<map> Loaded Directory does not exist.");
 					}
@@ -46,8 +49,13 @@ namespace MapPlugin
 					//sender.sendMessage ("map: " + msg);
 				}
 				
+				if(savefromcommand){
+					properties.setValue ("mapoutput-path", p);
+					properties.Save();
+				}
+				
 				if (args.Count == 0) {
-					if(!reload && Directory.Exists(mapoutputpath)){
+					if(!reload && Directory.Exists(p)){
 						Program.server.notifyOps("Saving Image...", true);
 						Stopwatch stopwatch = new Stopwatch ();
 						stopwatch.Start ();
@@ -56,13 +64,13 @@ namespace MapPlugin
 						graphicsHandle.FillRectangle (new SolidBrush (Constants.Colors.SKY), 0, 0, blank.Width, blank.Height);
 						Bitmap world = mapWorld (blank);
 						Program.server.notifyOps("Saving Data...", true);
-						world.Save (string.Concat (mapoutputpath, Path.DirectorySeparatorChar, filename));
+						world.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
 						stopwatch.Stop ();
 						ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
 						Program.server.notifyOps("Saving Complete.", true);
 					}
-					if( !(Directory.Exists(mapoutputpath)) ){
-						sender.sendMessage ("map: "+mapoutputpath+" does not exist.");
+					if( !(Directory.Exists(p)) ){
+						sender.sendMessage ("map: "+p+" does not exist.");
 					}
 				} else {
 					throw new CommandError ("");
