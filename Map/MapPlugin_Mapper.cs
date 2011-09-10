@@ -9,8 +9,8 @@ namespace MapPlugin
 	{
 		public static Dictionary<int, Color> tileTypeDefs;
 		
-		public static Bitmap mapWorld (Bitmap bmp) 
-		{
+		public void mapWorld () 
+		{			
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -41,10 +41,8 @@ namespace MapPlugin
 							}
 						}
 						
-					
 					}
 				}
-			return bmp;
 		}
 		
 		public partial class Constants //credits go to the authors of MoreTerra

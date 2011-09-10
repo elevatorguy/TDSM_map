@@ -26,8 +26,8 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.34.1";
-			TDSMBuild = 34;
+			Version = "0.35.0";
+			TDSMBuild = 35;
 			
 			string pluginFolder = Statics.PluginPath + Path.DirectorySeparatorChar + "map";
 			CreateDirectory (pluginFolder);

@@ -8,9 +8,10 @@ namespace MapPlugin
 	public partial class MapPlugin
 	{
 		public static Dictionary<int, Color> tileTypeDefs2;
+		public static Bitmap bmp;
 		
-		public static Bitmap mapWorld2 (Bitmap bmp) 
-		{
+		public void mapWorld2 () 
+		{	
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -41,13 +42,11 @@ namespace MapPlugin
 							}
 						}
 						
-					
 					}
 				}
-			return bmp;
 		}
 		
-		public partial class Constants //credits go to the authors of Terrafirma_Color  ..damn that xml took awhile to manually convert :(
+		public partial class Constants //credits go to the authors of Terrafirma ..damn that xml took awhile to manually convert :(
 								
 		{ 
 			public static class Terrafirma_Color 

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading;
 
 namespace MapPlugin
 {
@@ -71,17 +72,29 @@ namespace MapPlugin
 							Program.server.notifyOps("Saving Image...", true);
 							stopwatch.Start ();
 							blank = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
-							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
-							graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, blank.Width, blank.Height);
 						}
 						Bitmap world = blank;
 						if(cs=="Terrafirma"){
+							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
+							graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, blank.Width, blank.Height);
 							InitializeMapperDefs2();
-							world = mapWorld2 (blank);
+							Thread imagethread;
+							imagethread = new Thread(mapWorld2);
+							MapPlugin.bmp = blank;
+							mapWorld2 ();
+							world = MapPlugin.bmp;
+							imagethread.Abort();
 						}
 						else if(cs=="MoreTerra"){
+							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
+							graphicsHandle.FillRectangle (new SolidBrush (Constants.MoreTerra_Color.SKY), 0, 0, blank.Width, blank.Height);
 							InitializeMapperDefs();
-							world = mapWorld (blank);
+							Thread imagethread;
+							imagethread = new Thread(mapWorld);
+							MapPlugin.bmp = blank;
+							mapWorld();
+							world = MapPlugin.bmp;
+							imagethread.Abort();
 						}
 						else{
 							ProgramLog.Error.Log ("Save ERROR: check colorscheme");
@@ -92,6 +105,7 @@ namespace MapPlugin
 							stopwatch.Stop ();
 							ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
 							Program.server.notifyOps("Saving Complete.", true);
+							MapPlugin.bmp = null;
 						}
 					}
 					if( !(Directory.Exists(p)) ){
