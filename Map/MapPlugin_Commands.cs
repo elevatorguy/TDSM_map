@@ -20,6 +20,8 @@ namespace MapPlugin
 				var reload = false;
 				var savefromcommand = false;
 				string filename = "world-now.png";
+				string cs = colorscheme;
+				
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -27,6 +29,7 @@ namespace MapPlugin
 					{ "L|reload", v => reload = true },
 					{ "s|save", v => savefromcommand = true },
 					{ "p|path=", v => p = v },
+					{ "c|colorscheme=", v => cs = v },
 				};
 				var args = options.Parse (argz);
 				
@@ -40,37 +43,60 @@ namespace MapPlugin
 					sender.sendMessage ("map: Reloaded settings database, entries: " + properties.Count);
 					properties.Load ();
 					var msg = string.Concat (
-					"Settings: mapoutputpath=", p);
+					"Settings: mapoutputpath=", p, ", ",
+					"colorscheme=", cs);
 					if ( !(Directory.Exists(p)) ){
 						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
-						ProgramLog.Admin.Log ("<map> Loaded Directory does not exist.");
+						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
 					}
 					ProgramLog.Admin.Log ("<map> " + msg);
 					//sender.sendMessage ("map: " + msg);
+					
+					if ( !(cs=="MoreTerra" || cs=="Terrafirma") ){
+						ProgramLog.Error.Log ("<map> ERROR: please change colorscheme");
+					}
 				}
 				
 				if(savefromcommand){
+					properties.setValue ("color-scheme", cs);
 					properties.setValue ("mapoutput-path", p);
 					properties.Save();
 				}
 				
-				if (args.Count == 0) {
+				if (args.Count == 0 && isEnabled) {
 					if(!reload && Directory.Exists(p)){
-						Program.server.notifyOps("Saving Image...", true);
 						Stopwatch stopwatch = new Stopwatch ();
-						stopwatch.Start ();
-						Bitmap blank = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
-						Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
-						graphicsHandle.FillRectangle (new SolidBrush (Constants.Colors.SKY), 0, 0, blank.Width, blank.Height);
-						Bitmap world = mapWorld (blank);
-						Program.server.notifyOps("Saving Data...", true);
-						world.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
-						stopwatch.Stop ();
-						ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-						Program.server.notifyOps("Saving Complete.", true);
+						Bitmap blank = null;
+						if(cs=="MoreTerra" || cs=="Terrafirma"){
+							Program.server.notifyOps("Saving Image...", true);
+							stopwatch.Start ();
+							blank = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
+							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
+							graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, blank.Width, blank.Height);
+						}
+						Bitmap world = blank;
+						if(cs=="Terrafirma"){
+							InitializeMapperDefs2();
+							world = mapWorld2 (blank);
+						}
+						else if(cs=="MoreTerra"){
+							InitializeMapperDefs();
+							world = mapWorld (blank);
+						}
+						else{
+							ProgramLog.Error.Log ("Save ERROR: check colorscheme");
+						}
+						if(cs=="MoreTerra" || cs=="Terrafirma"){
+							Program.server.notifyOps("Saving Data...", true);
+							world.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
+							stopwatch.Stop ();
+							ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+							Program.server.notifyOps("Saving Complete.", true);
+						}
 					}
 					if( !(Directory.Exists(p)) ){
 						sender.sendMessage ("map: "+p+" does not exist.");
+						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
 					}
 				} else {
 					throw new CommandError ("");

@@ -23,13 +23,13 @@ namespace MapPlugin
 							} else {
 								
 								if (j > Main.worldSurface) {
-									bmp.SetPixel (i, j, Constants.Colors.WALL_BACKGROUND);
+									bmp.SetPixel (i, j, Constants.MoreTerra_Color.WALL_BACKGROUND);
 								}
 								if (Main.tile.At (i, j).Liquid > 0) {
 									if (Main.tile.At (i, j).Lava) {
-										bmp.SetPixel (i, j, Constants.Colors.LAVA);
+										bmp.SetPixel (i, j, Constants.MoreTerra_Color.LAVA);
 									} else {
-										bmp.SetPixel (i, j, Constants.Colors.WATER);
+										bmp.SetPixel (i, j, Constants.MoreTerra_Color.WATER);
 									}	
 								}
 							}
@@ -47,9 +47,9 @@ namespace MapPlugin
 			return bmp;
 		}
 		
-		public class Constants //credits go to the authors of MoreTerra
+		public partial class Constants //credits go to the authors of MoreTerra
 		{ 
-			public static class Colors 
+			public static class MoreTerra_Color 
 			{
 				public static Color DIRT = Color.FromArgb (175, 131, 101);
 				public static Color STONE = Color.FromArgb (128, 128, 128);
@@ -116,167 +116,167 @@ namespace MapPlugin
 		{	
 			tileTypeDefs = new Dictionary<int, Color> (255);
 			
-			tileTypeDefs [0] = Constants.Colors.DIRT;
-			tileTypeDefs [1] = Constants.Colors.STONE;
-			tileTypeDefs [2] = Constants.Colors.GRASS;
-			tileTypeDefs [3] = Constants.Colors.PLANTS;
-			tileTypeDefs [4] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [5] = Constants.Colors.WOOD;
-			tileTypeDefs [6] = Constants.Colors.IRON;
-			tileTypeDefs [7] = Constants.Colors.COPPER;
-			tileTypeDefs [8] = Constants.Colors.GOLD;
-			tileTypeDefs [9] = Constants.Colors.SILVER;
+			tileTypeDefs [0] = Constants.MoreTerra_Color.DIRT;
+			tileTypeDefs [1] = Constants.MoreTerra_Color.STONE;
+			tileTypeDefs [2] = Constants.MoreTerra_Color.GRASS;
+			tileTypeDefs [3] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [4] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [5] = Constants.MoreTerra_Color.WOOD;
+			tileTypeDefs [6] = Constants.MoreTerra_Color.IRON;
+			tileTypeDefs [7] = Constants.MoreTerra_Color.COPPER;
+			tileTypeDefs [8] = Constants.MoreTerra_Color.GOLD;
+			tileTypeDefs [9] = Constants.MoreTerra_Color.SILVER;
 
-			tileTypeDefs [10] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [11] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [12] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [13] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [14] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [15] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [16] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [17] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [18] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [19] = Constants.Colors.WOOD;
+			tileTypeDefs [10] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [11] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [12] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [13] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [14] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [15] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [16] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [17] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [18] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [19] = Constants.MoreTerra_Color.WOOD;
 
-			tileTypeDefs [20] = Constants.Colors.PLANTS;
-			tileTypeDefs [21] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [22] = Constants.Colors.DEMONITE;
-			tileTypeDefs [23] = Constants.Colors.CORRUPTION_GRASS;
-			tileTypeDefs [24] = Constants.Colors.CORRUPTION_GRASS;
-			tileTypeDefs [25] = Constants.Colors.EBONSTONE;
-			tileTypeDefs [26] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [27] = Constants.Colors.PLANTS;
-			tileTypeDefs [28] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [29] = Constants.Colors.DECORATIVE;
+			tileTypeDefs [20] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [21] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [22] = Constants.MoreTerra_Color.DEMONITE;
+			tileTypeDefs [23] = Constants.MoreTerra_Color.CORRUPTION_GRASS;
+			tileTypeDefs [24] = Constants.MoreTerra_Color.CORRUPTION_GRASS;
+			tileTypeDefs [25] = Constants.MoreTerra_Color.EBONSTONE;
+			tileTypeDefs [26] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [27] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [28] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [29] = Constants.MoreTerra_Color.DECORATIVE;
 
-			tileTypeDefs [30] = Constants.Colors.WOOD_BLOCK;
-			tileTypeDefs [31] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [32] = Constants.Colors.CORRUPTION_VINES;
-			tileTypeDefs [33] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [34] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [35] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [36] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [37] = Constants.Colors.METEORITE;
-			tileTypeDefs [38] = Constants.Colors.BLOCK;
-			tileTypeDefs [39] = Constants.Colors.BLOCK;
+			tileTypeDefs [30] = Constants.MoreTerra_Color.WOOD_BLOCK;
+			tileTypeDefs [31] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [32] = Constants.MoreTerra_Color.CORRUPTION_VINES;
+			tileTypeDefs [33] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [34] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [35] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [36] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [37] = Constants.MoreTerra_Color.METEORITE;
+			tileTypeDefs [38] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [39] = Constants.MoreTerra_Color.BLOCK;
 
-			tileTypeDefs [40] = Constants.Colors.CLAY;
-			tileTypeDefs [41] = Constants.Colors.DUNGEON_BLUE;
-			tileTypeDefs [42] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [43] = Constants.Colors.DUNGEON_GREEN;
-			tileTypeDefs [44] = Constants.Colors.DUNGEON_PINK;
-			tileTypeDefs [45] = Constants.Colors.BLOCK;
-			tileTypeDefs [46] = Constants.Colors.BLOCK;
-			tileTypeDefs [47] = Constants.Colors.BLOCK;
-			tileTypeDefs [48] = Constants.Colors.SPIKES;
-			tileTypeDefs [49] = Constants.Colors.LIGHT_SOURCE;
+			tileTypeDefs [40] = Constants.MoreTerra_Color.CLAY;
+			tileTypeDefs [41] = Constants.MoreTerra_Color.DUNGEON_BLUE;
+			tileTypeDefs [42] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [43] = Constants.MoreTerra_Color.DUNGEON_GREEN;
+			tileTypeDefs [44] = Constants.MoreTerra_Color.DUNGEON_PINK;
+			tileTypeDefs [45] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [46] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [47] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [48] = Constants.MoreTerra_Color.SPIKES;
+			tileTypeDefs [49] = Constants.MoreTerra_Color.LIGHT_SOURCE;
 
-			tileTypeDefs [50] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [51] = Constants.Colors.WEB;
-			tileTypeDefs [52] = Constants.Colors.PLANTS;
-			tileTypeDefs [53] = Constants.Colors.SAND;
-			tileTypeDefs [54] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [55] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [56] = Constants.Colors.OBSIDIAN;
-			tileTypeDefs [57] = Constants.Colors.ASH;
-			tileTypeDefs [58] = Constants.Colors.HELLSTONE;
-			tileTypeDefs [59] = Constants.Colors.MUD;
+			tileTypeDefs [50] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [51] = Constants.MoreTerra_Color.WEB;
+			tileTypeDefs [52] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [53] = Constants.MoreTerra_Color.SAND;
+			tileTypeDefs [54] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [55] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [56] = Constants.MoreTerra_Color.OBSIDIAN;
+			tileTypeDefs [57] = Constants.MoreTerra_Color.ASH;
+			tileTypeDefs [58] = Constants.MoreTerra_Color.HELLSTONE;
+			tileTypeDefs [59] = Constants.MoreTerra_Color.MUD;
 
-			tileTypeDefs [60] = Constants.Colors.UNDERGROUNDJUNGLE_GRASS;
-			tileTypeDefs [61] = Constants.Colors.UNDERGROUNDJUNGLE_PLANTS;
-			tileTypeDefs [62] = Constants.Colors.UNDERGROUNDJUNGLE_VINES;
-			tileTypeDefs [63] = Constants.Colors.GEMS;
-			tileTypeDefs [64] = Constants.Colors.GEMS;
-			tileTypeDefs [65] = Constants.Colors.GEMS;
-			tileTypeDefs [66] = Constants.Colors.GEMS;
-			tileTypeDefs [67] = Constants.Colors.GEMS;
-			tileTypeDefs [68] = Constants.Colors.GEMS;
-			tileTypeDefs [69] = Constants.Colors.UNDERGROUNDJUNGLE_THORNS;
+			tileTypeDefs [60] = Constants.MoreTerra_Color.UNDERGROUNDJUNGLE_GRASS;
+			tileTypeDefs [61] = Constants.MoreTerra_Color.UNDERGROUNDJUNGLE_PLANTS;
+			tileTypeDefs [62] = Constants.MoreTerra_Color.UNDERGROUNDJUNGLE_VINES;
+			tileTypeDefs [63] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [64] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [65] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [66] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [67] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [68] = Constants.MoreTerra_Color.GEMS;
+			tileTypeDefs [69] = Constants.MoreTerra_Color.UNDERGROUNDJUNGLE_THORNS;
 
-			tileTypeDefs [70] = Constants.Colors.UNDERGROUNDMUSHROOM_GRASS;
-			tileTypeDefs [71] = Constants.Colors.UNDERGROUNDMUSHROOM_PLANTS;
-			tileTypeDefs [72] = Constants.Colors.UNDERGROUNDMUSHROOM_TREES;
-			tileTypeDefs [73] = Constants.Colors.PLANTS;
-			tileTypeDefs [74] = Constants.Colors.PLANTS;
-			tileTypeDefs [75] = Constants.Colors.BLOCK;
-			tileTypeDefs [76] = Constants.Colors.BLOCK;
-			tileTypeDefs [77] = Constants.Colors.IMPORTANT;
-			tileTypeDefs [78] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [79] = Constants.Colors.DECORATIVE;
+			tileTypeDefs [70] = Constants.MoreTerra_Color.UNDERGROUNDMUSHROOM_GRASS;
+			tileTypeDefs [71] = Constants.MoreTerra_Color.UNDERGROUNDMUSHROOM_PLANTS;
+			tileTypeDefs [72] = Constants.MoreTerra_Color.UNDERGROUNDMUSHROOM_TREES;
+			tileTypeDefs [73] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [74] = Constants.MoreTerra_Color.PLANTS;
+			tileTypeDefs [75] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [76] = Constants.MoreTerra_Color.BLOCK;
+			tileTypeDefs [77] = Constants.MoreTerra_Color.IMPORTANT;
+			tileTypeDefs [78] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [79] = Constants.MoreTerra_Color.DECORATIVE;
 
-			tileTypeDefs [80] = Constants.Colors.CACTUS;
-			tileTypeDefs [81] = Constants.Colors.CORAL;
-			tileTypeDefs [82] = Constants.Colors.HERB;
-			tileTypeDefs [83] = Constants.Colors.HERB;
-			tileTypeDefs [84] = Constants.Colors.HERB;
-			tileTypeDefs [85] = Constants.Colors.TOMBSTONE;
-			tileTypeDefs [86] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [87] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [88] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [89] = Constants.Colors.DECORATIVE;
+			tileTypeDefs [80] = Constants.MoreTerra_Color.CACTUS;
+			tileTypeDefs [81] = Constants.MoreTerra_Color.CORAL;
+			tileTypeDefs [82] = Constants.MoreTerra_Color.HERB;
+			tileTypeDefs [83] = Constants.MoreTerra_Color.HERB;
+			tileTypeDefs [84] = Constants.MoreTerra_Color.HERB;
+			tileTypeDefs [85] = Constants.MoreTerra_Color.TOMBSTONE;
+			tileTypeDefs [86] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [87] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [88] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [89] = Constants.MoreTerra_Color.DECORATIVE;
 
-			tileTypeDefs [90] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [91] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [92] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [93] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [94] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [95] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [96] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [97] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [98] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [99] = Constants.Colors.DECORATIVE;
+			tileTypeDefs [90] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [91] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [92] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [93] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [94] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [95] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [96] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [97] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [98] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [99] = Constants.MoreTerra_Color.DECORATIVE;
 
-			tileTypeDefs [100] = Constants.Colors.LIGHT_SOURCE;
-			tileTypeDefs [101] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [102] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [103] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [104] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [105] = Constants.Colors.DECORATIVE;
-			tileTypeDefs [106] = Constants.Colors.DECORATIVE;
+			tileTypeDefs [100] = Constants.MoreTerra_Color.LIGHT_SOURCE;
+			tileTypeDefs [101] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [102] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [103] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [104] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [105] = Constants.MoreTerra_Color.DECORATIVE;
+			tileTypeDefs [106] = Constants.MoreTerra_Color.DECORATIVE;
 
 			
 			for (int i = 107; i < 256; i++) {
 				tileTypeDefs [i] = Color.Magenta;
 			}
 
-			tileTypeDefs [256] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [257] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [258] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [259] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [260] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [261] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [262] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [263] = Constants.Colors.UNKNOWN;
-			tileTypeDefs [264] = Constants.Colors.UNKNOWN;
+			tileTypeDefs [256] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [257] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [258] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [259] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [260] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [261] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [262] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [263] = Constants.MoreTerra_Color.UNKNOWN;
+			tileTypeDefs [264] = Constants.MoreTerra_Color.UNKNOWN;
 
-			tileTypeDefs [265] = Constants.Colors.SKY;
-			tileTypeDefs [266] = Constants.Colors.WATER;
-			tileTypeDefs [267] = Constants.Colors.LAVA;
+			tileTypeDefs [265] = Constants.MoreTerra_Color.SKY;
+			tileTypeDefs [266] = Constants.MoreTerra_Color.WATER;
+			tileTypeDefs [267] = Constants.MoreTerra_Color.LAVA;
 
 			// Walls
-			tileTypeDefs [268] = Constants.Colors.WALL_STONE;
-			tileTypeDefs [269] = Constants.Colors.WALL_DIRT;
-			tileTypeDefs [270] = Constants.Colors.WALL_EBONSTONE;
-			tileTypeDefs [271] = Constants.Colors.WALL_WOOD;
-			tileTypeDefs [272] = Constants.Colors.WALL_BRICK;
-			tileTypeDefs [273] = Constants.Colors.WALL_BRICK;
-			tileTypeDefs [274] = Constants.Colors.WALL_DUNGEON_BLUE;
-			tileTypeDefs [275] = Constants.Colors.WALL_DUNGEON_GREEN;
-			tileTypeDefs [276] = Constants.Colors.WALL_DUNGEON_PINK;
-			tileTypeDefs [277] = Constants.Colors.WALL_BRICK;
-			tileTypeDefs [278] = Constants.Colors.WALL_BRICK;
-			tileTypeDefs [279] = Constants.Colors.WALL_BRICK;
-			tileTypeDefs [280] = Constants.Colors.WALL_HELLSTONE;
-			tileTypeDefs [281] = Constants.Colors.WALL_OBSIDIAN;
-			tileTypeDefs [282] = Constants.Colors.WALL_MUD;
-			tileTypeDefs [283] = Constants.Colors.WALL_DIRT;
-			tileTypeDefs [284] = Constants.Colors.WALL_DUNGEON_BLUE;
-			tileTypeDefs [285] = Constants.Colors.WALL_DUNGEON_GREEN;
-			tileTypeDefs [286] = Constants.Colors.WALL_DUNGEON_PINK;
-			tileTypeDefs [287] = Constants.Colors.WALL_BACKGROUND;
-			tileTypeDefs [288] = Constants.Colors.WALL_BACKGROUND;
+			tileTypeDefs [268] = Constants.MoreTerra_Color.WALL_STONE;
+			tileTypeDefs [269] = Constants.MoreTerra_Color.WALL_DIRT;
+			tileTypeDefs [270] = Constants.MoreTerra_Color.WALL_EBONSTONE;
+			tileTypeDefs [271] = Constants.MoreTerra_Color.WALL_WOOD;
+			tileTypeDefs [272] = Constants.MoreTerra_Color.WALL_BRICK;
+			tileTypeDefs [273] = Constants.MoreTerra_Color.WALL_BRICK;
+			tileTypeDefs [274] = Constants.MoreTerra_Color.WALL_DUNGEON_BLUE;
+			tileTypeDefs [275] = Constants.MoreTerra_Color.WALL_DUNGEON_GREEN;
+			tileTypeDefs [276] = Constants.MoreTerra_Color.WALL_DUNGEON_PINK;
+			tileTypeDefs [277] = Constants.MoreTerra_Color.WALL_BRICK;
+			tileTypeDefs [278] = Constants.MoreTerra_Color.WALL_BRICK;
+			tileTypeDefs [279] = Constants.MoreTerra_Color.WALL_BRICK;
+			tileTypeDefs [280] = Constants.MoreTerra_Color.WALL_HELLSTONE;
+			tileTypeDefs [281] = Constants.MoreTerra_Color.WALL_OBSIDIAN;
+			tileTypeDefs [282] = Constants.MoreTerra_Color.WALL_MUD;
+			tileTypeDefs [283] = Constants.MoreTerra_Color.WALL_DIRT;
+			tileTypeDefs [284] = Constants.MoreTerra_Color.WALL_DUNGEON_BLUE;
+			tileTypeDefs [285] = Constants.MoreTerra_Color.WALL_DUNGEON_GREEN;
+			tileTypeDefs [286] = Constants.MoreTerra_Color.WALL_DUNGEON_PINK;
+			tileTypeDefs [287] = Constants.MoreTerra_Color.WALL_BACKGROUND;
+			tileTypeDefs [288] = Constants.MoreTerra_Color.WALL_BACKGROUND;
 			
-			tileTypeDefs [330] = Constants.Colors.WALL_OBSIDIAN; //my addition
+			tileTypeDefs [330] = Constants.MoreTerra_Color.WALL_OBSIDIAN; //my addition
 		}
 	}
 }
