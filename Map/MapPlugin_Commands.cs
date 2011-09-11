@@ -13,16 +13,17 @@ namespace MapPlugin
 {
 	public partial class MapPlugin
 	{
+		public static string p;
+		public static string filename;
 		void MapCommand (Server server, ISender sender, ArgumentList argz)
 		{
 			try {
-				var p = mapoutputpath;
+				p = mapoutputpath;
+				filename = "world-now.png";
 				var timestamp = false;
 				var reload = false;
 				var savefromcommand = false;
-				string filename = "world-now.png";
 				string cs = colorscheme;
-				
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -66,51 +67,27 @@ namespace MapPlugin
 				
 				if (args.Count == 0 && isEnabled) {
 					if(!reload && Directory.Exists(p)){
-						Stopwatch stopwatch = new Stopwatch ();
-						Bitmap blank = null;
-						if(cs=="MoreTerra" || cs=="Terrafirma"){
-							Program.server.notifyOps("Saving Image...", true);
-							stopwatch.Start ();
-							blank = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
-						}
-						Bitmap world = blank;
 						if(cs=="Terrafirma"){
-							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
-							graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, blank.Width, blank.Height);
-							InitializeMapperDefs2();
 							Thread imagethread;
 							imagethread = new Thread(mapWorld2);
-							MapPlugin.bmp = blank;
-							mapWorld2 ();
-							world = MapPlugin.bmp;
-							imagethread.Abort();
+							imagethread.Start();
+							while (!imagethread.IsAlive);
+								// the thread terminates itself since there is no while loop in mapWorld2
 						}
 						else if(cs=="MoreTerra"){
-							Graphics graphicsHandle = Graphics.FromImage ((Image)blank);
-							graphicsHandle.FillRectangle (new SolidBrush (Constants.MoreTerra_Color.SKY), 0, 0, blank.Width, blank.Height);
-							InitializeMapperDefs();
 							Thread imagethread;
 							imagethread = new Thread(mapWorld);
-							MapPlugin.bmp = blank;
-							mapWorld();
-							world = MapPlugin.bmp;
-							imagethread.Abort();
+							imagethread.Start();
+							while (!imagethread.IsAlive);
+								// the thread terminates itself since there is no while loop in mapWorld
 						}
 						else{
 							ProgramLog.Error.Log ("Save ERROR: check colorscheme");
 						}
-						if(cs=="MoreTerra" || cs=="Terrafirma"){
-							Program.server.notifyOps("Saving Data...", true);
-							world.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
-							stopwatch.Stop ();
-							ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-							Program.server.notifyOps("Saving Complete.", true);
-							MapPlugin.bmp = null;
-						}
-					}
-					if( !(Directory.Exists(p)) ){
+						if( !(Directory.Exists(p)) ){
 						sender.sendMessage ("map: "+p+" does not exist.");
 						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
+				}
 					}
 				} else {
 					throw new CommandError ("");

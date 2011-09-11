@@ -2,6 +2,9 @@ using System.Drawing;
 using System.Collections.Generic;
 using Terraria_Server.Logging;
 using Terraria_Server;
+using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace MapPlugin
 {
@@ -10,7 +13,14 @@ namespace MapPlugin
 		public static Dictionary<int, Color> tileTypeDefs;
 		
 		public void mapWorld () 
-		{			
+		{	
+			Stopwatch stopwatch = new Stopwatch ();		
+			Program.server.notifyOps("Saving Image...", true);
+			stopwatch.Start ();
+			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
+			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
+			graphicsHandle.FillRectangle (new SolidBrush (Constants.MoreTerra_Color.SKY), 0, 0, bmp.Width, bmp.Height);
+			
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -43,6 +53,13 @@ namespace MapPlugin
 						
 					}
 				}
+				Program.server.notifyOps("Saving Data...", true);
+				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
+				stopwatch.Stop ();
+				ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+				Program.server.notifyOps("Saving Complete.", true);
+				bmp = null;
+			
 		}
 		
 		public partial class Constants //credits go to the authors of MoreTerra

@@ -26,7 +26,7 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.35.0";
+			Version = "0.35.1";
 			TDSMBuild = 35;
 			
 			string pluginFolder = Statics.PluginPath + Path.DirectorySeparatorChar + "map";
@@ -37,6 +37,9 @@ namespace MapPlugin
 			var dummy = mapoutputpath;
 			var dummy2 = colorscheme;
 			properties.Save ();
+			
+			InitializeMapperDefs();
+			InitializeMapperDefs2();
 			
 			if(colorscheme=="MoreTerra" || colorscheme=="Terrafirma"){
 				isEnabled = true;
