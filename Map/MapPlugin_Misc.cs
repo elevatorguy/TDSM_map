@@ -40,24 +40,6 @@ namespace MapPlugin
             fb = (uint)(tb * alpha + fb * (1 - alpha));
             return (fr << 16) | (fg << 8) | fb;
         }
-		
-		private string int32ToHexString(long i)
-		{
-			byte[] int32Bytes;
-			int32Bytes = BitConverter.GetBytes(i);
-			return String.Format("{0}{1}{2}{3}",
-				padString(int32Bytes[0].ToString("X")),
-				padString(int32Bytes[1].ToString("X")),
-				padString(int32Bytes[2].ToString("X")),
-				padString(int32Bytes[3].ToString("X")));
-		}
-		
-		private string padString(string s)
-		{
-			while (s.Length < 2) s = "0" + s;
-			while (s.Length < 3) s = " " + s;
-			return s;
-		}
 	}
 }
 
