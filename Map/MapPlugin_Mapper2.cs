@@ -5,6 +5,7 @@ using Terraria_Server;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System;
 
 namespace MapPlugin
 {
@@ -20,8 +21,14 @@ namespace MapPlugin
 			stopwatch.Start ();
 			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
-			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, bmp.Height);
-			
+			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
+			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
+			//this fades the background from rock to hell
+			for(int y = (int)Main.rockLayer; y < Main.maxTilesY; y++){
+				double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY);
+                UInt32 c = alphaBlend(0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
+				graphicsHandle.DrawLine(new Pen (ColorTranslator.FromHtml("#"+String.Format("{0:X}", c))), 0, y, bmp.Width, y);
+			}
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -32,10 +39,6 @@ namespace MapPlugin
 							if (Main.tile.At (i, j).Active) {
 								bmp.SetPixel (i, j, tileTypeDefs2 [Main.tile.At (i, j).Type]);
 							} else {
-								
-								if (j > Main.worldSurface) {
-									bmp.SetPixel (i, j, Constants.Terrafirma_Color.ROCK);
-								}
 								if (Main.tile.At (i, j).Liquid > 0) {
 									if (Main.tile.At (i, j).Lava) {
 										bmp.SetPixel (i, j, Constants.Terrafirma_Color.LAVA);
