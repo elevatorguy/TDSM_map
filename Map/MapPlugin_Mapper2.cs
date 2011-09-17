@@ -16,45 +16,45 @@ namespace MapPlugin
 		
 		public void mapWorld2 () 
 		{	
+			UInt32 waterColor = 0x093DBF;
+			UInt32 lavaColor = 0xFD2003;
 			Stopwatch stopwatch = new Stopwatch ();		
 			Program.server.notifyOps("Saving Image...", true);
 			stopwatch.Start ();
 			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
+			//draw background
 			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
 			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
+			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
 			//this fades the background from rock to hell
 			for(int y = (int)Main.rockLayer; y < Main.maxTilesY; y++){
-				double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY);
+				double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY - Main.rockLayer);
                 UInt32 c = alphaBlend(0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
 				graphicsHandle.DrawLine(new Pen (ColorTranslator.FromHtml("#"+String.Format("{0:X}", c))), 0, y, bmp.Width, y);
+				
 			}
-			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
+			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))				
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
-					for (int j = 0; j < Main.maxTilesY; j++) {		
+					for (int j = 0; j < Main.maxTilesY; j++) {	
+					// TODO: make all this more efficient
 					
-					//TODO: find a more understandable way on these if statements
+					//draws tiles or walls
 						if (Main.tile.At (i, j).Wall == 0) {
 							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, tileTypeDefs2 [Main.tile.At (i, j).Type]);
-							} else {
-								if (Main.tile.At (i, j).Liquid > 0) {
-									if (Main.tile.At (i, j).Lava) {
-										bmp.SetPixel (i, j, Constants.Terrafirma_Color.LAVA);
-									} else {
-										bmp.SetPixel (i, j, Constants.Terrafirma_Color.WATER);
-									}	
-								}
-							}
+								bmp.SetPixel(i,j,tileTypeDefs2 [Main.tile.At (i, j).Type]);
+							} 
 						} else {
-							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, tileTypeDefs2 [Main.tile.At (i, j).Type]);
-							} else {
-								bmp.SetPixel (i, j, tileTypeDefs2 [Main.tile.At (i, j).Wall + 267]);
-							}
+							//this is slightly faster than if/else unless i'm going crazy :/
+							bmp.SetPixel(i,j,Main.tile.At (i, j).Active ? tileTypeDefs2 [Main.tile.At (i, j).Type] : tileTypeDefs2 [(Main.tile.At (i, j).Wall + 267)]);
 						}
-						
+					
+						// blend liquid color with color just drawn, and draw again
+						if (Main.tile.At (i, j).Liquid > 0) {										
+							UInt32 c = alphaBlend((UInt32)bmp.GetPixel(i,j).ToArgb(), Main.tile.At (i, j).Lava ? lavaColor : waterColor, 0.5);
+							bmp.SetPixel(i,j,ColorTranslator.FromHtml("#"+String.Format("{0:X}", c)));
+						}
 					}
 				}
 				Program.server.notifyOps("Saving Data...", true);
@@ -207,7 +207,6 @@ namespace MapPlugin
 				public static Color HELL = ColorTranslator.FromHtml("#000000");
 				public static Color LAVA = ColorTranslator.FromHtml("#fd2003");
 				public static Color WATER = ColorTranslator.FromHtml("#093dbf");
-
 			}
 		}
 		

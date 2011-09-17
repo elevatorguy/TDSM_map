@@ -27,6 +27,7 @@ namespace MapPlugin
 		return null;
 		}	
 		
+		//this comes from terrafirma
 		private UInt32 alphaBlend(UInt32 from, UInt32 to, double alpha)
         {
             uint fr = (from >> 16) & 0xff;
