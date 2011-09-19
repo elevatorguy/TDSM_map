@@ -69,13 +69,13 @@ namespace MapPlugin
 		public override void Enable ()
 		{
 			isEnabled = true;
-			Program.tConsole.WriteLine (base.Name + " enabled");
+			Program.tConsole.WriteLine (base.Name + " " + base.Version + " enabled");
 		}
 		
 		public override void Disable ()
 		{
 			isEnabled = false;
-			Program.tConsole.WriteLine (base.Name + " disabled.");
+			Program.tConsole.WriteLine (base.Name + " " + base.Version + " disabled.");
 		}			
 	}
 }
