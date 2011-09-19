@@ -41,6 +41,9 @@ namespace MapPlugin
 			InitializeMapperDefs();
 			InitializeMapperDefs2();
 			
+			// this pre-blends colors
+			initBList();
+			
 			if(colorscheme=="MoreTerra" || colorscheme=="Terrafirma"){
 				isEnabled = true;
 			}
