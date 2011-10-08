@@ -21,7 +21,7 @@ namespace MapPlugin
 		{	
 			UInt32 tempColor;
 			Stopwatch stopwatch = new Stopwatch ();		
-			Program.server.notifyOps("Saving Image...", true);
+			Server.notifyOps("Saving Image...", true);
 			stopwatch.Start ();
 			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
@@ -65,11 +65,11 @@ namespace MapPlugin
 						}
 					}
 				}
-				Program.server.notifyOps("Saving Data...", true);
+				Server.notifyOps("Saving Data...", true);
 				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
 				stopwatch.Stop ();
 				ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-				Program.server.notifyOps("Saving Complete.", true);
+				Server.notifyOps("Saving Complete.", true);
 				bmp = null;
 		}
 		

@@ -15,7 +15,7 @@ namespace MapPlugin
 	{
 		public static string p;
 		public static string filename;
-		void MapCommand (Server server, ISender sender, ArgumentList argz)
+		void MapCommand ( ISender sender, ArgumentList argz)
 		{
 			try {
 				p = mapoutputpath;

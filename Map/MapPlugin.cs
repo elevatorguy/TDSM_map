@@ -1,12 +1,14 @@
-using Terraria_Server.Plugin;
+using Terraria_Server.Plugins;
 using Terraria_Server.Misc;
 using Terraria_Server;
 using System.IO;
 using Terraria_Server.Logging;
+using System;
+using Terraria_Server.Commands;
 
 namespace MapPlugin
 {
-	public partial class MapPlugin : Plugin
+	public partial class MapPlugin : BasePlugin
 	{
 		PropertiesFile properties;
 		bool isEnabled = false;
@@ -21,14 +23,17 @@ namespace MapPlugin
 			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
 		}
 		
-		public override void Load ()
+		public MapPlugin ()
 		{
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.35.4";
-			TDSMBuild = 35;
-			
+			Version = "0.36.0";
+			TDSMBuild = 36;
+		}
+		
+		protected override void Initialized (object state)
+		{
 			string pluginFolder = Statics.PluginPath + Path.DirectorySeparatorChar + "map";
 			CreateDirectory (pluginFolder);
 			
@@ -66,16 +71,21 @@ namespace MapPlugin
 				.Calls (this.MapCommand);
 		}
 		
-		public override void Enable ()
+		protected override void Enabled()
 		{
 			isEnabled = true;
-			Program.tConsole.WriteLine (base.Name + " " + base.Version + " enabled");
+			ProgramLog.Log (base.Name + " " + base.Version + " enabled.");
 		}
-		
-		public override void Disable ()
+
+		protected override void Disabled ()
 		{
 			isEnabled = false;
-			Program.tConsole.WriteLine (base.Name + " " + base.Version + " disabled.");
+			ProgramLog.Log (base.Name + " " + base.Version + " disabled.");
+		}
+		
+		protected override void Disposed (object state)
+		{
+			
 		}			
 	}
 }

@@ -9,10 +9,9 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MapPlugin</RootNamespace>
-    <AssemblyName>Map_0_35_4</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>Map_0_36_0</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <ReleaseVersion>0.35.4</ReleaseVersion>
+    <ReleaseVersion>0.36.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,12 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-    </Reference>
-    <Reference Include="System.Drawing">
-    </Reference>
-    <Reference Include="Terraria_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Terraria_Server">
       <HintPath>..\..\TDSM\Terraria_Server\bin\Debug\Terraria_Server.exe</HintPath>
     </Reference>
   </ItemGroup>
