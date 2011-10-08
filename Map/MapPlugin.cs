@@ -43,12 +43,10 @@ namespace MapPlugin
 			var dummy2 = colorscheme;
 			properties.Save ();
 			
-			InitializeMapperDefs();
-			InitializeMapperDefs2();
-			
-			// this pre-blends colors
-			initBList();
-			
+			//separate thread so it waits for the world to load
+			//and then blends the colors
+			startBlendThread();
+					
 			if(colorscheme=="MoreTerra" || colorscheme=="Terrafirma"){
 				isEnabled = true;
 			}

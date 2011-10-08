@@ -1,6 +1,7 @@
 using Terraria_Server;
 using System.IO;
 using System;
+using System.Threading;
 
 namespace MapPlugin
 {
@@ -41,6 +42,29 @@ namespace MapPlugin
             fb = (uint)(tb * alpha + fb * (1 - alpha));
             return (fr << 16) | (fg << 8) | fb;
         }
+		
+		//this fixes the problem introduced in the new b36 API
+		//I need the world size but plugins are now loaded before the world
+		//so I make a new thread that waits until the variables are assigned
+		//and then it pre-blend the colors
+		private void startBlendThread()
+		{
+			Thread blendthread;
+			blendthread = new Thread(preBlend);
+			blendthread.Start();
+			while (!blendthread.IsAlive); //wait for it to start
+		}
+		
+		private void preBlend()
+		{
+			while(Main.maxTilesX==-1); //wait for maxTilesX to be assigned
+			//UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
+			InitializeMapperDefs();
+			InitializeMapperDefs2();
+			
+			//this pre blends colors for Terrafirma Color Scheme
+			initBList();
+		}
 	}
 }
 
