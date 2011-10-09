@@ -79,7 +79,6 @@ namespace MapPlugin
 			//adds all the colors for walls/tiles/global
 			UInt32 waterColor = 0x093DBF;
 			UInt32 lavaColor = 0xFD2003;
-
 			//blends water and lava with UInt32Defs
 			using (var blendprog = new ProgressLogger(Main.maxTilesX - 1, "[map] Blending colors"))	
 				for (int y = 0; y <= Main.maxTilesY+331; y++) {
@@ -87,7 +86,14 @@ namespace MapPlugin
 						UInt32 c = UInt32Defs [y];
 						blendprog.Value = y;
 						if (!(lavablendlist.ContainsKey (c))) {
-							waterblendlist.Add (c, ColorTranslator.FromHtml ("#" + String.Format ("{0:X}", alphaBlend (c, waterColor, 0.5))));
+							Color waterblendresult = ColorTranslator.FromHtml ("#" + String.Format ("{0:X}", alphaBlend (c, waterColor, 0.5)));
+							// FIX for hell water color showing up as white (really 0 alpha)
+							// water in hell stays at rgb 16 40 104 now
+							if(waterblendresult.A!=0){
+								waterblendlist.Add (c, waterblendresult);
+							}else{
+								waterblendlist.Add (c, ColorTranslator.FromHtml("#102868"));
+							}
 							lavablendlist.Add (c, ColorTranslator.FromHtml ("#" + String.Format ("{0:X}", alphaBlend (c, lavaColor, 0.5))));
 						}
 					}
