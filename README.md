@@ -46,6 +46,8 @@ to change colorscheme
 Updates
 -------
 
++ 0.36.0: updated for TDSM b36's new API / hellwater fix
++ 0.35.4: blending/fading is now done on plugin load
 + 0.35.3: added liquid blending in Terrafirma color scheme
 + 0.35.2: background fading in Terrafirma color scheme
 + 0.35.1: fix to threading
