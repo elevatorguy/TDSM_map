@@ -72,13 +72,13 @@ namespace MapPlugin
 		protected override void Enabled()
 		{
 			isEnabled = true;
-			ProgramLog.Log (base.Name + " " + base.Version + " enabled.");
+			ProgramLog.Plugin.Log (base.Name + " " + base.Version + " enabled.");
 		}
 
 		protected override void Disabled ()
 		{
 			isEnabled = false;
-			ProgramLog.Log (base.Name + " " + base.Version + " disabled.");
+			ProgramLog.Plugin.Log (base.Name + " " + base.Version + " disabled.");
 		}
 		
 		protected override void Disposed (object state)
