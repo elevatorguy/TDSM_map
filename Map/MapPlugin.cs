@@ -43,10 +43,6 @@ namespace MapPlugin
 			var dummy2 = colorscheme;
 			properties.Save ();
 			
-			//separate thread so it waits for the world to load
-			//and then blends the colors
-			startBlendThread();
-					
 			if(colorscheme=="MoreTerra" || colorscheme=="Terrafirma"){
 				isEnabled = true;
 			}
@@ -84,7 +80,19 @@ namespace MapPlugin
 		protected override void Disposed (object state)
 		{
 			
-		}			
+		}
+
+        [Hook(HookOrder.TERMINAL)]
+        void OnWorldLoad(ref HookContext ctx, ref HookArgs.WorldLoaded args)
+        {
+            //UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
+            InitializeMapperDefs();
+            InitializeMapperDefs2();
+
+            //this pre blends colors for Terrafirma Color Scheme
+            initBList();
+        }
+
 	}
 }
 

@@ -13,6 +13,9 @@ namespace MapPlugin
 	{
 		public static Dictionary<int, Color> ColorDefs;
 		public static Dictionary<int, UInt32> UInt32Defs;
+        public static Dictionary<int, Color> DimColorDefs;
+        public static Dictionary<int, UInt32> DimUInt32Defs;
+
 		public static Bitmap bmp;
 		public static Dictionary<UInt32, Color> waterblendlist = new Dictionary<UInt32, Color> ();
 		public static Dictionary<UInt32, Color> lavablendlist = new Dictionary<UInt32, Color> ();
@@ -36,34 +39,85 @@ namespace MapPlugin
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))				
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
-					for (int j = 0; j < Main.maxTilesY; j++) {	
-				
-					//draws tiles or walls
-						if (Main.tile.At (i, j).Wall == 0) {
-							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, ColorDefs [Main.tile.At (i, j).Type]);
-								tempColor=UInt32Defs [Main.tile.At (i, j).Type];
-							} 
-							else {
-								tempColor=UInt32Defs [j+331];
-							}
-						} else {
-							//priority to tiles
-							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, ColorDefs [Main.tile.At (i, j).Type]);
-								tempColor=UInt32Defs [Main.tile.At (i, j).Type];
-							} else {
-								bmp.SetPixel (i, j, ColorDefs [Main.tile.At (i, j).Wall + 267]);
-								tempColor=UInt32Defs [Main.tile.At (i, j).Wall + 267];
-							} 
-						}
-						// lookup blendcolor of color just drawn, and draw again
-						if (Main.tile.At (i, j).Liquid > 0) {										
-							if(lavablendlist.ContainsKey(tempColor)){  // incase the map has hacked data
-								bmp.SetPixel(i,j, Main.tile.At (i, j).Lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
-							}
-						}
-					}
+                    for (int j = 0; j < Main.maxTilesY; j++)
+                    {
+                        if (highlight) //dim the world
+                        {
+                            //draws tiles or walls
+                            if (Main.tile.At(i, j).Wall == 0)
+                            {
+                                if (Main.tile.At(i, j).Active)
+                                {
+                                    bmp.SetPixel(i, j, DimColorDefs[Main.tile.At(i, j).Type]);
+                                    tempColor = DimUInt32Defs[Main.tile.At(i, j).Type];
+                                }
+                                else
+                                {
+                                    tempColor = DimUInt32Defs[j + 331];
+                                }
+                            }
+                            else
+                            {
+                                //priority to tiles
+                                if (Main.tile.At(i, j).Active)
+                                {
+                                    bmp.SetPixel(i, j, DimColorDefs[Main.tile.At(i, j).Type]);
+                                    tempColor = DimUInt32Defs[Main.tile.At(i, j).Type];
+                                }
+                                else
+                                {
+                                    bmp.SetPixel(i, j, DimColorDefs[Main.tile.At(i, j).Wall + 267]);
+                                    tempColor = DimUInt32Defs[Main.tile.At(i, j).Wall + 267];
+                                }
+                            }
+                            // lookup blendcolor of color just drawn, and draw again
+                            if (Main.tile.At(i, j).Liquid > 0)
+                            {
+                                if (lavablendlist.ContainsKey(tempColor))
+                                {  // incase the map has hacked data
+                                    bmp.SetPixel(i, j, Main.tile.At(i, j).Lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //draws tiles or walls
+                            if (Main.tile.At(i, j).Wall == 0)
+                            {
+                                if (Main.tile.At(i, j).Active)
+                                {
+                                    bmp.SetPixel(i, j, ColorDefs[Main.tile.At(i, j).Type]);
+                                    tempColor = UInt32Defs[Main.tile.At(i, j).Type];
+                                }
+                                else
+                                {
+                                    tempColor = UInt32Defs[j + 331];
+                                }
+                            }
+                            else
+                            {
+                                //priority to tiles
+                                if (Main.tile.At(i, j).Active)
+                                {
+                                    bmp.SetPixel(i, j, ColorDefs[Main.tile.At(i, j).Type]);
+                                    tempColor = UInt32Defs[Main.tile.At(i, j).Type];
+                                }
+                                else
+                                {
+                                    bmp.SetPixel(i, j, ColorDefs[Main.tile.At(i, j).Wall + 267]);
+                                    tempColor = UInt32Defs[Main.tile.At(i, j).Wall + 267];
+                                }
+                            }
+                            // lookup blendcolor of color just drawn, and draw again
+                            if (Main.tile.At(i, j).Liquid > 0)
+                            {
+                                if (lavablendlist.ContainsKey(tempColor))
+                                {  // incase the map has hacked data
+                                    bmp.SetPixel(i, j, Main.tile.At(i, j).Lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                                }
+                            }
+                        }
+                    }
 				}
 				Server.notifyOps("Saving Data...", true);
 				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
@@ -84,21 +138,38 @@ namespace MapPlugin
 				for (int y = 0; y <= Main.maxTilesY+331; y++) {
 					if (UInt32Defs.ContainsKey (y)) {
 						UInt32 c = UInt32Defs [y];
+
+                        //initialize DimColorDefs and DimUInt32Defs first
+                        DimUInt32Defs[y] = alphaBlend(0, c, 0.3);
+                        DimColorDefs[y] = ColorTranslator.FromHtml("#" + String.Format("{0:X}", DimUInt32Defs[y]));
+
+                        UInt32 d = DimUInt32Defs [y];
 						blendprog.Value = y;
-						if (!(lavablendlist.ContainsKey (c))) {
-							Color waterblendresult = ColorTranslator.FromHtml ("#" + String.Format ("{0:X}", alphaBlend (c, waterColor, 0.5)));
-							// FIX for hell water color showing up as white (really 0 alpha)
-							// water in hell stays at rgb 16 40 104 now
-							if(waterblendresult.A!=0){
-								waterblendlist.Add (c, waterblendresult);
-							}else{
-								waterblendlist.Add (c, ColorTranslator.FromHtml("#102868"));
-							}
-							lavablendlist.Add (c, ColorTranslator.FromHtml ("#" + String.Format ("{0:X}", alphaBlend (c, lavaColor, 0.5))));
-						}
+                        
+                        doBlendResult(c, waterColor, lavaColor);
+                        doBlendResult(d, waterColor, lavaColor);
 					}
 				}
 		}
+
+        private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor)
+        {
+            if (!(lavablendlist.ContainsKey(c)))
+            {
+                Color waterblendresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, waterColor, 0.5)));
+                // FIX for hell water color showing up as white (really 0 alpha)
+                // water in hell stays at rgb 16 40 104 now
+                if (waterblendresult.A != 0)
+                {
+                    waterblendlist.Add(c, waterblendresult);
+                }
+                else
+                {
+                    waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
+                }
+                lavablendlist.Add(c, ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, lavaColor, 0.5))));
+            }
+        }
 		
 		public partial class Constants //credits go to the authors of Terrafirma ..damn that xml took awhile to manually convert :(					
 		{ 
@@ -560,6 +631,10 @@ namespace MapPlugin
 			
 			UInt32Defs [288] = 0x332F60;
 			UInt32Defs [330] = 0x332F60;
+
+            //list for when dimming the world for highlighting
+            DimColorDefs = new Dictionary<int, Color>(255 + Main.maxTilesY);
+            DimUInt32Defs = new Dictionary<int, UInt32>(255 + Main.maxTilesY);
 		}
 	}
 }

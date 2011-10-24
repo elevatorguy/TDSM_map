@@ -15,6 +15,8 @@ namespace MapPlugin
 	{
 		public static string p;
 		public static string filename;
+        public static bool highlight;
+
 		void MapCommand ( ISender sender, ArgumentList argz)
 		{
 			try {
@@ -22,6 +24,7 @@ namespace MapPlugin
 				filename = "world-now.png";
 				var timestamp = false;
 				var reload = false;
+                var highlight = false;
 				var savefromcommand = false;
 				string cs = colorscheme;
 				var options = new OptionSet ()
@@ -31,6 +34,7 @@ namespace MapPlugin
 					{ "L|reload", v => reload = true },
 					{ "s|save", v => savefromcommand = true },
 					{ "p|path=", v => p = v },
+                    { "h|highlight", var => highlight = true },
 					{ "c|colorscheme=", v => cs = v },
 				};
 				var args = options.Parse (argz);
@@ -68,6 +72,9 @@ namespace MapPlugin
 				if (args.Count == 0 && isEnabled) {
 					if(!reload && Directory.Exists(p)){
 						if(cs=="Terrafirma"){
+                            //for now highlighting is only in terrafirma color scheme
+                            MapPlugin.highlight = highlight;
+
 							Thread imagethread;
 							imagethread = new Thread(mapWorld2);
 							imagethread.Start();
