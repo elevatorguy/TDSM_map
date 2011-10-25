@@ -140,8 +140,18 @@ namespace MapPlugin
 						UInt32 c = UInt32Defs [y];
 
                         //initialize DimColorDefs and DimUInt32Defs first
-                        DimUInt32Defs[y] = alphaBlend(0, c, 0.3);
-                        DimColorDefs[y] = ColorTranslator.FromHtml("#" + String.Format("{0:X}", DimUInt32Defs[y]));
+                        UInt32 dimblend = alphaBlend(0, c, 0.3);
+                        Color dimresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", dimblend));
+                        if (dimresult.A != 0)
+                        {
+                            DimUInt32Defs[y] = dimblend;
+                            DimColorDefs[y] = dimresult;
+                        }
+                        else
+                        { //don't blend
+                            DimUInt32Defs[y] = c;
+                            DimColorDefs[y] = ColorDefs[y];
+                        }
 
                         UInt32 d = DimUInt32Defs [y];
 						blendprog.Value = y;
