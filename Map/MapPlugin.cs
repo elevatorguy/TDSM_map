@@ -62,6 +62,7 @@ namespace MapPlugin
 				.WithHelpText ("map [-s] -p \"C:\\path\\to\\output\"")	
 				.WithHelpText ("map [-s] -c MoreTerra")
 				.WithHelpText ("map [-s] -c Terrafirma")
+                .WithHelpText ("map -h \"name or ID of item to highlight\"")
 				.Calls (this.MapCommand);
 		}
 		

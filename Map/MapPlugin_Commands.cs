@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace MapPlugin
 {
@@ -16,6 +17,7 @@ namespace MapPlugin
 		public static string p;
 		public static string filename;
         public static bool highlight;
+        private static int highlightID;
 
 		void MapCommand ( ISender sender, ArgumentList argz)
 		{
@@ -25,6 +27,7 @@ namespace MapPlugin
 				var timestamp = false;
 				var reload = false;
                 var highlight = false;
+                string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
 				var options = new OptionSet ()
@@ -34,7 +37,7 @@ namespace MapPlugin
 					{ "L|reload", v => reload = true },
 					{ "s|save", v => savefromcommand = true },
 					{ "p|path=", v => p = v },
-                    { "h|highlight", var => highlight = true },
+                    { "h|highlight=", v => { nameOrID = v; highlight = true; } },
 					{ "c|colorscheme=", v => cs = v },
 				};
 				var args = options.Parse (argz);
@@ -68,7 +71,46 @@ namespace MapPlugin
 					properties.setValue ("mapoutput-path", p);
 					properties.Save();
 				}
-				
+
+                if (highlight)  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
+                {
+                    List<Int32> itemlist;
+                    if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
+                    {
+                        if (itemlist.Count > 1)
+                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
+
+                        foreach (int id in itemlist)
+                            highlightID = id;
+                    }
+                    else
+                    {
+                        int Id = -1;
+                        try
+                        {
+                            Id = Int32.Parse(nameOrID);
+                        }
+                        catch
+                        {
+                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
+                        }
+
+                        if (Server.TryFindItemByType(Id, out itemlist) && itemlist.Count > 0)
+                        {
+                            if (itemlist.Count > 1)
+                                throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
+
+                            foreach (int id in itemlist)
+                                highlightID = id;
+                        }
+                        else
+                        {
+                            throw new CommandError("There were no Items found regarding the specified Item Id/Name");
+                        }
+                    }
+                    //end copy
+                }
+
 				if (args.Count == 0 && isEnabled) {
 					if(!reload && Directory.Exists(p)){
 						if(cs=="Terrafirma"){

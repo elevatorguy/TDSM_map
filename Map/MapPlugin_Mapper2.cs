@@ -101,6 +101,12 @@ namespace MapPlugin
                                     bmp.SetPixel(i, j, Main.tile.At(i, j).Lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
                                 }
                             }
+
+                            //highlight the tiles of supplied type from the map command
+                            if (Main.tile.At(i, j).Type == highlightID || (Main.tile.At(i, j).Wall + 267) == highlightID)
+                            {
+                                bmp.SetPixel(i, j, Color.White);
+                            }
                         }
                         else
                         {
