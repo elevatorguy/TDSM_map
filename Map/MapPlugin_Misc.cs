@@ -1,6 +1,7 @@
 using Terraria_Server;
 using System.IO;
 using System;
+using System.Drawing;
 
 namespace MapPlugin
 {
@@ -41,7 +42,25 @@ namespace MapPlugin
             fb = (uint)(tb * alpha + fb * (1 - alpha));
             return (fr << 16) | (fg << 8) | fb;
         }
-		
+
+        private Color dimC(UInt32 c)
+        {
+            return ColorTranslator.FromHtml("#" + String.Format("{0:X}", dimI(c)));
+        }
+
+        private UInt32 highlightI(UInt32 c)
+        {
+            return alphaBlend(c, 0xff88ff, 0.9);
+        }
+
+        private UInt32 dimI(UInt32 c)
+        {
+            c = alphaBlend(0, c, 0.3);
+            //this fixes the 0 alpha problem
+            UInt32 result = 0xff000000 + (c & 0x00ff0000) + (c & 0x0000ff00) + (c & 0x000000ff);
+
+            return result;
+        }
 	}
 }
 

@@ -29,13 +29,33 @@ namespace MapPlugin
 			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
 			//draw background
-			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
-			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
-			graphicsHandle.FillRectangle (new SolidBrush (Constants.Terrafirma_Color.HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
-			//this fades the background from rock to hell
-			for(int y = (int)Main.rockLayer; y < Main.maxTilesY; y++){
-				graphicsHandle.DrawLine(new Pen (ColorDefs[331+y]), 0, y, bmp.Width, y); // better to just use a color
-			}
+            if (highlight)
+            {
+                Color SKY = dimC(0x84AAF8);
+				Color EARTH = dimC(0x583D2E);
+				Color HELL = dimC(0x000000);
+                graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
+                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
+                graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
+                //this fades the background from rock to hell
+                Color dimColor;
+                for (int y = (int)Main.rockLayer; y < Main.maxTilesY; y++)
+                {
+                    dimColor = dimC(UInt32Defs[331 + y]);
+                    graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
+                }
+            }
+            else
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
+                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
+                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
+                //this fades the background from rock to hell
+                for (int y = (int)Main.rockLayer; y < Main.maxTilesY; y++)
+                {
+                    graphicsHandle.DrawLine(new Pen(ColorDefs[331 + y]), 0, y, bmp.Width, y);
+                }
+            }
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))				
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -140,8 +160,8 @@ namespace MapPlugin
 						UInt32 c = UInt32Defs [y];
 
                         //initialize DimColorDefs and DimUInt32Defs first
-                        UInt32 dimblend = alphaBlend(0, c, 0.3);
-                        Color dimresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", dimblend));
+                        UInt32 dimblend = dimI(c);
+                        Color dimresult = dimC(c);
                         if (dimresult.A != 0)
                         {
                             DimUInt32Defs[y] = dimblend;
@@ -156,28 +176,46 @@ namespace MapPlugin
                         UInt32 d = DimUInt32Defs [y];
 						blendprog.Value = y;
                         
-                        doBlendResult(c, waterColor, lavaColor);
-                        doBlendResult(d, waterColor, lavaColor);
+                        doBlendResult(c, waterColor, lavaColor, "regular");
+                        doBlendResult(d, waterColor, lavaColor, "dim");
 					}
 				}
 		}
 
-        private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor)
+        private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor, string type)
         {
             if (!(lavablendlist.ContainsKey(c)))
             {
-                Color waterblendresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, waterColor, 0.5)));
-                // FIX for hell water color showing up as white (really 0 alpha)
-                // water in hell stays at rgb 16 40 104 now
-                if (waterblendresult.A != 0)
+                if (type == "regular")
                 {
-                    waterblendlist.Add(c, waterblendresult);
+                    Color waterblendresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, waterColor, 0.5)));
+                    // FIX for hell water color showing up as white (really 0 alpha)
+                    // water in hell stays at rgb 16 40 104 now
+                    if (waterblendresult.A != 0)
+                    {
+                        waterblendlist.Add(c, waterblendresult);
+                    }
+                    else
+                    {
+                        waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
+                    }
+                    lavablendlist.Add(c, ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, lavaColor, 0.5))));
                 }
                 else
                 {
-                    waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
+                    Color waterblendresult = dimC(alphaBlend(c, waterColor, 0.5));
+                    // FIX for hell water color showing up as white (really 0 alpha)
+                    // water in hell stays at rgb 16 40 104 now
+                    if (waterblendresult.A != 0)
+                    {
+                        waterblendlist.Add(c, waterblendresult);
+                    }
+                    else
+                    {
+                        waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
+                    }
+                    lavablendlist.Add(c, dimC(alphaBlend(c, lavaColor, 0.5)));
                 }
-                lavablendlist.Add(c, ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, lavaColor, 0.5))));
             }
         }
 		
