@@ -19,6 +19,9 @@ namespace MapPlugin
 		public static Bitmap bmp;
 		public static Dictionary<UInt32, Color> waterblendlist = new Dictionary<UInt32, Color> ();
 		public static Dictionary<UInt32, Color> lavablendlist = new Dictionary<UInt32, Color> ();
+        //better to have a separate list for dim liquid lists
+        public static Dictionary<UInt32, Color> waterdimlist = new Dictionary<UInt32, Color>();
+        public static Dictionary<UInt32, Color> lavadimlist = new Dictionary<UInt32, Color>();
 
 		public void mapWorld2 () 
 		{	
@@ -93,9 +96,9 @@ namespace MapPlugin
                             // lookup blendcolor of color just drawn, and draw again
                             if (Main.tile.At(i, j).Liquid > 0)
                             {
-                                if (lavablendlist.ContainsKey(tempColor))
+                                if (lavadimlist.ContainsKey(tempColor))
                                 {  // incase the map has hacked data
-                                    bmp.SetPixel(i, j, Main.tile.At(i, j).Lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                                    bmp.SetPixel(i, j, Main.tile.At(i, j).Lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
                                 }
                             }
                         }
@@ -162,16 +165,8 @@ namespace MapPlugin
                         //initialize DimColorDefs and DimUInt32Defs first
                         UInt32 dimblend = dimI(c);
                         Color dimresult = dimC(c);
-                        if (dimresult.A != 0)
-                        {
-                            DimUInt32Defs[y] = dimblend;
-                            DimColorDefs[y] = dimresult;
-                        }
-                        else
-                        { //don't blend
-                            DimUInt32Defs[y] = c;
-                            DimColorDefs[y] = ColorDefs[y];
-                        }
+                        DimUInt32Defs[y] = dimblend;
+                        DimColorDefs[y] = dimresult;
 
                         UInt32 d = DimUInt32Defs [y];
 						blendprog.Value = y;
@@ -184,38 +179,19 @@ namespace MapPlugin
 
         private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor, string type)
         {
-            if (!(lavablendlist.ContainsKey(c)))
+            if (type == "regular" && !(lavablendlist.ContainsKey(c)))
             {
-                if (type == "regular")
-                {
-                    Color waterblendresult = ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, waterColor, 0.5)));
-                    // FIX for hell water color showing up as white (really 0 alpha)
-                    // water in hell stays at rgb 16 40 104 now
-                    if (waterblendresult.A != 0)
-                    {
-                        waterblendlist.Add(c, waterblendresult);
-                    }
-                    else
-                    {
-                        waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
-                    }
-                    lavablendlist.Add(c, ColorTranslator.FromHtml("#" + String.Format("{0:X}", alphaBlend(c, lavaColor, 0.5))));
-                }
-                else
-                {
-                    Color waterblendresult = dimC(alphaBlend(c, waterColor, 0.5));
-                    // FIX for hell water color showing up as white (really 0 alpha)
-                    // water in hell stays at rgb 16 40 104 now
-                    if (waterblendresult.A != 0)
-                    {
-                        waterblendlist.Add(c, waterblendresult);
-                    }
-                    else
-                    {
-                        waterblendlist.Add(c, ColorTranslator.FromHtml("#102868"));
-                    }
-                    lavablendlist.Add(c, dimC(alphaBlend(c, lavaColor, 0.5)));
-                }
+                Color waterblendresult = toColor(alphaBlend(c, waterColor, 0.5));
+                    
+                waterblendlist.Add(c, waterblendresult);
+                lavablendlist.Add(c, toColor(alphaBlend(c, lavaColor, 0.5)));
+            }
+            if (type == "dim" && !(lavadimlist.ContainsKey(c)))
+            {
+                UInt32 waterdimresult = alphaBlend(c, dimI(waterColor), 0.5);
+
+                waterdimlist.Add(c, toColor(waterdimresult));
+                lavadimlist.Add(c, toColor(alphaBlend(c, dimI(lavaColor), 0.5)));
             }
         }
 		
@@ -534,7 +510,7 @@ namespace MapPlugin
 				double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY - Main.rockLayer);
 				UInt32 c = alphaBlend (0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
 				UInt32Defs[y+331] = c;
-				ColorDefs[y+331] = ColorTranslator.FromHtml("#"+String.Format("{0:X}", c));	
+				ColorDefs[y+331] = toColor(c);	
 			}
 		
 			//tiles

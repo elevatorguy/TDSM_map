@@ -40,12 +40,15 @@ namespace MapPlugin
             fr = (uint)(tr * alpha + fr * (1 - alpha));
             fg = (uint)(tg * alpha + fg * (1 - alpha));
             fb = (uint)(tb * alpha + fb * (1 - alpha));
-            return (fr << 16) | (fg << 8) | fb;
+
+            //this fixes the zero alpha problem
+            UInt32 result = (fr << 16) | (fg << 8) | fb;
+            return (0xff000000 + (result & 0x00ff0000) + (result & 0x0000ff00) + (result & 0x000000ff));
         }
 
         private Color dimC(UInt32 c)
         {
-            return ColorTranslator.FromHtml("#" + String.Format("{0:X}", dimI(c)));
+            return toColor(dimI(c));
         }
 
         private UInt32 highlightI(UInt32 c)
@@ -55,11 +58,12 @@ namespace MapPlugin
 
         private UInt32 dimI(UInt32 c)
         {
-            c = alphaBlend(0, c, 0.3);
-            //this fixes the 0 alpha problem
-            UInt32 result = 0xff000000 + (c & 0x00ff0000) + (c & 0x0000ff00) + (c & 0x000000ff);
+            return alphaBlend(0, c, 0.3);
+        }
 
-            return result;
+        private Color toColor(UInt32 c)
+        {
+            return ColorTranslator.FromHtml("#" + String.Format("{0:X}", c));
         }
 	}
 }
