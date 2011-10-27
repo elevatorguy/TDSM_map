@@ -84,7 +84,7 @@ namespace MapPlugin
             }
             else if (tile == 3 || tile == 73)
             {
-                    dropItem = 283;
+                dropItem = 283;
             }
             else if (tile == 4)
             {
@@ -113,11 +113,11 @@ namespace MapPlugin
             }
             else if (tile == 13)
             {
-                    dropItem = 28;
-                    dropItem = 110;
-                    dropItem = 350;
-                    dropItem = 351;
-                    dropItem = 31;
+                dropItem = 28;
+                dropItem = 110;
+                dropItem = 350;
+                dropItem = 351;
+                dropItem = 31;
             }
             else if (tile == 19)
             {
@@ -243,9 +243,9 @@ namespace MapPlugin
                 }
                 else if (tile == 61 || tile == 74)
                 {
-                        dropItem = 223;
-                        dropItem = 208;
-                        dropItem = 195;
+                    dropItem = 223;
+                    dropItem = 208;
+                    dropItem = 195;
                 }
                 else if (tile == 59 || tile == 60)
                 {
@@ -253,8 +253,8 @@ namespace MapPlugin
                 }
                 else if (tile == 71 || tile == 72)
                 {
-                        dropItem = 194;
-                        dropItem = 183;
+                    dropItem = 194;
+                    dropItem = 183;
                 }
                 else if (tile >= 63 && tile <= 68)
                 {
@@ -262,8 +262,8 @@ namespace MapPlugin
                 }
                 else if (tile == 50)
                 {
-                        dropItem = 165;
-                        dropItem = 149;
+                    dropItem = 165;
+                    dropItem = 149;
                 }
 
                 int num2 = 0;
