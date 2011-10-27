@@ -59,6 +59,7 @@ namespace MapPlugin
                     graphicsHandle.DrawLine(new Pen(ColorDefs[331 + y]), 0, y, bmp.Width, y);
                 }
             }
+            List<int> list;
 			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))				
 				for (int i = 0; i < Main.maxTilesX; i++) {
 					prog.Value = i;
@@ -102,8 +103,9 @@ namespace MapPlugin
                                 }
                             }
 
+                            list = getGiveID(Main.tile.At(i, j).Type, (Main.tile.At(i, j).Wall + 267));
                             //highlight the tiles of supplied type from the map command
-                            if (Main.tile.At(i, j).Type == highlightID || (Main.tile.At(i, j).Wall + 267) == highlightID)
+                            if (list.Contains(highlightID) || list.Contains(Main.tile.At(i, j).Wall + 267))
                             {
                                 bmp.SetPixel(i, j, Color.White);
                             }
