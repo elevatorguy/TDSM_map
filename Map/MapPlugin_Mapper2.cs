@@ -103,9 +103,9 @@ namespace MapPlugin
                                 }
                             }
 
-                            list = getGiveID(Main.tile.At(i, j).Type, (Main.tile.At(i, j).Wall + 267));
+                            list = getGiveID(Main.tile.At(i, j).Type, (Main.tile.At(i, j).Wall));
                             //highlight the tiles of supplied type from the map command
-                            if (list.Contains(highlightID) || list.Contains(Main.tile.At(i, j).Wall + 267))
+                            if (list.Contains(highlightID))
                             {
                                 bmp.SetPixel(i, j, Color.White);
                             }

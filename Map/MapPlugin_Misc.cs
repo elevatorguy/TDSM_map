@@ -74,8 +74,6 @@ namespace MapPlugin
             //there were tiles with multiple give ID's
             //so I use a list of int(s) as the output
             List<int> list = new List<int>();
-            if (wall == 0)
-            {
                 if (tile == 0 || tile == 2)
                 {
                     list.Add(2);
@@ -269,8 +267,6 @@ namespace MapPlugin
                     }
 
                 }
-                if (tile == 0)
-                {
                     if (wall == 1)
                     {
                         list.Add(26);
@@ -335,8 +331,6 @@ namespace MapPlugin
                     {
                         list.Add(330);
                     }
-                }
-            }
         return list;
         }
 
