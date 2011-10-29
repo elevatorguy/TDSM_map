@@ -93,6 +93,10 @@ namespace MapPlugin
             ProgramLog.Log("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
             Server.notifyOps("Saving Complete.", true);
             bmp = null;
+            piece1 = null;
+            piece2 = null;
+            piece3 = null;
+            piece4 = null;
         }
 
         private static Bitmap piece1;
