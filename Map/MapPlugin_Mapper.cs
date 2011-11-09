@@ -59,7 +59,7 @@ namespace MapPlugin
 				ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
 				Server.notifyOps("Saving Complete.", true);
 				bmp = null;
-			
+                isMapping = false;
 		}
 		
 		public partial class Constants //credits go to the authors of MoreTerra

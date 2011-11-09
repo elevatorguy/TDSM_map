@@ -18,10 +18,15 @@ namespace MapPlugin
 		public static string filename;
         public static bool highlight;
         private static int highlightID;
+        public bool isMapping = false;
 
 		void MapCommand ( ISender sender, ArgumentList argz)
 		{
 			try {
+                if (isMapping)
+                {
+                    throw new CommandError("Still currently mapping.");
+                }
 				p = mapoutputpath;
 				filename = "world-now.png";
 				var timestamp = false;
@@ -114,6 +119,7 @@ namespace MapPlugin
 				if (args.Count == 0 && isEnabled) {
 					if(!reload && Directory.Exists(p)){
 						if(cs=="Terrafirma"){
+                            isMapping = true;
                             //for now highlighting is only in terrafirma color scheme
                             MapPlugin.highlight = highlight;
 
@@ -124,6 +130,7 @@ namespace MapPlugin
 								// the thread terminates itself since there is no while loop in mapWorld2
 						}
 						else if(cs=="MoreTerra"){
+                            isMapping = true;
 							Thread imagethread;
 							imagethread = new Thread(mapWorld);
 							imagethread.Start();

@@ -54,6 +54,7 @@ namespace MapPlugin
 			
 			AddCommand ("map")
 				.WithDescription ("map options")
+                .WithAccessLevel(AccessLevel.OP)
 				.WithHelpText ("map help")
 				.WithHelpText ("map -t")
 				.WithHelpText ("map -n outputname.png")

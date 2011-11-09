@@ -97,6 +97,8 @@ namespace MapPlugin
             piece2 = null;
             piece3 = null;
             piece4 = null;
+
+            isMapping = false;
         }
 
         private static Bitmap piece1;
