@@ -17,6 +17,7 @@ namespace MapPlugin
 		public static string p;
 		public static string filename;
         public static bool highlight;
+        public static bool hlchests;
         private static int highlightID;
         public bool isMapping = false;
 
@@ -76,8 +77,8 @@ namespace MapPlugin
 					properties.setValue ("mapoutput-path", p);
 					properties.Save();
 				}
-
-                if (highlight)  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
+                // chests are not an item so i draw them from the chest array
+                if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
                 {
                     List<Int32> itemlist;
                     if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
@@ -114,6 +115,11 @@ namespace MapPlugin
                         }
                     }
                     //end copy
+                    hlchests = false;
+                }
+                else
+                {
+                    hlchests = true;
                 }
 
 				if (args.Count == 0 && isEnabled) {

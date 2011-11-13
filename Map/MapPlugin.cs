@@ -28,7 +28,7 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.36.0";
+			Version = "0.36.2";
 			TDSMBuild = 36;
 		}
 		

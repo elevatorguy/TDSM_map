@@ -85,7 +85,25 @@ namespace MapPlugin
                 gfx.DrawImage(piece2, new Point(quarter, 0));
                 gfx.DrawImage(piece3, new Point(2 * quarter, 0));
                 gfx.DrawImage(piece4, new Point(3 * quarter, 0));
-            }            
+            }
+
+            if (hlchests)
+            {
+                Chest[] c = Main.chest;
+                for (int i = 0; i < c.Length; i++ )
+                {
+                    if (c[i] != null)
+                    {
+                        bmp.SetPixel(c[i].x, c[i].y, Color.White);
+
+                        //also the four pixels next to it so we can actually see it on the map
+                        bmp.SetPixel(c[i].x + 1, c[i].y, Color.White);
+                        bmp.SetPixel(c[i].x - 1, c[i].y, Color.White);
+                        bmp.SetPixel(c[i].x, c[i].y + 1, Color.White);
+                        bmp.SetPixel(c[i].x, c[i].y - 1, Color.White);
+                    }
+                }
+            }
 
             Server.notifyOps("Saving Data...", true);
             bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
