@@ -64,6 +64,8 @@ namespace MapPlugin
             piece2 = (Bitmap)bmp.Clone();
             piece3 = (Bitmap)bmp.Clone();
             piece4 = (Bitmap)bmp.Clone();
+            bmp.Dispose();
+            bmp = null;
 
             // splits the work into four threads
             Thread part1 = new Thread(mapthread1);
@@ -79,13 +81,15 @@ namespace MapPlugin
 
             bmp = new Bitmap(Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
             int quarter = (Main.maxTilesX / 4);
-            using (Graphics gfx = Graphics.FromImage(bmp))
+            Graphics gfx;
+            using (gfx = Graphics.FromImage(bmp))
             {
                 gfx.DrawImage(piece1, new Point(0, 0));
                 gfx.DrawImage(piece2, new Point(quarter, 0));
                 gfx.DrawImage(piece3, new Point(2 * quarter, 0));
                 gfx.DrawImage(piece4, new Point(3 * quarter, 0));
             }
+            gfx.Dispose();
 
             if (hlchests)
             {
@@ -107,13 +111,18 @@ namespace MapPlugin
 
             Server.notifyOps("Saving Data...", true);
             bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+            bmp.Dispose();
             stopwatch.Stop();
             ProgramLog.Log("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
             Server.notifyOps("Saving Complete.", true);
             bmp = null;
+            piece1.Dispose();
             piece1 = null;
+            piece2.Dispose();
             piece2 = null;
+            piece3.Dispose();
             piece3 = null;
+            piece4.Dispose();
             piece4 = null;
 
             isMapping = false;
@@ -414,6 +423,47 @@ namespace MapPlugin
                 public static Color GRANDFATHER_CLOCK = ColorTranslator.FromHtml("#946B50");
                 public static Color STATUE = ColorTranslator.FromHtml("#282828");
 
+                // added in version 1.1 of terraria
+                public static Color SAWMILL = ColorTranslator.FromHtml("#563E2C");
+                public static Color COBALT_ORE = ColorTranslator.FromHtml("#0B508F");
+                public static Color MYTHRIL_ORE = ColorTranslator.FromHtml("#5BA9A9");
+                public static Color BLUE_GRASS = ColorTranslator.FromHtml("#4EC1E3");
+                public static Color WEEDS_110 = ColorTranslator.FromHtml("#1E9648");
+                public static Color ADAMANTITE_ORE = ColorTranslator.FromHtml("#801A34");
+                public static Color EBONSAND = ColorTranslator.FromHtml("#67627A");
+                public static Color WEEDS_113 = ColorTranslator.FromHtml("#1E9648");
+                public static Color TINKERERS_WORKSHOP = ColorTranslator.FromHtml("#7F5C45");
+                public static Color VINES_115 = ColorTranslator.FromHtml("#327FA1");
+                public static Color PEARL_SAND = ColorTranslator.FromHtml("#D5C4C5");
+                public static Color PEARL_ORE = ColorTranslator.FromHtml("#B5ACBE");
+                public static Color PEARLSTONE_BRICK = ColorTranslator.FromHtml("#D5C4C5");
+                public static Color IRIDESCENT_BRICK = ColorTranslator.FromHtml("#3F3F49");
+                public static Color MUDSTONE_BRICK = ColorTranslator.FromHtml("#967A7D");
+                public static Color COBALT_BRICK = ColorTranslator.FromHtml("#2576AB");
+                public static Color UNKNOWN_BRICK_122 = ColorTranslator.FromHtml("#91BF75");
+                public static Color SILT = ColorTranslator.FromHtml("#595353");
+                public static Color TILE_124 = ColorTranslator.FromHtml("#5C4436");
+                public static Color CRYSTAL_BALL = ColorTranslator.FromHtml("#81A5FF");
+                public static Color BALL = ColorTranslator.FromHtml("#DBDBDB");
+                public static Color GLASS_127 = ColorTranslator.FromHtml("#68B3C8");
+                public static Color ARMOR_STAND = ColorTranslator.FromHtml("#906850");
+                public static Color SPIKES_129 = ColorTranslator.FromHtml("#004979");
+                public static Color UNKNOWN_STONE_130 = ColorTranslator.FromHtml("#A5A5A5");
+                public static Color UNKNOWN_STONE_131 = ColorTranslator.FromHtml("#1A1A1A");
+                public static Color LEVER = ColorTranslator.FromHtml("#C90303");
+                public static Color FIREPLACE = ColorTranslator.FromHtml("#891012");
+                public static Color ADAMANTIUM_ANVIL = ColorTranslator.FromHtml("#96AE87");
+                public static Color PRESSURE_PLATE = ColorTranslator.FromHtml("#FD7272");
+                public static Color SWITCH = ColorTranslator.FromHtml("#CCC0C0");
+                public static Color SKULL = ColorTranslator.FromHtml("#8C8C8C");
+                public static Color BOULDER = ColorTranslator.FromHtml("#636363");
+                public static Color MUSIC = ColorTranslator.FromHtml("#996343");
+                public static Color UNKNOWN_BRICK_140 = ColorTranslator.FromHtml("#7875B3");
+                public static Color UNKNOWN_BRICK_141 = ColorTranslator.FromHtml("#AD2323");
+                public static Color OUT_BLOCK = ColorTranslator.FromHtml("#C90303");
+                public static Color IN_BLOCK = ColorTranslator.FromHtml("#C90303");
+                public static Color TIMER = ColorTranslator.FromHtml("#C90303");
+
                 //walls
                 public static Color STONE_WALL = ColorTranslator.FromHtml("#343434");
                 public static Color DIRT_WALL = ColorTranslator.FromHtml("#583D2E");
@@ -435,6 +485,16 @@ namespace MapPlugin
                 public static Color DARK_GREEN_BRICK_WALL = ColorTranslator.FromHtml("#4F4F43");
                 public static Color DARK_PINK_BRICK_WALL = ColorTranslator.FromHtml("#543E40");
                 public static Color DARK_OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
+
+                // NEW 1.1 WALLS
+                public static Color GLASS_WALL = ColorTranslator.FromHtml("#12242C");
+                public static Color PEARLSTONE_WALL = ColorTranslator.FromHtml("#716363");
+                public static Color UNKNOWN_WALL_23 = ColorTranslator.FromHtml("#4E4042");
+                public static Color UNKNOWN_WALL_24 = ColorTranslator.FromHtml("#403033");
+                public static Color COBALT_WALL = ColorTranslator.FromHtml("#0B233E");
+                public static Color MYTHRIL_WALL = ColorTranslator.FromHtml("#3C5B3A");
+                public static Color WOOD_PANELING = ColorTranslator.FromHtml("#3A291D");
+                public static Color UNKNOWN_WALL_28 = ColorTranslator.FromHtml("#515465");
 
                 //global
                 public static Color SKY = ColorTranslator.FromHtml("#84AAF8");
@@ -557,8 +617,47 @@ namespace MapPlugin
             ColorDefs[103] = Constants.Terrafirma_Color.BOWL;
             ColorDefs[104] = Constants.Terrafirma_Color.GRANDFATHER_CLOCK;
             ColorDefs[105] = Constants.Terrafirma_Color.STATUE;
+            ColorDefs[106] = Constants.Terrafirma_Color.SAWMILL;
+            ColorDefs[107] = Constants.Terrafirma_Color.COBALT_ORE;
+            ColorDefs[108] = Constants.Terrafirma_Color.MYTHRIL_ORE;
+            ColorDefs[109] = Constants.Terrafirma_Color.BLUE_GRASS;
+            ColorDefs[110] = Constants.Terrafirma_Color.WEEDS_110;
+            ColorDefs[111] = Constants.Terrafirma_Color.ADAMANTITE_ORE;
+            ColorDefs[112] = Constants.Terrafirma_Color.EBONSAND;
+            ColorDefs[113] = Constants.Terrafirma_Color.WEEDS_113;
+            ColorDefs[114] = Constants.Terrafirma_Color.TINKERERS_WORKSHOP;
+            ColorDefs[115] = Constants.Terrafirma_Color.VINES_115;
+            ColorDefs[116] = Constants.Terrafirma_Color.PEARL_SAND;
+            ColorDefs[117] = Constants.Terrafirma_Color.PEARL_ORE;
+            ColorDefs[118] = Constants.Terrafirma_Color.PEARLSTONE_BRICK;
+            ColorDefs[119] = Constants.Terrafirma_Color.IRIDESCENT_BRICK;
+            ColorDefs[120] = Constants.Terrafirma_Color.MUDSTONE_BRICK;
+            ColorDefs[121] = Constants.Terrafirma_Color.COBALT_BRICK;
+            ColorDefs[122] = Constants.Terrafirma_Color.UNKNOWN_BRICK_122;
+            ColorDefs[123] = Constants.Terrafirma_Color.SILT;
+            ColorDefs[124] = Constants.Terrafirma_Color.TILE_124;
+            ColorDefs[125] = Constants.Terrafirma_Color.CRYSTAL_BALL;
+            ColorDefs[126] = Constants.Terrafirma_Color.BALL;
+            ColorDefs[127] = Constants.Terrafirma_Color.GLASS_127;
+            ColorDefs[128] = Constants.Terrafirma_Color.ARMOR_STAND;
+            ColorDefs[129] = Constants.Terrafirma_Color.SPIKES_129;
+            ColorDefs[130] = Constants.Terrafirma_Color.UNKNOWN_STONE_130;
+            ColorDefs[131] = Constants.Terrafirma_Color.UNKNOWN_STONE_131;
+            ColorDefs[132] = Constants.Terrafirma_Color.LEVER;
+            ColorDefs[133] = Constants.Terrafirma_Color.FIREPLACE;
+            ColorDefs[134] = Constants.Terrafirma_Color.ADAMANTIUM_ANVIL;
+            ColorDefs[135] = Constants.Terrafirma_Color.PRESSURE_PLATE;
+            ColorDefs[136] = Constants.Terrafirma_Color.SWITCH;
+            ColorDefs[137] = Constants.Terrafirma_Color.SKULL;
+            ColorDefs[138] = Constants.Terrafirma_Color.BOULDER;
+            ColorDefs[139] = Constants.Terrafirma_Color.MUSIC;
+            ColorDefs[140] = Constants.Terrafirma_Color.UNKNOWN_BRICK_140;
+            ColorDefs[141] = Constants.Terrafirma_Color.UNKNOWN_BRICK_141;
+            ColorDefs[142] = Constants.Terrafirma_Color.OUT_BLOCK;
+            ColorDefs[143] = Constants.Terrafirma_Color.IN_BLOCK;
+            ColorDefs[144] = Constants.Terrafirma_Color.TIMER;
 
-            for (int i = 106; i < 265; i++)
+            for (int i = 145; i < 265; i++)
             {
                 ColorDefs[i] = Color.Magenta;
             }
@@ -589,9 +688,16 @@ namespace MapPlugin
             ColorDefs[285] = Constants.Terrafirma_Color.DARK_GREEN_BRICK_WALL;
             ColorDefs[286] = Constants.Terrafirma_Color.DARK_PINK_BRICK_WALL;
             ColorDefs[287] = Constants.Terrafirma_Color.DARK_OBSIDIAN_WALL;
+            ColorDefs[288] = Constants.Terrafirma_Color.GLASS_WALL;
+            ColorDefs[289] = Constants.Terrafirma_Color.PEARLSTONE_WALL;
+            ColorDefs[290] = Constants.Terrafirma_Color.UNKNOWN_WALL_23;
+            ColorDefs[291] = Constants.Terrafirma_Color.UNKNOWN_WALL_24;
+            ColorDefs[292] = Constants.Terrafirma_Color.COBALT_WALL;
+            ColorDefs[293] = Constants.Terrafirma_Color.MYTHRIL_WALL;
+            ColorDefs[294] = Constants.Terrafirma_Color.WOOD_PANELING;
+            ColorDefs[295] = Constants.Terrafirma_Color.UNKNOWN_WALL_28;
 
-            //fix
-            ColorDefs[288] = Constants.Terrafirma_Color.DARK_OBSIDIAN_WALL;
+            //fix 1.0.6.1
             ColorDefs[330] = Constants.Terrafirma_Color.DARK_OBSIDIAN_WALL;
 
             // this is for faster performace
@@ -733,8 +839,49 @@ namespace MapPlugin
             UInt32Defs[104] = 0x946B50;
             UInt32Defs[105] = 0x282828;
 
+            // TILES FROM 1.1
+            UInt32Defs[106] = 0x563E2C;
+            UInt32Defs[107] = 0x0B508F;
+            UInt32Defs[108] = 0x5BA9A9;
+            UInt32Defs[109] = 0x4EC1E3;
+            UInt32Defs[110] = 0x1E9648;
+            UInt32Defs[111] = 0x801A34;
+            UInt32Defs[112] = 0x67627A;
+            UInt32Defs[113] = 0x1E9648;
+            UInt32Defs[114] = 0x7F5C45;
+            UInt32Defs[115] = 0x327FA1;
+            UInt32Defs[116] = 0xD5C4C5;
+            UInt32Defs[117] = 0xB5ACBE;
+            UInt32Defs[118] = 0xD5C4C5;
+            UInt32Defs[119] = 0x3F3F49;
+            UInt32Defs[120] = 0x967A7D;
+            UInt32Defs[121] = 0x2576AB;
+            UInt32Defs[122] = 0x91BF75;
+            UInt32Defs[123] = 0x595353;
+            UInt32Defs[124] = 0x5C4436;
+            UInt32Defs[125] = 0x81A5FF;
+            UInt32Defs[126] = 0xDBDBDB;
+            UInt32Defs[127] = 0x68B3C8;
+            UInt32Defs[128] = 0x906850;
+            UInt32Defs[129] = 0x004979;
+            UInt32Defs[130] = 0xA5A5A5;
+            UInt32Defs[131] = 0x1A1A1A;
+            UInt32Defs[132] = 0xC90303;
+            UInt32Defs[133] = 0x891012;
+            UInt32Defs[134] = 0x96AE87;
+            UInt32Defs[135] = 0xFD7272;
+            UInt32Defs[136] = 0xCCC0C0;
+            UInt32Defs[137] = 0x8C8C8C;
+            UInt32Defs[138] = 0x636363;
+            UInt32Defs[139] = 0x996343;
+            UInt32Defs[140] = 0x7875B3;
+            UInt32Defs[141] = 0xAD2323;
+            UInt32Defs[142] = 0xC90303;
+            UInt32Defs[143] = 0xC90303;
+            UInt32Defs[144] = 0xC90303;
+
             // unknown
-            for (int i = 106; i < 265; i++)
+            for (int i = 145; i < 265; i++)
             {
                 UInt32Defs[i] = 0xFF00FF;
             }
@@ -765,8 +912,15 @@ namespace MapPlugin
             UInt32Defs[285] = 0x4F4F43;
             UInt32Defs[286] = 0x543E40;
             UInt32Defs[287] = 0x332F60;
+            UInt32Defs[288] = 0x12242C;
+            UInt32Defs[289] = 0x716363;
+            UInt32Defs[290] = 0x4E4042;
+            UInt32Defs[291] = 0x403033;
+            UInt32Defs[292] = 0x0B233E;
+            UInt32Defs[293] = 0x3C5B3A;
+            UInt32Defs[294] = 0x3A291D;
+            UInt32Defs[295] = 0x515465;
 
-            UInt32Defs[288] = 0x332F60;
             UInt32Defs[330] = 0x332F60;
 
             //list for when dimming the world for highlighting
