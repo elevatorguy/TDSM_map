@@ -131,6 +131,7 @@ namespace MapPlugin
 
 							Thread imagethread;
 							imagethread = new Thread(mapWorld2);
+                            imagethread.Name = "Mapper";
 							imagethread.Start();
 							while (!imagethread.IsAlive);
 								// the thread terminates itself since there is no while loop in mapWorld2
@@ -139,6 +140,7 @@ namespace MapPlugin
                             isMapping = true;
 							Thread imagethread;
 							imagethread = new Thread(mapWorld);
+                            imagethread.Name = "Mapper";
 							imagethread.Start();
 							while (!imagethread.IsAlive);
 								// the thread terminates itself since there is no while loop in mapWorld

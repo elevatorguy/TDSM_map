@@ -72,6 +72,10 @@ namespace MapPlugin
             Thread part2 = new Thread(mapthread2);
             Thread part3 = new Thread(mapthread3);
             Thread part4 = new Thread(mapthread4);
+            part1.Name = "Map mapper 1";
+            part2.Name = "Map mapper 2";
+            part3.Name = "Map mapper 3";
+            part4.Name = "Map mapper 4";
             part1.Start();
             part2.Start();
             part3.Start();
