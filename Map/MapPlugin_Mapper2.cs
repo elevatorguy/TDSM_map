@@ -426,7 +426,6 @@ namespace MapPlugin
                 public static Color BOWL = ColorTranslator.FromHtml("#8D624D");
                 public static Color GRANDFATHER_CLOCK = ColorTranslator.FromHtml("#946B50");
                 public static Color STATUE = ColorTranslator.FromHtml("#282828");
-
                 // added in version 1.1 of terraria
                 public static Color SAWMILL = ColorTranslator.FromHtml("#563E2C");
                 public static Color COBALT_ORE = ColorTranslator.FromHtml("#0B508F");
@@ -467,6 +466,12 @@ namespace MapPlugin
                 public static Color OUT_BLOCK = ColorTranslator.FromHtml("#C90303");
                 public static Color IN_BLOCK = ColorTranslator.FromHtml("#C90303");
                 public static Color TIMER = ColorTranslator.FromHtml("#C90303");
+                // 1.1.1 TILES
+                public static Color CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#FF0000");
+                public static Color GREEN_CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#00FF00");
+                public static Color SNOW_BLOCK = ColorTranslator.FromHtml("#FFFFFF");
+                public static Color SNOW_BRICK = ColorTranslator.FromHtml("#FFFFFF");
+                public static Color LIGHTS = ColorTranslator.FromHtml("#FFFFFF");
 
                 //walls
                 public static Color STONE_WALL = ColorTranslator.FromHtml("#343434");
@@ -489,7 +494,6 @@ namespace MapPlugin
                 public static Color DARK_GREEN_BRICK_WALL = ColorTranslator.FromHtml("#4F4F43");
                 public static Color DARK_PINK_BRICK_WALL = ColorTranslator.FromHtml("#543E40");
                 public static Color DARK_OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
-
                 // NEW 1.1 WALLS
                 public static Color GLASS_WALL = ColorTranslator.FromHtml("#12242C");
                 public static Color PEARLSTONE_WALL = ColorTranslator.FromHtml("#716363");
@@ -499,6 +503,10 @@ namespace MapPlugin
                 public static Color MYTHRIL_WALL = ColorTranslator.FromHtml("#3C5B3A");
                 public static Color WOOD_PANELING = ColorTranslator.FromHtml("#3A291D");
                 public static Color UNKNOWN_WALL_28 = ColorTranslator.FromHtml("#515465");
+                // 1.1.1 WALLS
+                public static Color CANDY_CANE_WALL = ColorTranslator.FromHtml("#FF0000");
+                public static Color GREEN_CANDY_CANE_WALL = ColorTranslator.FromHtml("#00FF00");
+                public static Color SNOW_BRICK_WALL = ColorTranslator.FromHtml("#FFFFFF");
 
                 //global
                 public static Color SKY = ColorTranslator.FromHtml("#84AAF8");
@@ -660,8 +668,13 @@ namespace MapPlugin
             ColorDefs[142] = Constants.Terrafirma_Color.OUT_BLOCK;
             ColorDefs[143] = Constants.Terrafirma_Color.IN_BLOCK;
             ColorDefs[144] = Constants.Terrafirma_Color.TIMER;
+            ColorDefs[145] = Constants.Terrafirma_Color.CANDY_CANE_BLOCK;
+            ColorDefs[146] = Constants.Terrafirma_Color.GREEN_CANDY_CANE_BLOCK;
+            ColorDefs[147] = Constants.Terrafirma_Color.SNOW_BLOCK;
+            ColorDefs[148] = Constants.Terrafirma_Color.SNOW_BRICK;
+            ColorDefs[149] = Constants.Terrafirma_Color.LIGHTS;
 
-            for (int i = 145; i < 265; i++)
+            for (int i = 150; i < 265; i++)
             {
                 ColorDefs[i] = Color.Magenta;
             }
@@ -700,8 +713,12 @@ namespace MapPlugin
             ColorDefs[293] = Constants.Terrafirma_Color.MYTHRIL_WALL;
             ColorDefs[294] = Constants.Terrafirma_Color.WOOD_PANELING;
             ColorDefs[295] = Constants.Terrafirma_Color.UNKNOWN_WALL_28;
+            ColorDefs[296] = Constants.Terrafirma_Color.CANDY_CANE_WALL;
+            ColorDefs[297] = Constants.Terrafirma_Color.GREEN_CANDY_CANE_WALL;
+            ColorDefs[298] = Constants.Terrafirma_Color.SNOW_BRICK_WALL;
 
-            //fix 1.0.6.1
+            //fixes
+            ColorDefs[312] = Constants.Terrafirma_Color.DARK_OBSIDIAN_WALL;
             ColorDefs[330] = Constants.Terrafirma_Color.DARK_OBSIDIAN_WALL;
 
             // this is for faster performace
@@ -883,9 +900,14 @@ namespace MapPlugin
             UInt32Defs[142] = 0xC90303;
             UInt32Defs[143] = 0xC90303;
             UInt32Defs[144] = 0xC90303;
+            UInt32Defs[145] = 0xFF0000;
+            UInt32Defs[146] = 0x00FF00;
+            UInt32Defs[147] = 0xFFFFFF;
+            UInt32Defs[148] = 0xFFFFFF;
+            UInt32Defs[149] = 0xFFFFFF;
 
             // unknown
-            for (int i = 145; i < 265; i++)
+            for (int i = 150; i < 265; i++)
             {
                 UInt32Defs[i] = 0xFF00FF;
             }
@@ -924,7 +946,11 @@ namespace MapPlugin
             UInt32Defs[293] = 0x3C5B3A;
             UInt32Defs[294] = 0x3A291D;
             UInt32Defs[295] = 0x515465;
+            UInt32Defs[296] = 0xFF0000;
+            UInt32Defs[297] = 0x00FF00;
+            UInt32Defs[298] = 0xFFFFFF;
 
+            UInt32Defs[312] = 0x332F60;
             UInt32Defs[330] = 0x332F60;
 
             //list for when dimming the world for highlighting
