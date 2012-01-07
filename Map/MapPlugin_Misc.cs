@@ -1,10 +1,11 @@
-using Terraria_Server;
+
 using System.IO;
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using Terraria;
 
-namespace MapPlugin
+namespace Map
 {
     public partial class MapPlugin
     {
@@ -20,9 +21,9 @@ namespace MapPlugin
         {
             name = name.ToLower();
 
-            foreach (var p in Main.players)
+            foreach (var p in Main.player)
             {
-                if (p != null && p.Name != null && p.Name.ToLower() == name)
+                if (p != null && p.name != null && p.name.ToLower() == name)
                     return p;
             }
 
@@ -47,7 +48,7 @@ namespace MapPlugin
             return (0xff000000 + (result & 0x00ff0000) + (result & 0x0000ff00) + (result & 0x000000ff));
         }
 
-        private Color dimC(UInt32 c)
+        private System.Drawing.Color dimC(UInt32 c)
         {
             return toColor(dimI(c));
         }
@@ -62,7 +63,7 @@ namespace MapPlugin
             return alphaBlend(0, c, 0.3);
         }
 
-        private Color toColor(UInt32 c)
+        private System.Drawing.Color toColor(UInt32 c)
         {
             return ColorTranslator.FromHtml("#" + String.Format("{0:X}", c));
         }
@@ -333,8 +334,6 @@ namespace MapPlugin
                     }
         return list;
         }
-
-
     }
 }
 

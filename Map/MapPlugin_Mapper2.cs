@@ -1,47 +1,46 @@
 using System.Drawing;
 using System.Collections.Generic;
-using Terraria_Server.Logging;
-using Terraria_Server;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System;
 using System.Threading;
+using Terraria;
 
-namespace MapPlugin
+namespace Map
 {
     public partial class MapPlugin
     {
-        public static Dictionary<int, Color> ColorDefs;
+        public static Dictionary<int, System.Drawing.Color> ColorDefs;
         public static Dictionary<int, UInt32> UInt32Defs;
-        public static Dictionary<int, Color> DimColorDefs;
+        public static Dictionary<int, System.Drawing.Color> DimColorDefs;
         public static Dictionary<int, UInt32> DimUInt32Defs;
 
         public static Bitmap bmp;
-        public static Dictionary<UInt32, Color> waterblendlist = new Dictionary<UInt32, Color>();
-        public static Dictionary<UInt32, Color> lavablendlist = new Dictionary<UInt32, Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> waterblendlist = new Dictionary<UInt32, System.Drawing.Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> lavablendlist = new Dictionary<UInt32, System.Drawing.Color>();
         //better to have a separate list for dim liquid lists
-        public static Dictionary<UInt32, Color> waterdimlist = new Dictionary<UInt32, Color>();
-        public static Dictionary<UInt32, Color> lavadimlist = new Dictionary<UInt32, Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> waterdimlist = new Dictionary<UInt32, System.Drawing.Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> lavadimlist = new Dictionary<UInt32, System.Drawing.Color>();
 
         public void mapWorld2()
         {
             Stopwatch stopwatch = new Stopwatch();
-            Server.notifyOps("Saving Image...", true);
+			utils.SendLogs("Saving Image...", Color.WhiteSmoke);
             stopwatch.Start();
             bmp = new Bitmap(Main.maxTilesX/4, Main.maxTilesY, PixelFormat.Format32bppArgb);
             Graphics graphicsHandle = Graphics.FromImage((Image)bmp);
             //draw background
             if (highlight)
             {
-                Color SKY = dimC(0x84AAF8);
-                Color EARTH = dimC(0x583D2E);
-                Color HELL = dimC(0x000000);
+                System.Drawing.Color SKY = dimC(0x84AAF8);
+                System.Drawing.Color EARTH = dimC(0x583D2E);
+                System.Drawing.Color HELL = dimC(0x000000);
                 graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
                 graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
                 graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
                 //this fades the background from rock to hell
-                Color dimColor;
+                System.Drawing.Color dimColor;
                 for (int y = (int)Main.rockLayer; y < Main.maxTilesY; y++)
                 {
                     dimColor = dimC(UInt32Defs[331 + y]);
@@ -88,37 +87,37 @@ namespace MapPlugin
             Graphics gfx;
             using (gfx = Graphics.FromImage(bmp))
             {
-                gfx.DrawImage(piece1, new Point(0, 0));
-                gfx.DrawImage(piece2, new Point(quarter, 0));
-                gfx.DrawImage(piece3, new Point(2 * quarter, 0));
-                gfx.DrawImage(piece4, new Point(3 * quarter, 0));
+                gfx.DrawImage(piece1, new System.Drawing.Point(0, 0));
+                gfx.DrawImage(piece2, new System.Drawing.Point(quarter, 0));
+                gfx.DrawImage(piece3, new System.Drawing.Point(2 * quarter, 0));
+                gfx.DrawImage(piece4, new System.Drawing.Point(3 * quarter, 0));
             }
             gfx.Dispose();
 
             if (hlchests)
             {
-                Chest[] c = Main.chest;
+                Terraria.Chest[] c = Main.chest;
                 for (int i = 0; i < c.Length; i++ )
                 {
                     if (c[i] != null)
                     {
-                        bmp.SetPixel(c[i].x, c[i].y, Color.White);
+                        bmp.SetPixel(c[i].x, c[i].y, System.Drawing.Color.White);
 
                         //also the four pixels next to it so we can actually see it on the map
-                        bmp.SetPixel(c[i].x + 1, c[i].y, Color.White);
-                        bmp.SetPixel(c[i].x - 1, c[i].y, Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y + 1, Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y - 1, Color.White);
+                        bmp.SetPixel(c[i].x + 1, c[i].y, System.Drawing.Color.White);
+                        bmp.SetPixel(c[i].x - 1, c[i].y, System.Drawing.Color.White);
+                        bmp.SetPixel(c[i].x, c[i].y + 1, System.Drawing.Color.White);
+                        bmp.SetPixel(c[i].x, c[i].y - 1, System.Drawing.Color.White);
                     }
                 }
             }
 
-            Server.notifyOps("Saving Data...", true);
+			utils.SendLogs("Saving Data...", Color.WhiteSmoke);
             bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
             bmp.Dispose();
             stopwatch.Stop();
-            ProgramLog.Log("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-            Server.notifyOps("Saving Complete.", true);
+			utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
+			utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
             bmp = null;
             piece1.Dispose();
             piece1 = null;
@@ -184,12 +183,12 @@ namespace MapPlugin
                 if (highlight) //dim the world
                 {
                     //draws tiles or walls
-                    if (Main.tile.At(i, j).Wall == 0)
+                    if (Main.tile[i, j].wall == 0)
                     {
-                        if (Main.tile.At(i, j).Active)
+                        if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i-piece, j, DimColorDefs[Main.tile.At(i, j).Type]);
-                            tempColor = DimUInt32Defs[Main.tile.At(i, j).Type];
+                            bmp.SetPixel(i-piece, j, DimColorDefs[Main.tile[i, j].type]);
+                            tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
@@ -199,42 +198,42 @@ namespace MapPlugin
                     else
                     {
                         //priority to tiles
-                        if (Main.tile.At(i, j).Active)
+                        if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile.At(i, j).Type]);
-                            tempColor = DimUInt32Defs[Main.tile.At(i, j).Type];
+                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile[i, j].type]);
+                            tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile.At(i, j).Wall + 267]);
-                            tempColor = DimUInt32Defs[Main.tile.At(i, j).Wall + 267];
+                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile[i, j].wall + 267]);
+                            tempColor = DimUInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
                     // lookup blendcolor of color just drawn, and draw again
-                    if (Main.tile.At(i, j).Liquid > 0)
+                    if (Main.tile[i, j].liquid > 0)
                     {
                         if (lavadimlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(i - piece, j, Main.tile.At(i, j).Lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
+                            bmp.SetPixel(i - piece, j, Main.tile[i, j].lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
                         }
                     }
 
-                    list = getGiveID(Main.tile.At(i, j).Type, (Main.tile.At(i, j).Wall));
+                    list = getGiveID(Main.tile[i, j].type, (Main.tile[i, j].wall));
                     //highlight the tiles of supplied type from the map command
                     if (list.Contains(highlightID))
                     {
-                        bmp.SetPixel(i - piece, j, Color.White);
+                        bmp.SetPixel(i - piece, j, System.Drawing.Color.White);
                     }
                 }
                 else
                 {
                     //draws tiles or walls
-                    if (Main.tile.At(i, j).Wall == 0)
+                    if (Main.tile[i, j].wall == 0)
                     {
-                        if (Main.tile.At(i, j).Active)
+                        if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile.At(i, j).Type]);
-                            tempColor = UInt32Defs[Main.tile.At(i, j).Type];
+                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].type]);
+                            tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
@@ -244,23 +243,23 @@ namespace MapPlugin
                     else
                     {
                         //priority to tiles
-                        if (Main.tile.At(i, j).Active)
+                        if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile.At(i, j).Type]);
-                            tempColor = UInt32Defs[Main.tile.At(i, j).Type];
+                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].type]);
+                            tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile.At(i, j).Wall + 267]);
-                            tempColor = UInt32Defs[Main.tile.At(i, j).Wall + 267];
+                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].wall + 267]);
+                            tempColor = UInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
                     // lookup blendcolor of color just drawn, and draw again
-                    if (Main.tile.At(i, j).Liquid > 0)
+                    if (Main.tile[i, j].liquid > 0)
                     {
                         if (lavablendlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(i - piece, j, Main.tile.At(i, j).Lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                            bmp.SetPixel(i - piece, j, Main.tile[i, j].lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
                         }
                     }
                 }
@@ -284,7 +283,7 @@ namespace MapPlugin
 
                         //initialize DimColorDefs and DimUInt32Defs first
                         UInt32 dimblend = dimI(c);
-                        Color dimresult = dimC(c);
+                        System.Drawing.Color dimresult = dimC(c);
                         DimUInt32Defs[y] = dimblend;
                         DimColorDefs[y] = dimresult;
 
@@ -301,7 +300,7 @@ namespace MapPlugin
         {
             if (type == "regular" && !(lavablendlist.ContainsKey(c)))
             {
-                Color waterblendresult = toColor(alphaBlend(c, waterColor, 0.5));
+                System.Drawing.Color waterblendresult = toColor(alphaBlend(c, waterColor, 0.5));
 
                 waterblendlist.Add(c, waterblendresult);
                 lavablendlist.Add(c, toColor(alphaBlend(c, lavaColor, 0.5)));
@@ -320,207 +319,207 @@ namespace MapPlugin
             public static class Terrafirma_Color
             {
                 //tiles
-                public static Color DIRT = ColorTranslator.FromHtml("#976B4B");
-                public static Color STONE = ColorTranslator.FromHtml("#808080");
-                public static Color GRASS = ColorTranslator.FromHtml("#1CD85E");
-                public static Color WEEDS = ColorTranslator.FromHtml("#1E9648");
-                public static Color TORCH = ColorTranslator.FromHtml("#FDDD03");
-                public static Color TREE = ColorTranslator.FromHtml("#976B4B");
-                public static Color IRON_ORE = ColorTranslator.FromHtml("#B5A495");
-                public static Color COPPER_ORE = ColorTranslator.FromHtml("#964316");
-                public static Color GOLD_ORE = ColorTranslator.FromHtml("#B9A417");
-                public static Color SILVER_ORE = ColorTranslator.FromHtml("#D9DFDF");
-                public static Color CLOSED_DOOR = ColorTranslator.FromHtml("#BF8F6F");
-                public static Color OPEN_DOOR = ColorTranslator.FromHtml("#946B50");
-                public static Color HEARTSTONE = ColorTranslator.FromHtml("#B61239");
-                public static Color BOTTLE = ColorTranslator.FromHtml("#4EC5FC");
-                public static Color TABLE = ColorTranslator.FromHtml("#7F5C45");
-                public static Color CHAIR = ColorTranslator.FromHtml("#A2785C");
-                public static Color ANVIL = ColorTranslator.FromHtml("#505050");
-                public static Color FURNACE = ColorTranslator.FromHtml("#636363");
-                public static Color WORKBENCH = ColorTranslator.FromHtml("#7F5C45");
-                public static Color WOODEN_PLATFORM = ColorTranslator.FromHtml("#B18567");
-                public static Color SAPLING = ColorTranslator.FromHtml("#1E9648");
-                public static Color CHEST = ColorTranslator.FromHtml("#946B50");
-                public static Color DEMONITE_ORE = ColorTranslator.FromHtml("#625FA7");
-                public static Color CORRUPTED_GRASS = ColorTranslator.FromHtml("#8D89DF");
-                public static Color CORRUPTED_WEEDS = ColorTranslator.FromHtml("#6D6AAE");
-                public static Color EBONSTONE = ColorTranslator.FromHtml("#7D7991");
-                public static Color DEMON_ALTAR = ColorTranslator.FromHtml("#5E5561");
-                public static Color SUNFLOWER = ColorTranslator.FromHtml("#E3B903");
-                public static Color POT = ColorTranslator.FromHtml("#796E61");
-                public static Color PIGGY_BANK = ColorTranslator.FromHtml("#9C546C");
-                public static Color WOOD = ColorTranslator.FromHtml("#A97D5D");
-                public static Color SHADOW_ORB = ColorTranslator.FromHtml("#674D62");
-                public static Color CORRUPTED_VINES = ColorTranslator.FromHtml("#7A618F");
-                public static Color CANDLE = ColorTranslator.FromHtml("#FDDD03");
-                public static Color COPPER_CHANDELIER = ColorTranslator.FromHtml("#B75819");
-                public static Color SILVER_CHANDELIER = ColorTranslator.FromHtml("#C1CACB");
-                public static Color GOLD_CHANDELIER = ColorTranslator.FromHtml("#B9A417");
-                public static Color METEORITE = ColorTranslator.FromHtml("#685654");
-                public static Color GRAY_BRICK = ColorTranslator.FromHtml("#8C8C8C");
-                public static Color CLAY_BRICK = ColorTranslator.FromHtml("#C37057");
-                public static Color CLAY = ColorTranslator.FromHtml("#925144");
-                public static Color BLUE_BRICK = ColorTranslator.FromHtml("#6365C9");
-                public static Color LIGHT_GLOBE = ColorTranslator.FromHtml("#F99851");
-                public static Color GREEN_BRICK = ColorTranslator.FromHtml("#3FA931");
-                public static Color PINK_BRICK = ColorTranslator.FromHtml("#A93175");
-                public static Color GOLD_BRICK = ColorTranslator.FromHtml("#CCB548");
-                public static Color SILVER_BRICK = ColorTranslator.FromHtml("#AEC1C2");
-                public static Color COPPER_BRICK = ColorTranslator.FromHtml("#CD7D47");
-                public static Color SPIKES = ColorTranslator.FromHtml("#AFAFAF");
-                public static Color BLUE_CANDLE = ColorTranslator.FromHtml("#0B2EFF");
-                public static Color BOOKS = ColorTranslator.FromHtml("#3095AA");
-                public static Color COBWEBS = ColorTranslator.FromHtml("#9EADAE");
-                public static Color VINES = ColorTranslator.FromHtml("#1E9648");
-                public static Color SAND = ColorTranslator.FromHtml("#D3C66F");
-                public static Color GLASS = ColorTranslator.FromHtml("#C8F6FE");
-                public static Color SIGN = ColorTranslator.FromHtml("#7F5C45");
-                public static Color OBSIDIAN = ColorTranslator.FromHtml("#5751AD");
-                public static Color ASH = ColorTranslator.FromHtml("#44444C");
-                public static Color HELLSTONE = ColorTranslator.FromHtml("#8E4242");
-                public static Color MUD = ColorTranslator.FromHtml("#5C4449");
-                public static Color JUNGLE_GRASS = ColorTranslator.FromHtml("#8FD71D");
-                public static Color JUNGLE_WEEDS = ColorTranslator.FromHtml("#63971F");
-                public static Color JUNGLE_VINES = ColorTranslator.FromHtml("#28650D");
-                public static Color SAPPHIRE = ColorTranslator.FromHtml("#2A82FA");
-                public static Color RUBY = ColorTranslator.FromHtml("#FA2A51");
-                public static Color EMERALD = ColorTranslator.FromHtml("#05C95D");
-                public static Color TOPAZ = ColorTranslator.FromHtml("#C78B09");
-                public static Color AMETHYST = ColorTranslator.FromHtml("#A30BD5");
-                public static Color DIAMOND = ColorTranslator.FromHtml("#19D1E7");
-                public static Color JUNGLE_THORN = ColorTranslator.FromHtml("#855141");
-                public static Color MUSHROOM_GRASS = ColorTranslator.FromHtml("#5D7FFF");
-                public static Color MUSHROOM = ColorTranslator.FromHtml("#B1AE83");
-                public static Color MUSHROOM_TREE = ColorTranslator.FromHtml("#968F6E");
-                public static Color WEEDS_73 = ColorTranslator.FromHtml("#0D6524");
-                public static Color WEEDS_74 = ColorTranslator.FromHtml("#28650D");
-                public static Color OBSIDIAN_BRICK = ColorTranslator.FromHtml("#665CC2");
-                public static Color HELLSTONE_BRICK = ColorTranslator.FromHtml("#8E4242");
-                public static Color HELLFORGE = ColorTranslator.FromHtml("#EE6646");
-                public static Color CLAY_POT = ColorTranslator.FromHtml("#796E61");
-                public static Color BED = ColorTranslator.FromHtml("#5C6298");
-                public static Color CACTUS = ColorTranslator.FromHtml("#497811");
-                public static Color CORAL = ColorTranslator.FromHtml("#e5533f");
-                public static Color HERB_SPROUTS = ColorTranslator.FromHtml("#fe5402");
-                public static Color HERB_STALKS = ColorTranslator.FromHtml("#fe5402");
-                public static Color HERBS = ColorTranslator.FromHtml("#fe5402");
-                public static Color TOMBSTONE = ColorTranslator.FromHtml("#c0c0c0");
-                public static Color LOOM = ColorTranslator.FromHtml("#7F5C45");
-                public static Color PIANO = ColorTranslator.FromHtml("#584430");
-                public static Color DRESSER = ColorTranslator.FromHtml("#906850");
-                public static Color BENCH = ColorTranslator.FromHtml("#B18567");
-                public static Color BATHTUB = ColorTranslator.FromHtml("#606060");
-                public static Color BANNER = ColorTranslator.FromHtml("#188008");
-                public static Color LAMP_POST = ColorTranslator.FromHtml("#323232");
-                public static Color TIKI_TORCH = ColorTranslator.FromHtml("#503B2F");
-                public static Color KEG = ColorTranslator.FromHtml("#A87858");
-                public static Color CHINESE_LANTERN = ColorTranslator.FromHtml("#F87800");
-                public static Color COOKING_POT = ColorTranslator.FromHtml("#606060");
-                public static Color SAFE = ColorTranslator.FromHtml("#808080");
-                public static Color SKULL_LANTERN = ColorTranslator.FromHtml("#B2B28A");
-                public static Color TRASH_CAN = ColorTranslator.FromHtml("#808080");
-                public static Color CANDELABRA = ColorTranslator.FromHtml("#CCB548");
-                public static Color BOOKCASE = ColorTranslator.FromHtml("#B08460");
-                public static Color THRONE = ColorTranslator.FromHtml("#780C08");
-                public static Color BOWL = ColorTranslator.FromHtml("#8D624D");
-                public static Color GRANDFATHER_CLOCK = ColorTranslator.FromHtml("#946B50");
-                public static Color STATUE = ColorTranslator.FromHtml("#282828");
+                public static System.Drawing.Color DIRT = ColorTranslator.FromHtml("#976B4B");
+                public static System.Drawing.Color STONE = ColorTranslator.FromHtml("#808080");
+                public static System.Drawing.Color GRASS = ColorTranslator.FromHtml("#1CD85E");
+                public static System.Drawing.Color WEEDS = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color TORCH = ColorTranslator.FromHtml("#FDDD03");
+                public static System.Drawing.Color TREE = ColorTranslator.FromHtml("#976B4B");
+                public static System.Drawing.Color IRON_ORE = ColorTranslator.FromHtml("#B5A495");
+                public static System.Drawing.Color COPPER_ORE = ColorTranslator.FromHtml("#964316");
+                public static System.Drawing.Color GOLD_ORE = ColorTranslator.FromHtml("#B9A417");
+                public static System.Drawing.Color SILVER_ORE = ColorTranslator.FromHtml("#D9DFDF");
+                public static System.Drawing.Color CLOSED_DOOR = ColorTranslator.FromHtml("#BF8F6F");
+                public static System.Drawing.Color OPEN_DOOR = ColorTranslator.FromHtml("#946B50");
+                public static System.Drawing.Color HEARTSTONE = ColorTranslator.FromHtml("#B61239");
+                public static System.Drawing.Color BOTTLE = ColorTranslator.FromHtml("#4EC5FC");
+                public static System.Drawing.Color TABLE = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color CHAIR = ColorTranslator.FromHtml("#A2785C");
+                public static System.Drawing.Color ANVIL = ColorTranslator.FromHtml("#505050");
+                public static System.Drawing.Color FURNACE = ColorTranslator.FromHtml("#636363");
+                public static System.Drawing.Color WORKBENCH = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color WOODEN_PLATFORM = ColorTranslator.FromHtml("#B18567");
+                public static System.Drawing.Color SAPLING = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color CHEST = ColorTranslator.FromHtml("#946B50");
+                public static System.Drawing.Color DEMONITE_ORE = ColorTranslator.FromHtml("#625FA7");
+                public static System.Drawing.Color CORRUPTED_GRASS = ColorTranslator.FromHtml("#8D89DF");
+                public static System.Drawing.Color CORRUPTED_WEEDS = ColorTranslator.FromHtml("#6D6AAE");
+                public static System.Drawing.Color EBONSTONE = ColorTranslator.FromHtml("#7D7991");
+                public static System.Drawing.Color DEMON_ALTAR = ColorTranslator.FromHtml("#5E5561");
+                public static System.Drawing.Color SUNFLOWER = ColorTranslator.FromHtml("#E3B903");
+                public static System.Drawing.Color POT = ColorTranslator.FromHtml("#796E61");
+                public static System.Drawing.Color PIGGY_BANK = ColorTranslator.FromHtml("#9C546C");
+                public static System.Drawing.Color WOOD = ColorTranslator.FromHtml("#A97D5D");
+                public static System.Drawing.Color SHADOW_ORB = ColorTranslator.FromHtml("#674D62");
+                public static System.Drawing.Color CORRUPTED_VINES = ColorTranslator.FromHtml("#7A618F");
+                public static System.Drawing.Color CANDLE = ColorTranslator.FromHtml("#FDDD03");
+                public static System.Drawing.Color COPPER_CHANDELIER = ColorTranslator.FromHtml("#B75819");
+                public static System.Drawing.Color SILVER_CHANDELIER = ColorTranslator.FromHtml("#C1CACB");
+                public static System.Drawing.Color GOLD_CHANDELIER = ColorTranslator.FromHtml("#B9A417");
+                public static System.Drawing.Color METEORITE = ColorTranslator.FromHtml("#685654");
+                public static System.Drawing.Color GRAY_BRICK = ColorTranslator.FromHtml("#8C8C8C");
+                public static System.Drawing.Color CLAY_BRICK = ColorTranslator.FromHtml("#C37057");
+                public static System.Drawing.Color CLAY = ColorTranslator.FromHtml("#925144");
+                public static System.Drawing.Color BLUE_BRICK = ColorTranslator.FromHtml("#6365C9");
+                public static System.Drawing.Color LIGHT_GLOBE = ColorTranslator.FromHtml("#F99851");
+                public static System.Drawing.Color GREEN_BRICK = ColorTranslator.FromHtml("#3FA931");
+                public static System.Drawing.Color PINK_BRICK = ColorTranslator.FromHtml("#A93175");
+                public static System.Drawing.Color GOLD_BRICK = ColorTranslator.FromHtml("#CCB548");
+                public static System.Drawing.Color SILVER_BRICK = ColorTranslator.FromHtml("#AEC1C2");
+                public static System.Drawing.Color COPPER_BRICK = ColorTranslator.FromHtml("#CD7D47");
+                public static System.Drawing.Color SPIKES = ColorTranslator.FromHtml("#AFAFAF");
+                public static System.Drawing.Color BLUE_CANDLE = ColorTranslator.FromHtml("#0B2EFF");
+                public static System.Drawing.Color BOOKS = ColorTranslator.FromHtml("#3095AA");
+                public static System.Drawing.Color COBWEBS = ColorTranslator.FromHtml("#9EADAE");
+                public static System.Drawing.Color VINES = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color SAND = ColorTranslator.FromHtml("#D3C66F");
+                public static System.Drawing.Color GLASS = ColorTranslator.FromHtml("#C8F6FE");
+                public static System.Drawing.Color SIGN = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color OBSIDIAN = ColorTranslator.FromHtml("#5751AD");
+                public static System.Drawing.Color ASH = ColorTranslator.FromHtml("#44444C");
+                public static System.Drawing.Color HELLSTONE = ColorTranslator.FromHtml("#8E4242");
+                public static System.Drawing.Color MUD = ColorTranslator.FromHtml("#5C4449");
+                public static System.Drawing.Color JUNGLE_GRASS = ColorTranslator.FromHtml("#8FD71D");
+                public static System.Drawing.Color JUNGLE_WEEDS = ColorTranslator.FromHtml("#63971F");
+                public static System.Drawing.Color JUNGLE_VINES = ColorTranslator.FromHtml("#28650D");
+                public static System.Drawing.Color SAPPHIRE = ColorTranslator.FromHtml("#2A82FA");
+                public static System.Drawing.Color RUBY = ColorTranslator.FromHtml("#FA2A51");
+                public static System.Drawing.Color EMERALD = ColorTranslator.FromHtml("#05C95D");
+                public static System.Drawing.Color TOPAZ = ColorTranslator.FromHtml("#C78B09");
+                public static System.Drawing.Color AMETHYST = ColorTranslator.FromHtml("#A30BD5");
+                public static System.Drawing.Color DIAMOND = ColorTranslator.FromHtml("#19D1E7");
+                public static System.Drawing.Color JUNGLE_THORN = ColorTranslator.FromHtml("#855141");
+                public static System.Drawing.Color MUSHROOM_GRASS = ColorTranslator.FromHtml("#5D7FFF");
+                public static System.Drawing.Color MUSHROOM = ColorTranslator.FromHtml("#B1AE83");
+                public static System.Drawing.Color MUSHROOM_TREE = ColorTranslator.FromHtml("#968F6E");
+                public static System.Drawing.Color WEEDS_73 = ColorTranslator.FromHtml("#0D6524");
+                public static System.Drawing.Color WEEDS_74 = ColorTranslator.FromHtml("#28650D");
+                public static System.Drawing.Color OBSIDIAN_BRICK = ColorTranslator.FromHtml("#665CC2");
+                public static System.Drawing.Color HELLSTONE_BRICK = ColorTranslator.FromHtml("#8E4242");
+                public static System.Drawing.Color HELLFORGE = ColorTranslator.FromHtml("#EE6646");
+                public static System.Drawing.Color CLAY_POT = ColorTranslator.FromHtml("#796E61");
+                public static System.Drawing.Color BED = ColorTranslator.FromHtml("#5C6298");
+                public static System.Drawing.Color CACTUS = ColorTranslator.FromHtml("#497811");
+                public static System.Drawing.Color CORAL = ColorTranslator.FromHtml("#e5533f");
+                public static System.Drawing.Color HERB_SPROUTS = ColorTranslator.FromHtml("#fe5402");
+                public static System.Drawing.Color HERB_STALKS = ColorTranslator.FromHtml("#fe5402");
+                public static System.Drawing.Color HERBS = ColorTranslator.FromHtml("#fe5402");
+                public static System.Drawing.Color TOMBSTONE = ColorTranslator.FromHtml("#c0c0c0");
+                public static System.Drawing.Color LOOM = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color PIANO = ColorTranslator.FromHtml("#584430");
+                public static System.Drawing.Color DRESSER = ColorTranslator.FromHtml("#906850");
+                public static System.Drawing.Color BENCH = ColorTranslator.FromHtml("#B18567");
+                public static System.Drawing.Color BATHTUB = ColorTranslator.FromHtml("#606060");
+                public static System.Drawing.Color BANNER = ColorTranslator.FromHtml("#188008");
+                public static System.Drawing.Color LAMP_POST = ColorTranslator.FromHtml("#323232");
+                public static System.Drawing.Color TIKI_TORCH = ColorTranslator.FromHtml("#503B2F");
+                public static System.Drawing.Color KEG = ColorTranslator.FromHtml("#A87858");
+                public static System.Drawing.Color CHINESE_LANTERN = ColorTranslator.FromHtml("#F87800");
+                public static System.Drawing.Color COOKING_POT = ColorTranslator.FromHtml("#606060");
+                public static System.Drawing.Color SAFE = ColorTranslator.FromHtml("#808080");
+                public static System.Drawing.Color SKULL_LANTERN = ColorTranslator.FromHtml("#B2B28A");
+                public static System.Drawing.Color TRASH_CAN = ColorTranslator.FromHtml("#808080");
+                public static System.Drawing.Color CANDELABRA = ColorTranslator.FromHtml("#CCB548");
+                public static System.Drawing.Color BOOKCASE = ColorTranslator.FromHtml("#B08460");
+                public static System.Drawing.Color THRONE = ColorTranslator.FromHtml("#780C08");
+                public static System.Drawing.Color BOWL = ColorTranslator.FromHtml("#8D624D");
+                public static System.Drawing.Color GRANDFATHER_CLOCK = ColorTranslator.FromHtml("#946B50");
+                public static System.Drawing.Color STATUE = ColorTranslator.FromHtml("#282828");
                 // added in version 1.1 of terraria
-                public static Color SAWMILL = ColorTranslator.FromHtml("#563E2C");
-                public static Color COBALT_ORE = ColorTranslator.FromHtml("#0B508F");
-                public static Color MYTHRIL_ORE = ColorTranslator.FromHtml("#5BA9A9");
-                public static Color BLUE_GRASS = ColorTranslator.FromHtml("#4EC1E3");
-                public static Color WEEDS_110 = ColorTranslator.FromHtml("#1E9648");
-                public static Color ADAMANTITE_ORE = ColorTranslator.FromHtml("#801A34");
-                public static Color EBONSAND = ColorTranslator.FromHtml("#67627A");
-                public static Color WEEDS_113 = ColorTranslator.FromHtml("#1E9648");
-                public static Color TINKERERS_WORKSHOP = ColorTranslator.FromHtml("#7F5C45");
-                public static Color VINES_115 = ColorTranslator.FromHtml("#327FA1");
-                public static Color PEARL_SAND = ColorTranslator.FromHtml("#D5C4C5");
-                public static Color PEARL_ORE = ColorTranslator.FromHtml("#B5ACBE");
-                public static Color PEARLSTONE_BRICK = ColorTranslator.FromHtml("#D5C4C5");
-                public static Color IRIDESCENT_BRICK = ColorTranslator.FromHtml("#3F3F49");
-                public static Color MUDSTONE_BRICK = ColorTranslator.FromHtml("#967A7D");
-                public static Color COBALT_BRICK = ColorTranslator.FromHtml("#2576AB");
-                public static Color UNKNOWN_BRICK_122 = ColorTranslator.FromHtml("#91BF75");
-                public static Color SILT = ColorTranslator.FromHtml("#595353");
-                public static Color TILE_124 = ColorTranslator.FromHtml("#5C4436");
-                public static Color CRYSTAL_BALL = ColorTranslator.FromHtml("#81A5FF");
-                public static Color BALL = ColorTranslator.FromHtml("#DBDBDB");
-                public static Color GLASS_127 = ColorTranslator.FromHtml("#68B3C8");
-                public static Color ARMOR_STAND = ColorTranslator.FromHtml("#906850");
-                public static Color SPIKES_129 = ColorTranslator.FromHtml("#004979");
-                public static Color UNKNOWN_STONE_130 = ColorTranslator.FromHtml("#A5A5A5");
-                public static Color UNKNOWN_STONE_131 = ColorTranslator.FromHtml("#1A1A1A");
-                public static Color LEVER = ColorTranslator.FromHtml("#C90303");
-                public static Color FIREPLACE = ColorTranslator.FromHtml("#891012");
-                public static Color ADAMANTIUM_ANVIL = ColorTranslator.FromHtml("#96AE87");
-                public static Color PRESSURE_PLATE = ColorTranslator.FromHtml("#FD7272");
-                public static Color SWITCH = ColorTranslator.FromHtml("#CCC0C0");
-                public static Color SKULL = ColorTranslator.FromHtml("#8C8C8C");
-                public static Color BOULDER = ColorTranslator.FromHtml("#636363");
-                public static Color MUSIC = ColorTranslator.FromHtml("#996343");
-                public static Color UNKNOWN_BRICK_140 = ColorTranslator.FromHtml("#7875B3");
-                public static Color UNKNOWN_BRICK_141 = ColorTranslator.FromHtml("#AD2323");
-                public static Color OUT_BLOCK = ColorTranslator.FromHtml("#C90303");
-                public static Color IN_BLOCK = ColorTranslator.FromHtml("#C90303");
-                public static Color TIMER = ColorTranslator.FromHtml("#C90303");
+                public static System.Drawing.Color SAWMILL = ColorTranslator.FromHtml("#563E2C");
+                public static System.Drawing.Color COBALT_ORE = ColorTranslator.FromHtml("#0B508F");
+                public static System.Drawing.Color MYTHRIL_ORE = ColorTranslator.FromHtml("#5BA9A9");
+                public static System.Drawing.Color BLUE_GRASS = ColorTranslator.FromHtml("#4EC1E3");
+                public static System.Drawing.Color WEEDS_110 = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color ADAMANTITE_ORE = ColorTranslator.FromHtml("#801A34");
+                public static System.Drawing.Color EBONSAND = ColorTranslator.FromHtml("#67627A");
+                public static System.Drawing.Color WEEDS_113 = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color TINKERERS_WORKSHOP = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color VINES_115 = ColorTranslator.FromHtml("#327FA1");
+                public static System.Drawing.Color PEARL_SAND = ColorTranslator.FromHtml("#D5C4C5");
+                public static System.Drawing.Color PEARL_ORE = ColorTranslator.FromHtml("#B5ACBE");
+                public static System.Drawing.Color PEARLSTONE_BRICK = ColorTranslator.FromHtml("#D5C4C5");
+                public static System.Drawing.Color IRIDESCENT_BRICK = ColorTranslator.FromHtml("#3F3F49");
+                public static System.Drawing.Color MUDSTONE_BRICK = ColorTranslator.FromHtml("#967A7D");
+                public static System.Drawing.Color COBALT_BRICK = ColorTranslator.FromHtml("#2576AB");
+                public static System.Drawing.Color UNKNOWN_BRICK_122 = ColorTranslator.FromHtml("#91BF75");
+                public static System.Drawing.Color SILT = ColorTranslator.FromHtml("#595353");
+                public static System.Drawing.Color TILE_124 = ColorTranslator.FromHtml("#5C4436");
+                public static System.Drawing.Color CRYSTAL_BALL = ColorTranslator.FromHtml("#81A5FF");
+                public static System.Drawing.Color BALL = ColorTranslator.FromHtml("#DBDBDB");
+                public static System.Drawing.Color GLASS_127 = ColorTranslator.FromHtml("#68B3C8");
+                public static System.Drawing.Color ARMOR_STAND = ColorTranslator.FromHtml("#906850");
+                public static System.Drawing.Color SPIKES_129 = ColorTranslator.FromHtml("#004979");
+                public static System.Drawing.Color UNKNOWN_STONE_130 = ColorTranslator.FromHtml("#A5A5A5");
+                public static System.Drawing.Color UNKNOWN_STONE_131 = ColorTranslator.FromHtml("#1A1A1A");
+                public static System.Drawing.Color LEVER = ColorTranslator.FromHtml("#C90303");
+                public static System.Drawing.Color FIREPLACE = ColorTranslator.FromHtml("#891012");
+                public static System.Drawing.Color ADAMANTIUM_ANVIL = ColorTranslator.FromHtml("#96AE87");
+                public static System.Drawing.Color PRESSURE_PLATE = ColorTranslator.FromHtml("#FD7272");
+                public static System.Drawing.Color SWITCH = ColorTranslator.FromHtml("#CCC0C0");
+                public static System.Drawing.Color SKULL = ColorTranslator.FromHtml("#8C8C8C");
+                public static System.Drawing.Color BOULDER = ColorTranslator.FromHtml("#636363");
+                public static System.Drawing.Color MUSIC = ColorTranslator.FromHtml("#996343");
+                public static System.Drawing.Color UNKNOWN_BRICK_140 = ColorTranslator.FromHtml("#7875B3");
+                public static System.Drawing.Color UNKNOWN_BRICK_141 = ColorTranslator.FromHtml("#AD2323");
+                public static System.Drawing.Color OUT_BLOCK = ColorTranslator.FromHtml("#C90303");
+                public static System.Drawing.Color IN_BLOCK = ColorTranslator.FromHtml("#C90303");
+                public static System.Drawing.Color TIMER = ColorTranslator.FromHtml("#C90303");
                 // 1.1.1 TILES
-                public static Color CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#FF0000");
-                public static Color GREEN_CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#00FF00");
-                public static Color SNOW_BLOCK = ColorTranslator.FromHtml("#FFFFFF");
-                public static Color SNOW_BRICK = ColorTranslator.FromHtml("#FFFFFF");
-                public static Color LIGHTS = ColorTranslator.FromHtml("#FFFFFF");
+                public static System.Drawing.Color CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#FF0000");
+                public static System.Drawing.Color GREEN_CANDY_CANE_BLOCK = ColorTranslator.FromHtml("#00FF00");
+                public static System.Drawing.Color SNOW_BLOCK = ColorTranslator.FromHtml("#FFFFFF");
+                public static System.Drawing.Color SNOW_BRICK = ColorTranslator.FromHtml("#FFFFFF");
+                public static System.Drawing.Color LIGHTS = ColorTranslator.FromHtml("#FFFFFF");
 
                 //walls
-                public static Color STONE_WALL = ColorTranslator.FromHtml("#343434");
-                public static Color DIRT_WALL = ColorTranslator.FromHtml("#583D2E");
-                public static Color STONE_WALL2 = ColorTranslator.FromHtml("#3D3A4E"); //not sure why there was two of these
-                public static Color WOOD_WALL = ColorTranslator.FromHtml("#523C2D");
-                public static Color BRICK_WALL = ColorTranslator.FromHtml("#464646");
-                public static Color RED_BRICK_WALL = ColorTranslator.FromHtml("#5B1E1E");
-                public static Color BLUE_BRICK_WALL = ColorTranslator.FromHtml("#212462");
-                public static Color GREEN_BRICK_WALL = ColorTranslator.FromHtml("#0E4410");
-                public static Color PINK_BRICK_WALL = ColorTranslator.FromHtml("#440E31");
-                public static Color GOLD_BRICK_WALL = ColorTranslator.FromHtml("#4A3E0C");
-                public static Color SILVER_BRICK_WALL = ColorTranslator.FromHtml("#576162");
-                public static Color COPPER_BRICK_WALL = ColorTranslator.FromHtml("#4B200B");
-                public static Color HELLSTONE_BRICK_WALL = ColorTranslator.FromHtml("#301515");
-                public static Color OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
-                public static Color MUD_WALL = ColorTranslator.FromHtml("#31282B");
-                public static Color DIRT_WALL2 = ColorTranslator.FromHtml("#583D2E"); //not sure why there was two of these
-                public static Color DARK_BLUE_BRICK_WALL = ColorTranslator.FromHtml("#2A2D48");
-                public static Color DARK_GREEN_BRICK_WALL = ColorTranslator.FromHtml("#4F4F43");
-                public static Color DARK_PINK_BRICK_WALL = ColorTranslator.FromHtml("#543E40");
-                public static Color DARK_OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
+                public static System.Drawing.Color STONE_WALL = ColorTranslator.FromHtml("#343434");
+                public static System.Drawing.Color DIRT_WALL = ColorTranslator.FromHtml("#583D2E");
+                public static System.Drawing.Color STONE_WALL2 = ColorTranslator.FromHtml("#3D3A4E"); //not sure why there was two of these
+                public static System.Drawing.Color WOOD_WALL = ColorTranslator.FromHtml("#523C2D");
+                public static System.Drawing.Color BRICK_WALL = ColorTranslator.FromHtml("#464646");
+                public static System.Drawing.Color RED_BRICK_WALL = ColorTranslator.FromHtml("#5B1E1E");
+                public static System.Drawing.Color BLUE_BRICK_WALL = ColorTranslator.FromHtml("#212462");
+                public static System.Drawing.Color GREEN_BRICK_WALL = ColorTranslator.FromHtml("#0E4410");
+                public static System.Drawing.Color PINK_BRICK_WALL = ColorTranslator.FromHtml("#440E31");
+                public static System.Drawing.Color GOLD_BRICK_WALL = ColorTranslator.FromHtml("#4A3E0C");
+                public static System.Drawing.Color SILVER_BRICK_WALL = ColorTranslator.FromHtml("#576162");
+                public static System.Drawing.Color COPPER_BRICK_WALL = ColorTranslator.FromHtml("#4B200B");
+                public static System.Drawing.Color HELLSTONE_BRICK_WALL = ColorTranslator.FromHtml("#301515");
+                public static System.Drawing.Color OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
+                public static System.Drawing.Color MUD_WALL = ColorTranslator.FromHtml("#31282B");
+                public static System.Drawing.Color DIRT_WALL2 = ColorTranslator.FromHtml("#583D2E"); //not sure why there was two of these
+                public static System.Drawing.Color DARK_BLUE_BRICK_WALL = ColorTranslator.FromHtml("#2A2D48");
+                public static System.Drawing.Color DARK_GREEN_BRICK_WALL = ColorTranslator.FromHtml("#4F4F43");
+                public static System.Drawing.Color DARK_PINK_BRICK_WALL = ColorTranslator.FromHtml("#543E40");
+                public static System.Drawing.Color DARK_OBSIDIAN_WALL = ColorTranslator.FromHtml("#332F60");
                 // NEW 1.1 WALLS
-                public static Color GLASS_WALL = ColorTranslator.FromHtml("#12242C");
-                public static Color PEARLSTONE_WALL = ColorTranslator.FromHtml("#716363");
-                public static Color UNKNOWN_WALL_23 = ColorTranslator.FromHtml("#4E4042");
-                public static Color UNKNOWN_WALL_24 = ColorTranslator.FromHtml("#403033");
-                public static Color COBALT_WALL = ColorTranslator.FromHtml("#0B233E");
-                public static Color MYTHRIL_WALL = ColorTranslator.FromHtml("#3C5B3A");
-                public static Color WOOD_PANELING = ColorTranslator.FromHtml("#3A291D");
-                public static Color UNKNOWN_WALL_28 = ColorTranslator.FromHtml("#515465");
+                public static System.Drawing.Color GLASS_WALL = ColorTranslator.FromHtml("#12242C");
+                public static System.Drawing.Color PEARLSTONE_WALL = ColorTranslator.FromHtml("#716363");
+                public static System.Drawing.Color UNKNOWN_WALL_23 = ColorTranslator.FromHtml("#4E4042");
+                public static System.Drawing.Color UNKNOWN_WALL_24 = ColorTranslator.FromHtml("#403033");
+                public static System.Drawing.Color COBALT_WALL = ColorTranslator.FromHtml("#0B233E");
+                public static System.Drawing.Color MYTHRIL_WALL = ColorTranslator.FromHtml("#3C5B3A");
+                public static System.Drawing.Color WOOD_PANELING = ColorTranslator.FromHtml("#3A291D");
+                public static System.Drawing.Color UNKNOWN_WALL_28 = ColorTranslator.FromHtml("#515465");
                 // 1.1.1 WALLS
-                public static Color CANDY_CANE_WALL = ColorTranslator.FromHtml("#FF0000");
-                public static Color GREEN_CANDY_CANE_WALL = ColorTranslator.FromHtml("#00FF00");
-                public static Color SNOW_BRICK_WALL = ColorTranslator.FromHtml("#FFFFFF");
+                public static System.Drawing.Color CANDY_CANE_WALL = ColorTranslator.FromHtml("#FF0000");
+                public static System.Drawing.Color GREEN_CANDY_CANE_WALL = ColorTranslator.FromHtml("#00FF00");
+                public static System.Drawing.Color SNOW_BRICK_WALL = ColorTranslator.FromHtml("#FFFFFF");
 
                 //global
-                public static Color SKY = ColorTranslator.FromHtml("#84AAF8");
-                public static Color EARTH = ColorTranslator.FromHtml("#583D2E");
-                public static Color ROCK = ColorTranslator.FromHtml("#4A433C");
-                public static Color HELL = ColorTranslator.FromHtml("#000000");
-                public static Color LAVA = ColorTranslator.FromHtml("#fd2003");
-                public static Color WATER = ColorTranslator.FromHtml("#093dbf");
+                public static System.Drawing.Color SKY = ColorTranslator.FromHtml("#84AAF8");
+                public static System.Drawing.Color EARTH = ColorTranslator.FromHtml("#583D2E");
+                public static System.Drawing.Color ROCK = ColorTranslator.FromHtml("#4A433C");
+                public static System.Drawing.Color HELL = ColorTranslator.FromHtml("#000000");
+                public static System.Drawing.Color LAVA = ColorTranslator.FromHtml("#fd2003");
+                public static System.Drawing.Color WATER = ColorTranslator.FromHtml("#093dbf");
             }
         }
 
         public void InitializeMapperDefs2() //Credits go to the authors of MoreTerra
         {
-            ColorDefs = new Dictionary<int, Color>(255 + Main.maxTilesY);
+            ColorDefs = new Dictionary<int, System.Drawing.Color>(255 + Main.maxTilesY);
 
             //tiles
             ColorDefs[0] = Constants.Terrafirma_Color.DIRT;
@@ -676,7 +675,7 @@ namespace MapPlugin
 
             for (int i = 150; i < 265; i++)
             {
-                ColorDefs[i] = Color.Magenta;
+                ColorDefs[i] = System.Drawing.Color.Magenta;
             }
 
             //global
@@ -954,7 +953,7 @@ namespace MapPlugin
             UInt32Defs[330] = 0x332F60;
 
             //list for when dimming the world for highlighting
-            DimColorDefs = new Dictionary<int, Color>(255 + Main.maxTilesY);
+            DimColorDefs = new Dictionary<int, System.Drawing.Color>(255 + Main.maxTilesY);
             DimUInt32Defs = new Dictionary<int, UInt32>(255 + Main.maxTilesY);
         }
     }

@@ -1,21 +1,21 @@
 using System.Drawing;
 using System.Collections.Generic;
-using Terraria_Server.Logging;
-using Terraria_Server;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using Terraria;
+using TShock_Map;
 
-namespace MapPlugin
+namespace Map
 {
 	public partial class MapPlugin
 	{
-		public static Dictionary<int, Color> tileTypeDefs;
+		public static Dictionary<int, System.Drawing.Color> tileTypeDefs;
 		
 		public void mapWorld () 
 		{	
-			Stopwatch stopwatch = new Stopwatch ();		
-			Server.notifyOps("Saving Image...", true);
+			Stopwatch stopwatch = new Stopwatch ();
+            TShockAPI.Log.Info("Saving Image...");
 			stopwatch.Start ();
 			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
@@ -27,16 +27,16 @@ namespace MapPlugin
 					for (int j = 0; j < Main.maxTilesY; j++) {		
 					
 					//TODO: find a more understandable way on these if statements
-						if (Main.tile.At (i, j).Wall == 0) {
-							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile.At (i, j).Type]);
+						if (Main.tile[i, j].wall == 0) {
+							if (Main.tile[i, j].active) {
+								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].type]);
 							} else {
 								
 								if (j > Main.worldSurface) {
 									bmp.SetPixel (i, j, Constants.MoreTerra_Color.WALL_BACKGROUND);
 								}
-								if (Main.tile.At (i, j).Liquid > 0) {
-									if (Main.tile.At (i, j).Lava) {
+								if (Main.tile[i, j].liquid > 0) {
+									if (Main.tile[i, j].lava) {
 										bmp.SetPixel (i, j, Constants.MoreTerra_Color.LAVA);
 									} else {
 										bmp.SetPixel (i, j, Constants.MoreTerra_Color.WATER);
@@ -44,20 +44,20 @@ namespace MapPlugin
 								}
 							}
 						} else {
-							if (Main.tile.At (i, j).Active) {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile.At (i, j).Type]);
+							if (Main.tile[i, j].active) {
+								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].type]);
 							} else {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile.At (i, j).Wall + 267]);
+								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].wall + 267]);
 							}
 						}
 						
 					}
 				}
-				Server.notifyOps("Saving Data...", true);
+                TShockAPI.Log.Info("Saving Data...");
 				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
 				stopwatch.Stop ();
-				ProgramLog.Log ("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-				Server.notifyOps("Saving Complete.", true);
+                TShockAPI.Log.Info("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+                TShockAPI.Log.Info("Saving Complete.");
 				bmp = null;
                 isMapping = false;
 		}
@@ -66,70 +66,70 @@ namespace MapPlugin
 		{ 
 			public static class MoreTerra_Color 
 			{
-				public static Color DIRT = Color.FromArgb (175, 131, 101);
-				public static Color STONE = Color.FromArgb (128, 128, 128);
-				public static Color GRASS = Color.FromArgb (28, 216, 94);
-				public static Color PLANTS = Color.FromArgb (13, 101, 36);
-				public static Color LIGHT_SOURCE = Color.FromArgb (253, 62, 3);
-				public static Color IRON = Color.FromArgb (189, 159, 139);
-				public static Color COPPER = Color.FromArgb (255, 149, 50);
-				public static Color GOLD = Color.FromArgb (185, 164, 23);
-				public static Color WOOD = Color.FromArgb (86, 62, 44);
-				public static Color WOOD_BLOCK = Color.FromArgb (168, 121, 87);
-				public static Color SILVER = Color.FromArgb (217, 223, 223);
-				public static Color DECORATIVE = Color.FromArgb (0, 255, 242);
-				public static Color IMPORTANT = Color.FromArgb (255, 0, 0);
-				public static Color DEMONITE = Color.FromArgb (98, 95, 167);
-				public static Color CORRUPTION_GRASS = Color.FromArgb (141, 137, 223);
-				public static Color EBONSTONE = Color.FromArgb (75, 74, 130);
-				public static Color CORRUPTION_VINES = Color.FromArgb (122, 97, 143);
-				public static Color BLOCK = Color.FromArgb (178, 0, 255);
-				public static Color METEORITE = Color.Magenta;//Color.FromArgb(223, 159, 137);
-				public static Color CLAY = Color.FromArgb (216, 115, 101);
-				public static Color DUNGEON_GREEN = Color.FromArgb (26, 136, 34);
-				public static Color DUNGEON_PINK = Color.FromArgb (169, 49, 117);
-				public static Color DUNGEON_BLUE = Color.FromArgb (66, 69, 194);
-				public static Color SPIKES = Color.FromArgb (109, 109, 109);
-				public static Color WEB = Color.FromArgb (255, 255, 255);
-				public static Color SAND = Color.FromArgb (255, 218, 56);
-				public static Color OBSIDIAN = Color.FromArgb (87, 81, 173);
-				public static Color ASH = Color.FromArgb (68, 68, 76);
-				public static Color HELLSTONE = Color.FromArgb (102, 34, 34);
-				public static Color MUD = Color.FromArgb (92, 68, 73);
-				public static Color UNDERGROUNDJUNGLE_GRASS = Color.FromArgb (143, 215, 29);
-				public static Color UNDERGROUNDJUNGLE_PLANTS = Color.FromArgb (143, 215, 29);
-				public static Color UNDERGROUNDJUNGLE_VINES = Color.FromArgb (138, 206, 28);
-				public static Color UNDERGROUNDJUNGLE_THORNS = Color.FromArgb (94, 48, 55);
-				public static Color GEMS = Color.FromArgb (42, 130, 250);
-				public static Color CACTUS = Color.DarkGreen;
-				public static Color CORAL = Color.LightPink;
-				public static Color HERB = Color.OliveDrab;
-				public static Color TOMBSTONE = Color.DimGray;
-				public static Color UNDERGROUNDMUSHROOM_GRASS = Color.FromArgb (93, 127, 255);
-				public static Color UNDERGROUNDMUSHROOM_PLANTS = Color.FromArgb (177, 174, 131);
-				public static Color UNDERGROUNDMUSHROOM_TREES = Color.FromArgb (150, 143, 110);
-				public static Color LAVA = Color.FromArgb (255, 72, 0);
-				public static Color WATER = Color.FromArgb (0, 12, 255);
-				public static Color SKY = Color.FromArgb (155, 209, 255);
-				public static Color WALL_STONE = Color.FromArgb (66, 66, 66);
-				public static Color WALL_DIRT = Color.FromArgb (88, 61, 46);
-				public static Color WALL_EBONSTONE = Color.FromArgb (61, 58, 78);
-				public static Color WALL_WOOD = Color.FromArgb (73, 51, 36);
-				public static Color WALL_BRICK = Color.FromArgb (60, 60, 60);
-				public static Color WALL_BACKGROUND = Color.FromArgb (50, 50, 60);
-				public static Color WALL_DUNGEON_PINK = Color.FromArgb (84, 25, 60);
-				public static Color WALL_DUNGEON_BLUE = Color.FromArgb (29, 31, 72);
-				public static Color WALL_DUNGEON_GREEN = Color.FromArgb (14, 68, 16);
-				public static Color WALL_MUD = Color.FromArgb (61, 46, 49);
-				public static Color WALL_HELLSTONE = Color.FromArgb (48, 21, 21);
-				public static Color WALL_OBSIDIAN = Color.FromArgb (87, 81, 173);
-				public static Color UNKNOWN = Color.Magenta;
+				public static System.Drawing.Color DIRT = System.Drawing.Color.FromArgb (175, 131, 101);
+				public static System.Drawing.Color STONE = System.Drawing.Color.FromArgb (128, 128, 128);
+				public static System.Drawing.Color GRASS = System.Drawing.Color.FromArgb (28, 216, 94);
+				public static System.Drawing.Color PLANTS = System.Drawing.Color.FromArgb (13, 101, 36);
+				public static System.Drawing.Color LIGHT_SOURCE = System.Drawing.Color.FromArgb (253, 62, 3);
+				public static System.Drawing.Color IRON = System.Drawing.Color.FromArgb (189, 159, 139);
+				public static System.Drawing.Color COPPER = System.Drawing.Color.FromArgb (255, 149, 50);
+				public static System.Drawing.Color GOLD = System.Drawing.Color.FromArgb (185, 164, 23);
+				public static System.Drawing.Color WOOD = System.Drawing.Color.FromArgb (86, 62, 44);
+				public static System.Drawing.Color WOOD_BLOCK = System.Drawing.Color.FromArgb (168, 121, 87);
+				public static System.Drawing.Color SILVER = System.Drawing.Color.FromArgb (217, 223, 223);
+				public static System.Drawing.Color DECORATIVE = System.Drawing.Color.FromArgb (0, 255, 242);
+				public static System.Drawing.Color IMPORTANT = System.Drawing.Color.FromArgb (255, 0, 0);
+				public static System.Drawing.Color DEMONITE = System.Drawing.Color.FromArgb (98, 95, 167);
+				public static System.Drawing.Color CORRUPTION_GRASS = System.Drawing.Color.FromArgb (141, 137, 223);
+				public static System.Drawing.Color EBONSTONE = System.Drawing.Color.FromArgb (75, 74, 130);
+				public static System.Drawing.Color CORRUPTION_VINES = System.Drawing.Color.FromArgb (122, 97, 143);
+				public static System.Drawing.Color BLOCK = System.Drawing.Color.FromArgb (178, 0, 255);
+				public static System.Drawing.Color METEORITE = System.Drawing.Color.Magenta;//System.Drawing.Color.FromArgb(223, 159, 137);
+				public static System.Drawing.Color CLAY = System.Drawing.Color.FromArgb (216, 115, 101);
+				public static System.Drawing.Color DUNGEON_GREEN = System.Drawing.Color.FromArgb (26, 136, 34);
+				public static System.Drawing.Color DUNGEON_PINK = System.Drawing.Color.FromArgb (169, 49, 117);
+				public static System.Drawing.Color DUNGEON_BLUE = System.Drawing.Color.FromArgb (66, 69, 194);
+				public static System.Drawing.Color SPIKES = System.Drawing.Color.FromArgb (109, 109, 109);
+				public static System.Drawing.Color WEB = System.Drawing.Color.FromArgb (255, 255, 255);
+				public static System.Drawing.Color SAND = System.Drawing.Color.FromArgb (255, 218, 56);
+				public static System.Drawing.Color OBSIDIAN = System.Drawing.Color.FromArgb (87, 81, 173);
+				public static System.Drawing.Color ASH = System.Drawing.Color.FromArgb (68, 68, 76);
+				public static System.Drawing.Color HELLSTONE = System.Drawing.Color.FromArgb (102, 34, 34);
+				public static System.Drawing.Color MUD = System.Drawing.Color.FromArgb (92, 68, 73);
+				public static System.Drawing.Color UNDERGROUNDJUNGLE_GRASS = System.Drawing.Color.FromArgb (143, 215, 29);
+				public static System.Drawing.Color UNDERGROUNDJUNGLE_PLANTS = System.Drawing.Color.FromArgb (143, 215, 29);
+				public static System.Drawing.Color UNDERGROUNDJUNGLE_VINES = System.Drawing.Color.FromArgb (138, 206, 28);
+				public static System.Drawing.Color UNDERGROUNDJUNGLE_THORNS = System.Drawing.Color.FromArgb (94, 48, 55);
+				public static System.Drawing.Color GEMS = System.Drawing.Color.FromArgb (42, 130, 250);
+				public static System.Drawing.Color CACTUS = System.Drawing.Color.DarkGreen;
+				public static System.Drawing.Color CORAL = System.Drawing.Color.LightPink;
+				public static System.Drawing.Color HERB = System.Drawing.Color.OliveDrab;
+				public static System.Drawing.Color TOMBSTONE = System.Drawing.Color.DimGray;
+				public static System.Drawing.Color UNDERGROUNDMUSHROOM_GRASS = System.Drawing.Color.FromArgb (93, 127, 255);
+				public static System.Drawing.Color UNDERGROUNDMUSHROOM_PLANTS = System.Drawing.Color.FromArgb (177, 174, 131);
+				public static System.Drawing.Color UNDERGROUNDMUSHROOM_TREES = System.Drawing.Color.FromArgb (150, 143, 110);
+				public static System.Drawing.Color LAVA = System.Drawing.Color.FromArgb (255, 72, 0);
+				public static System.Drawing.Color WATER = System.Drawing.Color.FromArgb (0, 12, 255);
+				public static System.Drawing.Color SKY = System.Drawing.Color.FromArgb (155, 209, 255);
+				public static System.Drawing.Color WALL_STONE = System.Drawing.Color.FromArgb (66, 66, 66);
+				public static System.Drawing.Color WALL_DIRT = System.Drawing.Color.FromArgb (88, 61, 46);
+				public static System.Drawing.Color WALL_EBONSTONE = System.Drawing.Color.FromArgb (61, 58, 78);
+				public static System.Drawing.Color WALL_WOOD = System.Drawing.Color.FromArgb (73, 51, 36);
+				public static System.Drawing.Color WALL_BRICK = System.Drawing.Color.FromArgb (60, 60, 60);
+				public static System.Drawing.Color WALL_BACKGROUND = System.Drawing.Color.FromArgb (50, 50, 60);
+				public static System.Drawing.Color WALL_DUNGEON_PINK = System.Drawing.Color.FromArgb (84, 25, 60);
+				public static System.Drawing.Color WALL_DUNGEON_BLUE = System.Drawing.Color.FromArgb (29, 31, 72);
+				public static System.Drawing.Color WALL_DUNGEON_GREEN = System.Drawing.Color.FromArgb (14, 68, 16);
+				public static System.Drawing.Color WALL_MUD = System.Drawing.Color.FromArgb (61, 46, 49);
+				public static System.Drawing.Color WALL_HELLSTONE = System.Drawing.Color.FromArgb (48, 21, 21);
+				public static System.Drawing.Color WALL_OBSIDIAN = System.Drawing.Color.FromArgb (87, 81, 173);
+				public static System.Drawing.Color UNKNOWN = System.Drawing.Color.Magenta;
 			}
 		}
 		
 		public static void InitializeMapperDefs () //Credits go to the authors of MoreTerra
 		{	
-			tileTypeDefs = new Dictionary<int, Color> (255);
+			tileTypeDefs = new Dictionary<int, System.Drawing.Color> (255);
 			
 			tileTypeDefs [0] = Constants.MoreTerra_Color.DIRT;
 			tileTypeDefs [1] = Constants.MoreTerra_Color.STONE;
@@ -251,7 +251,7 @@ namespace MapPlugin
 
 			
 			for (int i = 107; i < 256; i++) {
-				tileTypeDefs [i] = Color.Magenta;
+				tileTypeDefs [i] = System.Drawing.Color.Magenta;
 			}
 
 			tileTypeDefs [256] = Constants.MoreTerra_Color.UNKNOWN;

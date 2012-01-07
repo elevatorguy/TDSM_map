@@ -1,16 +1,11 @@
-using Terraria_Server;
-using Terraria_Server.Commands;
-using NDesk.Options;
 using System;
-using Terraria_Server.Logging;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
+using TShockAPI;
+using NDesk.Options;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Collections.Generic;
 
-namespace MapPlugin
+namespace Map
 {
 	public partial class MapPlugin
 	{
@@ -20,19 +15,36 @@ namespace MapPlugin
         public static bool hlchests;
         private static int highlightID;
         public bool isMapping = false;
-
-		void MapCommand ( ISender sender, ArgumentList argz)
+		
+		private TShockAPI.Utils utils = new TShockAPI.Utils();
+		
+		public void MapCommand(CommandArgs argzz)
 		{
+            if (argzz.Message == "automap")
+            {
+                filename = "autosave.png";
+            }
+            TSPlayer player = argzz.Player;
+			if(player == null)
+				return;
+            
+			List<string> argz = argzz.Parameters;
 			try {
                 if (isMapping)
                 {
-                    throw new CommandError("Still currently mapping.");
+					player.SendMessage("Still currently mapping.");
+                    return;
                 }
 				p = mapoutputpath;
+                if(argzz.Message == "automap")
+                {
+                    p = autosavepath;
+                }
 				filename = "world-now.png";
 				var timestamp = false;
 				var reload = false;
                 var highlight = false;
+				highlightID = 0;
                 string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
@@ -55,20 +67,20 @@ namespace MapPlugin
 				}
 				
 				if (reload) {
-					sender.sendMessage ("map: Reloaded settings database, entries: " + properties.Count);
+					player.SendMessage ("map: Reloaded settings database, entries: " + properties.Count);
 					properties.Load ();
 					var msg = string.Concat (
 					"Settings: mapoutputpath=", p, ", ",
 					"colorscheme=", cs);
 					if ( !(Directory.Exists(p)) ){
 						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
-						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
+                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
 					}
-					ProgramLog.Admin.Log ("<map> " + msg);
+                    TShockAPI.Log.Info("<map> " + msg);
 					//sender.sendMessage ("map: " + msg);
 					
 					if ( !(cs=="MoreTerra" || cs=="Terrafirma") ){
-						ProgramLog.Error.Log ("<map> ERROR: please change colorscheme");
+                        TShockAPI.Log.Error("<map> ERROR: please change colorscheme");
 					}
 				}
 				
@@ -80,40 +92,26 @@ namespace MapPlugin
                 // chests are not an item so i draw them from the chest array
                 if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
                 {
-                    List<Int32> itemlist;
-                    if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
-                    {
-                        if (itemlist.Count > 1)
-                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
 
-                        foreach (int id in itemlist)
-                            highlightID = id;
-                    }
-                    else
-                    {
-                        int Id = -1;
-                        try
-                        {
-                            Id = Int32.Parse(nameOrID);
-                        }
-                        catch
-                        {
-                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
-                        }
+                    List<Terraria.Item> itemlist = utils.GetItemByIdOrName(nameOrID);
 
-                        if (Server.TryFindItemByType(Id, out itemlist) && itemlist.Count > 0)
+                        if (itemlist != null && itemlist.Count > 0)
                         {
                             if (itemlist.Count > 1)
-                                throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
+                            {
+                                player.SendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
+                                return;
+                            }
 
-                            foreach (int id in itemlist)
-                                highlightID = id;
+                            foreach (Terraria.Item item in itemlist)
+                                highlightID = item.type;
                         }
                         else
                         {
-                            throw new CommandError("There were no Items found regarding the specified Item Id/Name");
+                            player.SendMessage("There were no Items found regarding the specified Item Id/Name");
+                            return;
                         }
-                    }
+                    
                     //end copy
                     hlchests = false;
                 }
@@ -146,19 +144,20 @@ namespace MapPlugin
 								// the thread terminates itself since there is no while loop in mapWorld
 						}
 						else{
-							ProgramLog.Error.Log ("Save ERROR: check colorscheme");
+                            TShockAPI.Log.Error("Save ERROR: check colorscheme");
 						}
 						if( !(Directory.Exists(p)) ){
-						sender.sendMessage ("map: "+p+" does not exist.");
-						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
+						player.SendMessage ("map: "+p+" does not exist.");
+                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
 				}
 					}
 				} else {
-					throw new CommandError ("");
+                    return;
 				}
 			} catch (OptionException) {
-				throw new CommandError ("");
+                return;
 			}
+		
 		}
 	}
 }
