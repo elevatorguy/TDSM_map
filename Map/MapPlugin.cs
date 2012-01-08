@@ -35,9 +35,34 @@ namespace Map
 			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
 		}
 
+        string autosavename
+        {
+            get { return properties.getValue("autosave-filename", "autosave.png"); }
+        }
+
+        bool autosaveenabled
+        {
+            get { return properties.getValue("autosave-enabled", false); }
+        }
+
         int autosaveinterval
         {
             get { return properties.getValue("autosave-interval", 30);  } // in minutes
+        }
+
+        bool autosavetimestamp
+        {
+            get { return properties.getValue("autosave-timestamp", false); }
+        }
+
+        bool autosavehighlight
+        {
+            get { return properties.getValue("autosave-highlight", false); }
+        }
+
+        string autosavehightlightID
+        {
+            get { return properties.getValue("autosave-highlightID", "chest"); }
         }
 
         public MapPlugin(Main game)  : base(game)
@@ -59,7 +84,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version("3.4.2.0"); }
+            get { return new Version("3.4.5.1"); }
         }
 
         public override void Initialize()
@@ -90,6 +115,11 @@ namespace Map
             var dummy2 = colorscheme;
             var dummy3 = autosavepath;
             var dummy4 = autosaveinterval;
+            var dummy5 = autosavetimestamp;
+            var dummy6 = autosavehighlight;
+            var dummy7 = autosavehightlightID;
+            var dummy8 = autosaveenabled;
+            var dummy9 = autosavename;
             properties.Save();
 
             if (colorscheme == "MoreTerra" || colorscheme == "Terrafirma")
@@ -126,18 +156,21 @@ namespace Map
             DateTime lastsave = new DateTime();
             TSPlayer console = new TSPlayer(-1);
             List<string> empty = new List<string>();
-            CommandArgs arguments = new CommandArgs("automap", console, empty); // the command method interprets this
+            CommandArgs arguments = new CommandArgs("automap", console, empty); // the command method interprets this, along with the data in the properties file
             while(isEnabled)
             {
-                if (!firstrun && (DateTime.UtcNow > lastsave.AddMinutes(autosaveinterval)))
+                if (autosaveenabled)
                 {
-                    MapCommand(arguments);
-                    lastsave = DateTime.UtcNow;
-                }
-                if (firstrun)
-                {
-                    firstrun = false;
-                    lastsave = DateTime.UtcNow;
+                    if (!firstrun && (DateTime.UtcNow > lastsave.AddMinutes(autosaveinterval)))
+                    {
+                        MapCommand(arguments);
+                        lastsave = DateTime.UtcNow;
+                    }
+                    if (firstrun)
+                    {
+                        firstrun = false;
+                        lastsave = DateTime.UtcNow;
+                    }
                 }
                 Thread.Sleep(1000);
             }

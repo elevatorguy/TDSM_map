@@ -20,10 +20,12 @@ namespace Map
 		
 		public void MapCommand(CommandArgs argzz)
 		{
-            if (argzz.Message == "automap")
+            bool autosave = false;
+            if(argzz.Message == "automap")
             {
-                filename = "autosave.png";
+                autosave = true;
             }
+
             TSPlayer player = argzz.Player;
 			if(player == null)
 				return;
@@ -36,19 +38,16 @@ namespace Map
                     return;
                 }
 				p = mapoutputpath;
-                if(argzz.Message == "automap")
-                {
-                    p = autosavepath;
-                }
 				filename = "world-now.png";
-				var timestamp = false;
+                var timestamp = false;
 				var reload = false;
                 var highlight = false;
 				highlightID = 0;
                 string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
-				var options = new OptionSet ()
+                bool autosaveedit = false;
+                var options = new OptionSet()
 				{
 					{ "t|timestamp", v => timestamp = true },
 					{ "n|name=", v => filename = v },
@@ -57,33 +56,96 @@ namespace Map
 					{ "p|path=", v => p = v },
                     { "h|highlight=", v => { nameOrID = v; highlight = true; } },
 					{ "c|colorscheme=", v => cs = v },
-				};
+                    { "a|autosave", v => autosaveedit = true },
+                };
 				var args = options.Parse (argz);
-				
+
+                if (autosaveedit)
+                {
+                    if (autosaveenabled)
+                    {
+                        properties.setValue("autosave-enabled", "False");
+                        player.SendMessage("autosave disabled.");
+                    }
+                    else
+                    {
+                        properties.setValue("autosave-enabled", "True");
+                        player.SendMessage("autosave enabled.");
+                    }
+                    if (highlight)
+                    {
+                        if (highlightsearch(player, nameOrID))
+                        {
+                            properties.setValue("autosave-highlight", "True");
+                            properties.setValue("autosave-highlightID", nameOrID);
+                            player.SendMessage("autosave highlight settings updated.");
+                        }
+                    }
+
+                    if (timestamp)
+                    {
+                        if (autosavetimestamp)
+                        {
+                            properties.setValue("autosave-timestamp", "False");
+                            player.SendMessage("autosave now using regular name.");
+                        }
+                        else
+                        {
+                            properties.setValue("autosave-timestamp", "True");
+                            player.SendMessage("autosave now using timestamp.");
+                        }
+                    }
+
+                    if (filename != "world-now.png")
+                    {
+                        properties.setValue("autosave-filename", filename);
+                    }
+
+                    properties.Save();
+                    return;
+                }
+
+                if (reload || autosave)
+                {
+                    player.SendMessage("map: Reloaded settings database, entries: " + properties.Count);
+                    properties.Load();
+                    var msg = string.Concat(
+                    "Settings: mapoutputpath=", p, ", ",
+                    "colorscheme=", cs);
+                    if (!(Directory.Exists(p)))
+                    {
+                        msg = string.Concat(msg, "  (DOESNT EXIST)");
+                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
+                    }
+                    if (!autosave)
+                    {
+                        TShockAPI.Log.Info("<map> " + msg);
+                    }
+                    //sender.sendMessage ("map: " + msg);
+
+                    if (!(cs == "MoreTerra" || cs == "Terrafirma"))
+                    {
+                        TShockAPI.Log.Error("<map> ERROR: please change colorscheme");
+                    }
+                }
+
+                if (autosave)
+                {
+                    p = autosavepath;
+                    filename = autosavename;
+                    timestamp = autosavetimestamp;
+                    if (autosavehighlight)
+                    {
+                        nameOrID = autosavehightlightID;
+                    }
+                }
+
 				if (timestamp) {
 					DateTime value = DateTime.Now;
 					string time = value.ToString ("yyyy-MM-dd_HH-mm-ss");
 					filename = string.Concat ("terraria-", time, ".png");
-				}
-				
-				if (reload) {
-					player.SendMessage ("map: Reloaded settings database, entries: " + properties.Count);
-					properties.Load ();
-					var msg = string.Concat (
-					"Settings: mapoutputpath=", p, ", ",
-					"colorscheme=", cs);
-					if ( !(Directory.Exists(p)) ){
-						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
-                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
-					}
-                    TShockAPI.Log.Info("<map> " + msg);
-					//sender.sendMessage ("map: " + msg);
-					
-					if ( !(cs=="MoreTerra" || cs=="Terrafirma") ){
-                        TShockAPI.Log.Error("<map> ERROR: please change colorscheme");
-					}
-				}
-				
+				}		
+			
 				if(savefromcommand){
 					properties.setValue ("color-scheme", cs);
 					properties.setValue ("mapoutput-path", p);
@@ -92,27 +154,8 @@ namespace Map
                 // chests are not an item so i draw them from the chest array
                 if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
                 {
-
-                    List<Terraria.Item> itemlist = utils.GetItemByIdOrName(nameOrID);
-
-                        if (itemlist != null && itemlist.Count > 0)
-                        {
-                            if (itemlist.Count > 1)
-                            {
-                                player.SendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
-                                return;
-                            }
-
-                            foreach (Terraria.Item item in itemlist)
-                                highlightID = item.type;
-                        }
-                        else
-                        {
-                            player.SendMessage("There were no Items found regarding the specified Item Id/Name");
-                            return;
-                        }
+                    highlightsearch(player, nameOrID);
                     
-                    //end copy
                     hlchests = false;
                 }
                 else
@@ -159,6 +202,30 @@ namespace Map
 			}
 		
 		}
+
+        public bool highlightsearch(TSPlayer player, string nameOrID)
+        {
+            List<Terraria.Item> itemlist = utils.GetItemByIdOrName(nameOrID);
+
+            if (itemlist != null && itemlist.Count > 0)
+            {
+                if (itemlist.Count > 1)
+                {
+                    player.SendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
+                    return false;
+                }
+
+                foreach (Terraria.Item item in itemlist)
+                    highlightID = item.type;
+            }
+            else
+            {
+                player.SendMessage("There were no Items found regarding the specified Item Id/Name");
+                return false;
+            }
+
+            return true;
+        }
 	}
 }
 
