@@ -43,13 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
+    <Reference Include="System" />
     <Reference Include="TerrariaServer">
-      <HintPath>..\..\TShock\TerrariaServerBins\TerrariaServer.exe</HintPath>
+      <HintPath>..\..\tshock\TerrariaServer.exe</HintPath>
     </Reference>
     <Reference Include="TShockAPI">
-      <HintPath>..\..\TShock\TerrariaServerBins\ServerPlugins\TShockAPI.dll</HintPath>
+      <HintPath>..\..\tshock\ServerPlugins\TShockAPI.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup />
 </Project>

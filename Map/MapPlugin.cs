@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace Map
 {
-    [APIVersion(1, 10)]
+    [APIVersion(1, 11)]
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
@@ -84,7 +84,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version("3.4.5.1"); }
+            get { return new Version("3.5.1.0"); }
         }
 
         public override void Initialize()
