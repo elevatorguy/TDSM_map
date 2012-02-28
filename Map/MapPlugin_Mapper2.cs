@@ -105,10 +105,16 @@ namespace MapPlugin
                         bmp.SetPixel(c[i].x, c[i].y, Color.White);
 
                         //also the four pixels next to it so we can actually see it on the map
-                        bmp.SetPixel(c[i].x + 1, c[i].y, Color.White);
-                        bmp.SetPixel(c[i].x - 1, c[i].y, Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y + 1, Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y - 1, Color.White);
+
+                        //checking if the chest is near the edge of the map
+                        if ((c[i].x + 1) < bmp.Width)
+                            bmp.SetPixel(c[i].x + 1, c[i].y, Color.White);
+                        if ((c[i].x - 1) > 0)
+                            bmp.SetPixel(c[i].x - 1, c[i].y, Color.White);
+                        if ((c[i].y + 1) < bmp.Height)
+                            bmp.SetPixel(c[i].x, c[i].y + 1, Color.White);
+                        if ((c[i].y - 1) > 0)
+                            bmp.SetPixel(c[i].x, c[i].y - 1, Color.White);
                     }
                 }
             }

@@ -80,14 +80,14 @@ namespace MapPlugin
                 // chests are not an item so i draw them from the chest array
                 if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
                 {
-                    List<Int32> itemlist;
+                    List<ItemInfo> itemlist;
                     if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
                     {
                         if (itemlist.Count > 1)
                             throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
 
-                        foreach (int id in itemlist)
-                            highlightID = id;
+                        foreach (ItemInfo id in itemlist)
+                            highlightID = id.Type;
                     }
                     else
                     {
@@ -106,8 +106,8 @@ namespace MapPlugin
                             if (itemlist.Count > 1)
                                 throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
 
-                            foreach (int id in itemlist)
-                                highlightID = id;
+                            foreach (ItemInfo id in itemlist)
+                                highlightID = id.Type;
                         }
                         else
                         {
@@ -119,7 +119,8 @@ namespace MapPlugin
                 }
                 else
                 {
-                    hlchests = true;
+                    if(nameOrID.ToLower() == "chest") //double checking
+                        hlchests = true;
                 }
 
 				if (args.Count == 0 && isEnabled) {
