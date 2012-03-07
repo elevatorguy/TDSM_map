@@ -16,7 +16,7 @@ namespace Map
         private static int highlightID;
         public bool isMapping = false;
 		
-		private TShockAPI.Utils utils = new TShockAPI.Utils();
+		private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
 		
 		public void MapCommand(CommandArgs argzz)
 		{
