@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MapPlugin</RootNamespace>
-    <AssemblyName>Map_0_37_0</AssemblyName>
+    <AssemblyName>Map_0_37_1</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ReleaseVersion>0.36.2</ReleaseVersion>
   </PropertyGroup>

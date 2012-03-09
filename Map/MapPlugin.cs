@@ -5,6 +5,8 @@ using System.IO;
 using Terraria_Server.Logging;
 using System;
 using Terraria_Server.Commands;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace MapPlugin
 {
@@ -22,13 +24,48 @@ namespace MapPlugin
 		{
 			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
 		}
-		
+
+        string autosavepath
+        {
+            get { return properties.getValue("autosave-path", Environment.CurrentDirectory); }
+        }
+
+        string autosavename
+        {
+            get { return properties.getValue("autosave-filename", "autosave.png"); }
+        }
+
+        bool autosaveenabled
+        {
+            get { return properties.getValue("autosave-enabled", false); }
+        }
+
+        int autosaveinterval
+        {
+            get { return properties.getValue("autosave-interval", 30); } // in minutes
+        }
+
+        bool autosavetimestamp
+        {
+            get { return properties.getValue("autosave-timestamp", false); }
+        }
+
+        bool autosavehighlight
+        {
+            get { return properties.getValue("autosave-highlight", false); }
+        }
+
+        string autosavehightlightID
+        {
+            get { return properties.getValue("autosave-highlightID", "chest"); }
+        }
+
 		public MapPlugin ()
 		{
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.37.0";
+			Version = "0.37.1";
 			TDSMBuild = 37;
 		}
 		
@@ -41,6 +78,13 @@ namespace MapPlugin
 			properties.Load ();
 			var dummy = mapoutputpath;
 			var dummy2 = colorscheme;
+            var dummy3 = autosavepath;
+            var dummy4 = autosaveinterval;
+            var dummy5 = autosavetimestamp;
+            var dummy6 = autosavehighlight;
+            var dummy7 = autosavehightlightID;
+            var dummy8 = autosaveenabled;
+            var dummy9 = autosavename;
 			properties.Save ();
 			
 			if(colorscheme=="MoreTerra" || colorscheme=="Terrafirma"){
@@ -93,6 +137,44 @@ namespace MapPlugin
 
             //this pre blends colors for Terrafirma Color Scheme
             initBList();
+
+            //start autosave thread
+            Thread autosavethread;
+            autosavethread = new Thread(autoSave);
+            autosavethread.Name = "Auto-Mapper";
+            autosavethread.Start();
+            while (!autosavethread.IsAlive) ;
+        }
+
+
+        public void autoSave()
+        {
+            bool firstrun = true;
+            DateTime lastsave = new DateTime();
+            ISender console = new ConsoleSender();
+            List<string> empty = new List<string>();
+            ArgumentList arguments = new ArgumentList();
+            while (isEnabled)
+            {
+                if (autosaveenabled)
+                {
+                    if (!firstrun && (DateTime.UtcNow > lastsave.AddMinutes(autosaveinterval)))
+                    {
+                        if (!arguments.Contains("automap"))
+                        {
+                            arguments.Add("automap");
+                        }
+                        MapCommand(console, arguments);
+                        lastsave = DateTime.UtcNow;
+                    }
+                    if (firstrun)
+                    {
+                        firstrun = false;
+                        lastsave = DateTime.UtcNow;
+                    }
+                }
+                Thread.Sleep(1000);
+            }
         }
 
 	}

@@ -23,6 +23,12 @@ namespace MapPlugin
 
 		void MapCommand ( ISender sender, ArgumentList argz)
 		{
+            bool autosave = false;
+            if (argz.Contains("automap"))
+            {
+                autosave = true;
+                argz.Remove("automap");
+            }
 			try {
                 if (isMapping)
                 {
@@ -36,6 +42,7 @@ namespace MapPlugin
                 string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
+                var autosaveedit = false;
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -45,16 +52,56 @@ namespace MapPlugin
 					{ "p|path=", v => p = v },
                     { "h|highlight=", v => { nameOrID = v; highlight = true; } },
 					{ "c|colorscheme=", v => cs = v },
+                    { "a|autosave", v => autosaveedit = true },
 				};
 				var args = options.Parse (argz);
+
+                if (autosaveedit)
+                {
+                    if (autosaveenabled)
+                    {
+                        properties.setValue("autosave-enabled", "False");
+                        sender.sendMessage("autosave disabled.");
+                    }
+                    else
+                    {
+                        properties.setValue("autosave-enabled", "True");
+                        sender.sendMessage("autosave enabled.");
+                    }
+                    if (highlight)
+                    {
+                        if (highlightsearch(sender as Player, nameOrID))
+                        {
+                            properties.setValue("autosave-highlight", "True");
+                            properties.setValue("autosave-highlightID", nameOrID);
+                            sender.sendMessage("autosave highlight settings updated.");
+                        }
+                    }
+
+                    if (timestamp)
+                    {
+                        if (autosavetimestamp)
+                        {
+                            properties.setValue("autosave-timestamp", "False");
+                            sender.sendMessage("autosave now using regular name.");
+                        }
+                        else
+                        {
+                            properties.setValue("autosave-timestamp", "True");
+                            sender.sendMessage("autosave now using timestamp.");
+                        }
+                    }
+
+                    if (filename != "world-now.png")
+                    {
+                        properties.setValue("autosave-filename", filename);
+                    }
+
+                    properties.Save();
+                    return;
+                }
 				
-				if (timestamp) {
-					DateTime value = DateTime.Now;
-					string time = value.ToString ("yyyy-MM-dd_HH-mm-ss");
-					filename = string.Concat ("terraria-", time, ".png");
-				}
-				
-				if (reload) {
+				if (reload || autosave) {
 					sender.sendMessage ("map: Reloaded settings database, entries: " + properties.Count);
 					properties.Load ();
 					var msg = string.Concat (
@@ -64,57 +111,43 @@ namespace MapPlugin
 						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
 						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
 					}
-					ProgramLog.Admin.Log ("<map> " + msg);
+                    if (!autosave)
+                    {
+                        ProgramLog.Admin.Log("<map> " + msg);
+                    }
 					//sender.sendMessage ("map: " + msg);
 					
 					if ( !(cs=="MoreTerra" || cs=="Terrafirma") ){
 						ProgramLog.Error.Log ("<map> ERROR: please change colorscheme");
 					}
 				}
-				
+
+                if (autosave)
+                {
+                    p = autosavepath;
+                    filename = autosavename;
+                    timestamp = autosavetimestamp;
+                    if (autosavehighlight)
+                    {
+                        nameOrID = autosavehightlightID;
+                    }
+                }
+
+                if (timestamp)
+                {
+                    DateTime value = DateTime.Now;
+                    string time = value.ToString("yyyy-MM-dd_HH-mm-ss");
+                    filename = string.Concat("terraria-", time, ".png");
+                }
 				if(savefromcommand){
 					properties.setValue ("color-scheme", cs);
 					properties.setValue ("mapoutput-path", p);
 					properties.Save();
 				}
                 // chests are not an item so i draw them from the chest array
-                if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
+                if (highlight && nameOrID.ToLower() != "chest")  
                 {
-                    List<ItemInfo> itemlist;
-                    if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
-                    {
-                        if (itemlist.Count > 1)
-                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
-
-                        foreach (ItemInfo id in itemlist)
-                            highlightID = id.Type;
-                    }
-                    else
-                    {
-                        int Id = -1;
-                        try
-                        {
-                            Id = Int32.Parse(nameOrID);
-                        }
-                        catch
-                        {
-                            throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
-                        }
-
-                        if (Server.TryFindItemByType(Id, out itemlist) && itemlist.Count > 0)
-                        {
-                            if (itemlist.Count > 1)
-                                throw new CommandError("There were {0} Items found regarding the specified name", itemlist.Count);
-
-                            foreach (ItemInfo id in itemlist)
-                                highlightID = id.Type;
-                        }
-                        else
-                        {
-                            throw new CommandError("There were no Items found regarding the specified Item Id/Name");
-                        }
-                    }
-                    //end copy
+                    highlightsearch(sender as Player, nameOrID);
                     hlchests = false;
                 }
                 else
@@ -152,7 +185,7 @@ namespace MapPlugin
 						if( !(Directory.Exists(p)) ){
 						sender.sendMessage ("map: "+p+" does not exist.");
 						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
-				}
+				        }
 					}
 				} else {
 					throw new CommandError ("");
@@ -161,6 +194,32 @@ namespace MapPlugin
 				throw new CommandError ("");
 			}
 		}
+
+        //the following is taken and modified from Commands.cs from TDSM source. Thanks guys!!! ;)
+        public bool highlightsearch(Player player, string nameOrID)
+        {
+            List<ItemInfo> itemlist;
+
+            if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
+            {
+                if (itemlist.Count > 1)
+                {
+                    player.sendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
+                    return false;
+                }
+
+                foreach (ItemInfo id in itemlist)
+                    highlightID = id.Type;
+            }
+            else
+            {
+                player.sendMessage("There were no Items found regarding the specified Item Id/Name");
+                return false;
+            }
+
+            return true;
+        }
+
 	}
 }
 
