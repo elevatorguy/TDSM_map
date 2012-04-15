@@ -66,64 +66,87 @@ namespace MapPlugin
 		{ 
 			public static class MoreTerra_Color 
 			{
-				public static Color DIRT = Color.FromArgb (175, 131, 101);
-				public static Color STONE = Color.FromArgb (128, 128, 128);
-				public static Color GRASS = Color.FromArgb (28, 216, 94);
-				public static Color PLANTS = Color.FromArgb (13, 101, 36);
-				public static Color LIGHT_SOURCE = Color.FromArgb (253, 62, 3);
-				public static Color IRON = Color.FromArgb (189, 159, 139);
-				public static Color COPPER = Color.FromArgb (255, 149, 50);
-				public static Color GOLD = Color.FromArgb (185, 164, 23);
-				public static Color WOOD = Color.FromArgb (86, 62, 44);
-				public static Color WOOD_BLOCK = Color.FromArgb (168, 121, 87);
-				public static Color SILVER = Color.FromArgb (217, 223, 223);
-				public static Color DECORATIVE = Color.FromArgb (0, 255, 242);
-				public static Color IMPORTANT = Color.FromArgb (255, 0, 0);
-				public static Color DEMONITE = Color.FromArgb (98, 95, 167);
-				public static Color CORRUPTION_GRASS = Color.FromArgb (141, 137, 223);
-				public static Color EBONSTONE = Color.FromArgb (75, 74, 130);
-				public static Color CORRUPTION_VINES = Color.FromArgb (122, 97, 143);
-				public static Color BLOCK = Color.FromArgb (178, 0, 255);
-				public static Color METEORITE = Color.Magenta;//Color.FromArgb(223, 159, 137);
-				public static Color CLAY = Color.FromArgb (216, 115, 101);
-				public static Color DUNGEON_GREEN = Color.FromArgb (26, 136, 34);
-				public static Color DUNGEON_PINK = Color.FromArgb (169, 49, 117);
-				public static Color DUNGEON_BLUE = Color.FromArgb (66, 69, 194);
-				public static Color SPIKES = Color.FromArgb (109, 109, 109);
-				public static Color WEB = Color.FromArgb (255, 255, 255);
-				public static Color SAND = Color.FromArgb (255, 218, 56);
-				public static Color OBSIDIAN = Color.FromArgb (87, 81, 173);
-				public static Color ASH = Color.FromArgb (68, 68, 76);
-				public static Color HELLSTONE = Color.FromArgb (102, 34, 34);
-				public static Color MUD = Color.FromArgb (92, 68, 73);
-				public static Color UNDERGROUNDJUNGLE_GRASS = Color.FromArgb (143, 215, 29);
-				public static Color UNDERGROUNDJUNGLE_PLANTS = Color.FromArgb (143, 215, 29);
-				public static Color UNDERGROUNDJUNGLE_VINES = Color.FromArgb (138, 206, 28);
-				public static Color UNDERGROUNDJUNGLE_THORNS = Color.FromArgb (94, 48, 55);
-				public static Color GEMS = Color.FromArgb (42, 130, 250);
-				public static Color CACTUS = Color.DarkGreen;
-				public static Color CORAL = Color.LightPink;
-				public static Color HERB = Color.OliveDrab;
-				public static Color TOMBSTONE = Color.DimGray;
-				public static Color UNDERGROUNDMUSHROOM_GRASS = Color.FromArgb (93, 127, 255);
-				public static Color UNDERGROUNDMUSHROOM_PLANTS = Color.FromArgb (177, 174, 131);
-				public static Color UNDERGROUNDMUSHROOM_TREES = Color.FromArgb (150, 143, 110);
-				public static Color LAVA = Color.FromArgb (255, 72, 0);
-				public static Color WATER = Color.FromArgb (0, 12, 255);
-				public static Color SKY = Color.FromArgb (155, 209, 255);
-				public static Color WALL_STONE = Color.FromArgb (66, 66, 66);
-				public static Color WALL_DIRT = Color.FromArgb (88, 61, 46);
-				public static Color WALL_EBONSTONE = Color.FromArgb (61, 58, 78);
-				public static Color WALL_WOOD = Color.FromArgb (73, 51, 36);
-				public static Color WALL_BRICK = Color.FromArgb (60, 60, 60);
-				public static Color WALL_BACKGROUND = Color.FromArgb (50, 50, 60);
-				public static Color WALL_DUNGEON_PINK = Color.FromArgb (84, 25, 60);
-				public static Color WALL_DUNGEON_BLUE = Color.FromArgb (29, 31, 72);
-				public static Color WALL_DUNGEON_GREEN = Color.FromArgb (14, 68, 16);
-				public static Color WALL_MUD = Color.FromArgb (61, 46, 49);
-				public static Color WALL_HELLSTONE = Color.FromArgb (48, 21, 21);
-				public static Color WALL_OBSIDIAN = Color.FromArgb (87, 81, 173);
-				public static Color UNKNOWN = Color.Magenta;
+                public static Color DIRT = Color.FromArgb(175, 131, 101);
+                public static Color STONE = Color.FromArgb(128, 128, 128);
+                public static Color GRASS = Color.FromArgb(28, 216, 94);
+                public static Color PLANTS = Color.FromArgb(13, 101, 36);
+                public static Color LIGHT_SOURCE = Color.FromArgb(253, 62, 3);
+                public static Color IRON = Color.FromArgb(189, 159, 139);
+                public static Color COPPER = Color.FromArgb(255, 149, 50);
+                public static Color GOLD = Color.FromArgb(185, 164, 23);
+                public static Color WOOD = Color.FromArgb(86, 62, 44);
+                public static Color WOOD_BLOCK = Color.FromArgb(168, 121, 87);
+                public static Color SILVER = Color.FromArgb(217, 223, 223);
+                public static Color DECORATIVE = Color.FromArgb(0, 255, 242);
+                public static Color IMPORTANT = Color.FromArgb(255, 0, 0);
+                public static Color DEMONITE = Color.FromArgb(98, 95, 167);
+                public static Color CORRUPTION_GRASS = Color.FromArgb(141, 137, 223);
+                public static Color EBONSTONE = Color.FromArgb(75, 74, 130);
+                public static Color CORRUPTION_VINES = Color.FromArgb(122, 97, 143);
+                public static Color BLOCK = Color.FromArgb(178, 0, 255);
+                public static Color METEORITE = Color.Magenta;//Color.FromArgb(223, 159, 137);
+                public static Color CLAY = Color.FromArgb(216, 115, 101);
+                public static Color DUNGEON_GREEN = Color.FromArgb(26, 136, 34);
+                public static Color DUNGEON_PINK = Color.FromArgb(169, 49, 117);
+                public static Color DUNGEON_BLUE = Color.FromArgb(66, 69, 194);
+                public static Color SPIKES = Color.FromArgb(109, 109, 109);
+                public static Color WEB = Color.FromArgb(255, 255, 255);
+                public static Color SAND = Color.FromArgb(255, 218, 56);
+                public static Color OBSIDIAN = Color.FromArgb(87, 81, 173);
+                public static Color ASH = Color.FromArgb(68, 68, 76);
+                public static Color HELLSTONE = Color.FromArgb(102, 34, 34);
+                public static Color MUD = Color.FromArgb(92, 68, 73);
+                public static Color UNDERGROUNDJUNGLE_GRASS = Color.FromArgb(143, 215, 29);
+                public static Color UNDERGROUNDJUNGLE_PLANTS = Color.FromArgb(143, 215, 29);
+                public static Color UNDERGROUNDJUNGLE_VINES = Color.FromArgb(138, 206, 28);
+                public static Color UNDERGROUNDJUNGLE_THORNS = Color.FromArgb(94, 48, 55);
+                public static Color GEMS = Color.FromArgb(42, 130, 250);
+                public static Color CACTUS = Color.DarkGreen;
+                public static Color CORAL = Color.LightPink;
+                public static Color HERB = Color.OliveDrab;
+                public static Color TOMBSTONE = Color.DimGray;
+
+                public static Color COBALT = Color.FromArgb(11, 80, 143);
+                public static Color MYTHRIL = Color.FromArgb(91, 169, 169);
+                public static Color ADAMANTITE = Color.FromArgb(128, 26, 52);
+                public static Color EBONSAND = Color.FromArgb(89, 83, 83);
+                public static Color PEARLSAND = Color.FromArgb(238, 225, 218);
+                public static Color PEARLSTONE = Color.FromArgb(181, 172, 190);
+                public static Color SILT = Color.FromArgb(103, 98, 122);
+                public static Color CRYSTALS = Color.FromArgb(120, 90, 217);
+                public static Color SNOWBLOCK = Color.White;
+
+
+
+                public static Color HALLOWED_PLANTS = Color.FromArgb(78, 192, 226);
+                public static Color HALLOWED_VINES = Color.FromArgb(37, 184, 227);
+
+
+                /// <summary>
+                ///  this is the last color that I don't have for MoreTerra
+                /// </summary>
+                public static Color MECHANICAL = Color.White;
+
+
+                public static Color UNDERGROUNDMUSHROOM_GRASS = Color.FromArgb(93, 127, 255);
+                public static Color UNDERGROUNDMUSHROOM_PLANTS = Color.FromArgb(177, 174, 131);
+                public static Color UNDERGROUNDMUSHROOM_TREES = Color.FromArgb(150, 143, 110);
+                public static Color LAVA = Color.FromArgb(255, 64, 0);
+                public static Color WATER = Color.FromArgb(0, 12, 255);
+                public static Color SKY = Color.FromArgb(155, 209, 255);
+                public static Color WALL_STONE = Color.FromArgb(66, 66, 66);
+                public static Color WALL_DIRT = Color.FromArgb(88, 61, 46);
+                public static Color WALL_EBONSTONE = Color.FromArgb(61, 58, 78);
+                public static Color WALL_WOOD = Color.FromArgb(73, 51, 36);
+                public static Color WALL_BRICK = Color.FromArgb(60, 60, 60);
+                public static Color WALL_BACKGROUND = Color.FromArgb(50, 50, 60);
+                public static Color WALL_DUNGEON_PINK = Color.FromArgb(84, 25, 60);
+                public static Color WALL_DUNGEON_BLUE = Color.FromArgb(29, 31, 72);
+                public static Color WALL_DUNGEON_GREEN = Color.FromArgb(14, 68, 16);
+                public static Color WALL_MUD = Color.FromArgb(61, 46, 49);
+                public static Color WALL_HELLSTONE = Color.FromArgb(48, 21, 21);
+                public static Color WALL_OBSIDIAN = Color.FromArgb(87, 81, 173);
+                public static Color UNKNOWN = Color.Magenta;
 			}
 		}
 		
@@ -248,9 +271,52 @@ namespace MapPlugin
 			tileTypeDefs [104] = Constants.MoreTerra_Color.DECORATIVE;
 			tileTypeDefs [105] = Constants.MoreTerra_Color.DECORATIVE;
 			tileTypeDefs [106] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [107] = Constants.MoreTerra_Color.COBALT;
+            tileTypeDefs [108] = Constants.MoreTerra_Color.MYTHRIL;
+            tileTypeDefs [109] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs [110] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs [111] = Constants.MoreTerra_Color.ADAMANTITE;
+            tileTypeDefs [112] = Constants.MoreTerra_Color.EBONSAND;
+            tileTypeDefs [113] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs [114] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [115] = Constants.MoreTerra_Color.HALLOWED_VINES;
+            tileTypeDefs [116] = Constants.MoreTerra_Color.PEARLSAND;
+            tileTypeDefs [117] = Constants.MoreTerra_Color.PEARLSTONE;
+            tileTypeDefs [118] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [119] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [120] = Constants.MoreTerra_Color.UNKNOWN;
+            tileTypeDefs [121] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [122] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [123] = Constants.MoreTerra_Color.SILT;
+            tileTypeDefs [124] = Constants.MoreTerra_Color.WOOD;
+            tileTypeDefs [125] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [126] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [127] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [128] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [129] = Constants.MoreTerra_Color.CRYSTALS;
+            tileTypeDefs [130] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [131] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [132] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [133] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [134] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [135] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [136] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [137] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [138] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [139] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs [140] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [141] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [142] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [143] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [144] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs [145] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [146] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [147] = Constants.MoreTerra_Color.SNOWBLOCK;
+            tileTypeDefs [148] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs [149] = Constants.MoreTerra_Color.LIGHT_SOURCE;
 
 			
-			for (int i = 107; i < 256; i++) {
+			for (int i = 150; i < 256; i++) {
 				tileTypeDefs [i] = Color.Magenta;
 			}
 
@@ -288,8 +354,18 @@ namespace MapPlugin
 			tileTypeDefs [284] = Constants.MoreTerra_Color.WALL_DUNGEON_BLUE;
 			tileTypeDefs [285] = Constants.MoreTerra_Color.WALL_DUNGEON_GREEN;
 			tileTypeDefs [286] = Constants.MoreTerra_Color.WALL_DUNGEON_PINK;
-			tileTypeDefs [287] = Constants.MoreTerra_Color.WALL_BACKGROUND;
-			tileTypeDefs [288] = Constants.MoreTerra_Color.WALL_BACKGROUND;
+			tileTypeDefs [287] = Constants.MoreTerra_Color.WALL_DIRT;
+			tileTypeDefs [288] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [289] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [290] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [291] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [292] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [293] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [294] = Constants.MoreTerra_Color.WALL_WOOD;
+            tileTypeDefs [295] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [296] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [297] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs [298] = Constants.MoreTerra_Color.WALL_BRICK;
 			
 			tileTypeDefs [330] = Constants.MoreTerra_Color.WALL_OBSIDIAN; //my addition
 		}

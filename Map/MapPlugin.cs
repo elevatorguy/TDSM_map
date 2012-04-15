@@ -65,8 +65,8 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.38.0";
-			TDSMBuild = 38;
+			Version = "0.37.2";
+			TDSMBuild = 37;
 		}
 		
 		protected override void Initialized (object state)
