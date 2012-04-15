@@ -104,11 +104,27 @@ namespace Map
 				public static System.Drawing.Color CACTUS = System.Drawing.Color.DarkGreen;
 				public static System.Drawing.Color CORAL = System.Drawing.Color.LightPink;
 				public static System.Drawing.Color HERB = System.Drawing.Color.OliveDrab;
-				public static System.Drawing.Color TOMBSTONE = System.Drawing.Color.DimGray;
+                public static System.Drawing.Color TOMBSTONE = System.Drawing.Color.DimGray;
+
+                public static System.Drawing.Color COBALT = System.Drawing.Color.FromArgb(11, 80, 143);
+                public static System.Drawing.Color MYTHRIL = System.Drawing.Color.FromArgb(91, 169, 169);
+                public static System.Drawing.Color ADAMANTITE = System.Drawing.Color.FromArgb(128, 26, 52);
+                public static System.Drawing.Color EBONSAND = System.Drawing.Color.FromArgb(89, 83, 83);
+                public static System.Drawing.Color PEARLSAND = System.Drawing.Color.FromArgb(238, 225, 218);
+                public static System.Drawing.Color PEARLSTONE = System.Drawing.Color.FromArgb(181, 172, 190);
+                public static System.Drawing.Color SILT = System.Drawing.Color.FromArgb(103, 98, 122);
+                public static System.Drawing.Color CRYSTALS = System.Drawing.Color.FromArgb(120, 90, 217);
+                public static System.Drawing.Color SNOWBLOCK = System.Drawing.Color.White;
+                public static System.Drawing.Color HALLOWED_PLANTS = System.Drawing.Color.FromArgb(78, 192, 226);
+                public static System.Drawing.Color HALLOWED_VINES = System.Drawing.Color.FromArgb(37, 184, 227);
+
+                // TODO: update this color
+                public static System.Drawing.Color MECHANICAL = System.Drawing.Color.White;
+
 				public static System.Drawing.Color UNDERGROUNDMUSHROOM_GRASS = System.Drawing.Color.FromArgb (93, 127, 255);
 				public static System.Drawing.Color UNDERGROUNDMUSHROOM_PLANTS = System.Drawing.Color.FromArgb (177, 174, 131);
 				public static System.Drawing.Color UNDERGROUNDMUSHROOM_TREES = System.Drawing.Color.FromArgb (150, 143, 110);
-				public static System.Drawing.Color LAVA = System.Drawing.Color.FromArgb (255, 72, 0);
+				public static System.Drawing.Color LAVA = System.Drawing.Color.FromArgb (255, 64, 0);
 				public static System.Drawing.Color WATER = System.Drawing.Color.FromArgb (0, 12, 255);
 				public static System.Drawing.Color SKY = System.Drawing.Color.FromArgb (155, 209, 255);
 				public static System.Drawing.Color WALL_STONE = System.Drawing.Color.FromArgb (66, 66, 66);
@@ -249,8 +265,51 @@ namespace Map
 			tileTypeDefs [105] = Constants.MoreTerra_Color.DECORATIVE;
 			tileTypeDefs [106] = Constants.MoreTerra_Color.DECORATIVE;
 
+            tileTypeDefs[107] = Constants.MoreTerra_Color.COBALT;
+            tileTypeDefs[108] = Constants.MoreTerra_Color.MYTHRIL;
+            tileTypeDefs[109] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs[110] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs[111] = Constants.MoreTerra_Color.ADAMANTITE;
+            tileTypeDefs[112] = Constants.MoreTerra_Color.EBONSAND;
+            tileTypeDefs[113] = Constants.MoreTerra_Color.HALLOWED_PLANTS;
+            tileTypeDefs[114] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[115] = Constants.MoreTerra_Color.HALLOWED_VINES;
+            tileTypeDefs[116] = Constants.MoreTerra_Color.PEARLSAND;
+            tileTypeDefs[117] = Constants.MoreTerra_Color.PEARLSTONE;
+            tileTypeDefs[118] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[119] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[120] = Constants.MoreTerra_Color.UNKNOWN;
+            tileTypeDefs[121] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[122] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[123] = Constants.MoreTerra_Color.SILT;
+            tileTypeDefs[124] = Constants.MoreTerra_Color.WOOD;
+            tileTypeDefs[125] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[126] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[127] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[128] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[129] = Constants.MoreTerra_Color.CRYSTALS;
+            tileTypeDefs[130] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[131] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[132] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[133] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[134] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[135] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[136] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[137] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[138] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[139] = Constants.MoreTerra_Color.DECORATIVE;
+            tileTypeDefs[140] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[141] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[142] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[143] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[144] = Constants.MoreTerra_Color.MECHANICAL;
+            tileTypeDefs[145] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[146] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[147] = Constants.MoreTerra_Color.SNOWBLOCK;
+            tileTypeDefs[148] = Constants.MoreTerra_Color.BLOCK;
+            tileTypeDefs[149] = Constants.MoreTerra_Color.LIGHT_SOURCE;
 			
-			for (int i = 107; i < 256; i++) {
+			for (int i = 150; i < 256; i++) {
 				tileTypeDefs [i] = System.Drawing.Color.Magenta;
 			}
 
@@ -288,8 +347,18 @@ namespace Map
 			tileTypeDefs [284] = Constants.MoreTerra_Color.WALL_DUNGEON_BLUE;
 			tileTypeDefs [285] = Constants.MoreTerra_Color.WALL_DUNGEON_GREEN;
 			tileTypeDefs [286] = Constants.MoreTerra_Color.WALL_DUNGEON_PINK;
-			tileTypeDefs [287] = Constants.MoreTerra_Color.WALL_BACKGROUND;
-			tileTypeDefs [288] = Constants.MoreTerra_Color.WALL_BACKGROUND;
+			tileTypeDefs [287] = Constants.MoreTerra_Color.WALL_DIRT;
+			tileTypeDefs [288] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[289] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[290] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[291] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[292] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[293] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[294] = Constants.MoreTerra_Color.WALL_WOOD;
+            tileTypeDefs[295] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[296] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[297] = Constants.MoreTerra_Color.WALL_BRICK;
+            tileTypeDefs[298] = Constants.MoreTerra_Color.WALL_BRICK;
 			
 			tileTypeDefs [330] = Constants.MoreTerra_Color.WALL_OBSIDIAN; //my addition
 		}
