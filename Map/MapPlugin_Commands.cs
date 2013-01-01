@@ -34,7 +34,7 @@ namespace Map
 			try {
                 if (isMapping)
                 {
-					player.SendMessage("Still currently mapping.");
+					player.SendErrorMessage("Still currently mapping.");
                     return;
                 }
 				p = mapoutputpath;
@@ -43,6 +43,7 @@ namespace Map
 				var reload = false;
                 var highlight = false;
 				highlightID = 0;
+                hlchests = false;
                 string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
@@ -65,12 +66,12 @@ namespace Map
                     if (autosaveenabled)
                     {
                         properties.setValue("autosave-enabled", "False");
-                        player.SendMessage("autosave disabled.");
+                        player.SendInfoMessage("autosave disabled.");
                     }
                     else
                     {
                         properties.setValue("autosave-enabled", "True");
-                        player.SendMessage("autosave enabled.");
+                        player.SendInfoMessage("autosave enabled.");
                     }
                     if (highlight)
                     {
@@ -78,7 +79,7 @@ namespace Map
                         {
                             properties.setValue("autosave-highlight", "True");
                             properties.setValue("autosave-highlightID", nameOrID);
-                            player.SendMessage("autosave highlight settings updated.");
+                            player.SendInfoMessage("autosave highlight settings updated.");
                         }
                     }
 
@@ -87,12 +88,12 @@ namespace Map
                         if (autosavetimestamp)
                         {
                             properties.setValue("autosave-timestamp", "False");
-                            player.SendMessage("autosave now using regular name.");
+                            player.SendInfoMessage("autosave now using regular name.");
                         }
                         else
                         {
                             properties.setValue("autosave-timestamp", "True");
-                            player.SendMessage("autosave now using timestamp.");
+                            player.SendInfoMessage("autosave now using timestamp.");
                         }
                     }
 
@@ -107,7 +108,11 @@ namespace Map
 
                 if (reload || autosave)
                 {
-                    player.SendMessage("map: Reloaded settings database, entries: " + properties.Count);
+                    if(reload)
+                        player.SendInfoMessage("map: Reloaded settings database, entries: " + properties.Count);
+                    if(autosave)
+                        TShockAPI.Log.Info("<map> Reloaded settings database, entries: " + properties.Count);
+
                     properties.Load();
                     var msg = string.Concat(
                     "Settings: mapoutputpath=", p, ", ",
@@ -138,6 +143,7 @@ namespace Map
                     {
                         nameOrID = autosavehightlightID;
                     }
+                    highlight = autosavehighlight;
                 }
 
 				if (timestamp) {
@@ -152,13 +158,11 @@ namespace Map
 					properties.Save();
 				}
                 // chests are not an item so i draw them from the chest array
-                if (highlight && nameOrID.ToLower() != "chest")  //the following is taken from Commands.cs from TDSM source. Thanks guys!!! ;)
+                if (highlight && nameOrID.ToLower() != "chest")
                 {
                     highlightsearch(player, nameOrID);
-                    
-                    hlchests = false;
                 }
-                else
+                if (highlight && nameOrID.ToLower() == "chest")
                 {
                     hlchests = true;
                 }
@@ -190,7 +194,7 @@ namespace Map
                             TShockAPI.Log.Error("Save ERROR: check colorscheme");
 						}
 						if( !(Directory.Exists(p)) ){
-						player.SendMessage ("map: "+p+" does not exist.");
+						player.SendErrorMessage ("map: "+p+" does not exist.");
                         TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
 				}
 					}
@@ -211,7 +215,7 @@ namespace Map
             {
                 if (itemlist.Count > 1)
                 {
-                    player.SendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
+                    player.SendInfoMessage("There were " + itemlist.Count + " Items found regarding the specified name");
                     return false;
                 }
 
@@ -220,7 +224,7 @@ namespace Map
             }
             else
             {
-                player.SendMessage("There were no Items found regarding the specified Item Id/Name");
+                player.SendErrorMessage("There were no Items found regarding the specified Item Id/Name");
                 return false;
             }
 
