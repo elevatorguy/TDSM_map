@@ -4,6 +4,7 @@ using NDesk.Options;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Terraria;
 
 namespace Map
 {
@@ -15,7 +16,12 @@ namespace Map
         public static bool hlchests;
         private static int highlightID;
         public bool isMapping = false;
-		
+        public bool crop = false;
+        public int x1 = 0;
+        public int y1 = 0;
+        public int x2 = 0;
+        public int y2 = 0;
+
 		private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
 		
 		public void MapCommand(CommandArgs argzz)
@@ -39,15 +45,20 @@ namespace Map
                 }
 				p = mapoutputpath;
 				filename = "world-now.png";
-                var timestamp = false;
-				var reload = false;
-                var highlight = false;
+                bool timestamp = false;
+				bool reload = false;
+                bool highlight = false;
 				highlightID = 0;
                 hlchests = false;
                 string nameOrID = "";
-				var savefromcommand = false;
+				bool savefromcommand = false;
 				string cs = colorscheme;
                 bool autosaveedit = false;
+                string x1 = "";
+                string x2 = "";
+                string y1 = "";
+                string y2 = "";
+                crop = false;
                 var options = new OptionSet()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -58,8 +69,62 @@ namespace Map
                     { "h|highlight=", v => { nameOrID = v; highlight = true; } },
 					{ "c|colorscheme=", v => cs = v },
                     { "a|autosave", v => autosaveedit = true },
+                    { "x1|xA=", v => { x1 = v; crop = true; } },
+                    { "x2|xB=", v => { x2 = v; crop = true; } },
+                    { "y1|yA=", v => { y1 = v; crop = true; } },
+                    { "y2|yB=", v => { y2 = v; crop = true; } },
                 };
 				var args = options.Parse (argz);
+
+                if(crop)
+                {
+                    if (x1.Equals("") || x2.Equals("") || y1.Equals("") || y2.Equals(""))
+                    {
+                        //we need both coordinates
+                        player.SendErrorMessage("If cropping, please specify x1, y1, x2, and y2.");
+                        return;
+                    }
+                    else
+                    {
+                        //we need x1,y1 to be the top left corner
+                        //and x2,y2 to the bottom right corner
+
+                        try
+                        {
+                            int x1num = Convert.ToInt32(x1);
+                            int x2num = Convert.ToInt32(x2);
+                            int y1num = Convert.ToInt32(y1);
+                            int y2num = Convert.ToInt32(y2);
+
+                            //enforce bitmap boundaries
+                            if (x1num < 0)
+                                x1num = 0;
+                            if (y1num < 0)
+                                y1num = 0;
+                            if (x2num > Main.maxTilesX)
+                                x2num = Main.maxTilesX;
+                            if (y2num > Main.maxTilesY)
+                                y2num = Main.maxTilesY;
+
+                            if ((x1num >= x2num) || (y1num >= y2num))
+                            {
+                                player.SendErrorMessage("("+x1num+","+y1num+")("+x2num+","+y2num+")  (x1,y1) must be the top left corner.");
+                                return;
+                            }
+
+                            //update numbers, for use with the mapping threads
+                            this.x1 = x1num;
+                            this.x2 = x2num;
+                            this.y1 = y1num;
+                            this.y2 = y2num;
+                        }
+                        catch
+                        {
+                            player.SendErrorMessage("x1, y1, x2, and y2 must be integers.");
+                            return;
+                        }
+                    }
+                }
 
                 if (autosaveedit)
                 {

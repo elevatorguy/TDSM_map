@@ -23,12 +23,79 @@ namespace Map
         public static Dictionary<UInt32, System.Drawing.Color> waterdimlist = new Dictionary<UInt32, System.Drawing.Color>();
         public static Dictionary<UInt32, System.Drawing.Color> lavadimlist = new Dictionary<UInt32, System.Drawing.Color>();
 
+        public int paintbackground(System.Drawing.Color SKY, System.Drawing.Color EARTH, System.Drawing.Color HELL)
+        {
+            int state = 0;
+            Graphics graphicsHandle = Graphics.FromImage((Image)bmp);
+            //all three
+            if ((Main.worldSurface > y1) && (Main.rockLayer < y2))
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)(Main.worldSurface - y1));
+                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, (float)(Main.worldSurface - y1), bmp.Width, (float)(Main.rockLayer - y1));
+                graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, (float)(Main.rockLayer - y1), bmp.Width, (float)y2);
+                state = 1;
+            }
+            //just sky
+            if ((Main.worldSurface > y2))
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)(Main.worldSurface - y1));
+                state = 2;
+            }
+            //sky and earth
+            if ((Main.worldSurface > y1) && (Main.rockLayer > y2))
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)(Main.worldSurface - y1));
+                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, (float)(Main.worldSurface - y1), bmp.Width, (float)y2);
+                state = 3;
+            }
+            //earth and hell
+            if ((Main.worldSurface < y1) && (Main.rockLayer < y2))
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, 0, bmp.Width, (float)(Main.rockLayer - y1));
+                graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, (float)(Main.rockLayer - y1), bmp.Width, (float)y2);
+                state = 4;
+            }
+            //just hell
+            if (Main.rockLayer < y1)
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, 0, bmp.Width, (float)y2);
+                state = 5;
+            }
+            //just earth
+            if ((Main.worldSurface < y1) && (Main.rockLayer > y2))
+            {
+                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, 0, bmp.Width, (float)y2);
+                state = 6;
+            }
+
+            return state;
+        }
+
         public void mapWorld2()
         {
+            if (!crop)
+            {
+                x1 = 0;
+                x2 = Main.maxTilesX;
+                y1 = 0;
+                y2 = Main.maxTilesY;
+            }
+            else //enforce boundaries
+            {
+                if (x1 < 0)
+                    x1 = 0;
+                if (y1 < 0)
+                    y1 = 0;
+                if (x2 > Main.maxTilesX)
+                    x2 = Main.maxTilesX;
+                if (y2 > Main.maxTilesY)
+                    y2 = Main.maxTilesY;
+            }
+
             Stopwatch stopwatch = new Stopwatch();
 			utils.SendLogs("Saving Image...", Color.WhiteSmoke);
             stopwatch.Start();
-            bmp = new Bitmap(Main.maxTilesX/4, Main.maxTilesY, PixelFormat.Format32bppArgb);
+            bmp = new Bitmap((x2 - x1)/4, (y2 - y1), PixelFormat.Format32bppArgb);
             Graphics graphicsHandle = Graphics.FromImage((Image)bmp);
             //draw background
             if (highlight)
@@ -36,26 +103,31 @@ namespace Map
                 System.Drawing.Color SKY = dimC(0x84AAF8);
                 System.Drawing.Color EARTH = dimC(0x583D2E);
                 System.Drawing.Color HELL = dimC(0x000000);
-                graphicsHandle.FillRectangle(new SolidBrush(SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
-                graphicsHandle.FillRectangle(new SolidBrush(EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
-                graphicsHandle.FillRectangle(new SolidBrush(HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
-                //this fades the background from rock to hell
-                System.Drawing.Color dimColor;
-                for (int y = (int)Main.rockLayer; y < Main.maxTilesY; y++)
+                int state = paintbackground(SKY, EARTH, HELL);
+
+                //if has earth or hell
+                if (state != 2)
                 {
-                    dimColor = dimC(UInt32Defs[331 + y]);
-                    graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
+                    //this fades the background from rock to hell
+                    System.Drawing.Color dimColor;
+                    for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                    {
+                        dimColor = dimC(UInt32Defs[331 + (y+y1)]);
+                        graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
+                    }
                 }
             }
             else
             {
-                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.SKY), 0, 0, bmp.Width, (float)Main.worldSurface);
-                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.EARTH), 0, (float)Main.worldSurface, bmp.Width, (float)Main.rockLayer);
-                graphicsHandle.FillRectangle(new SolidBrush(Constants.Terrafirma_Color.HELL), 0, (float)Main.rockLayer, bmp.Width, (float)Main.maxTilesY);
-                //this fades the background from rock to hell
-                for (int y = (int)Main.rockLayer; y < Main.maxTilesY; y++)
+                int state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
+                //if has earth or hell
+                if (state != 2)
                 {
-                    graphicsHandle.DrawLine(new Pen(ColorDefs[331 + y]), 0, y, bmp.Width, y);
+                    //this fades the background from rock to hell
+                    for (int y = (int)(Main.rockLayer-y1); y < y2; y++)
+                    {
+                        graphicsHandle.DrawLine(new Pen(ColorDefs[331 + (y+y1)]), 0, y, bmp.Width, y);
+                    }
                 }
             }
 
@@ -82,8 +154,8 @@ namespace Map
 
             while (part1.IsAlive || part2.IsAlive || part3.IsAlive || part4.IsAlive) ;
 
-            bmp = new Bitmap(Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
-            int quarter = (Main.maxTilesX / 4);
+            bmp = new Bitmap((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
+            int quarter = ((x2 - x1) / 4);
             Graphics gfx;
             using (gfx = Graphics.FromImage(bmp))
             {
@@ -136,49 +208,112 @@ namespace Map
         private static Bitmap piece3;
         private static Bitmap piece4;
 
+        //cropping
+        //DONE?: math of the y axis.
+        //DONE?: math of the x axis.
+        //TODO: testing of cropping
+
         private void mapthread1()
         {
-            int quarter = (Main.maxTilesX / 4);
-            using (var prog = new ProgressLogger(quarter-1, "Saving image data"))
-            for (int i = 0; i < quarter; i++)
+            if (!crop)
             {
-                prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
-                maprenderloop(i, piece1, 0);
+                int quarter = (Main.maxTilesX / 4);
+                using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                    for (int i = 0; i < quarter; i++)
+                    {
+                        prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
+                        maprenderloop(i, piece1, 0);
+                    }
+            }
+            else
+            {
+                int quarter = ((x2-x1) / 4);
+                using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                    for (int i = 0; i < quarter; i++)
+                    {
+                        prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
+                        maprenderloop(x1 + i, piece1, 0,y1,y2);
+                    }
             }
         }
 
         private void mapthread2()
         {
-            int quarter = (Main.maxTilesX / 4);
-            for (int i = 0; i < quarter; i++)
+            if (!crop)
             {
-                maprenderloop(i + quarter, piece2, quarter);
+                int quarter = (Main.maxTilesX / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(i + quarter, piece2, quarter);
+                }
+            }
+            else
+            {
+                int quarter = ((x2 - x1) / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(x1 + i + quarter, piece2, quarter,y1,y2);
+                }
             }
         }
 
         private void mapthread3()
         {
-            int quarter = (Main.maxTilesX / 4);
-            for (int i = 0; i < quarter; i++)
+            if (!crop)
             {
-                maprenderloop(i + 2 * quarter, piece3, 2 * quarter);
+                int quarter = (Main.maxTilesX / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(i + 2 * quarter, piece3, 2 * quarter);
+                }
+            }
+            else
+            {
+                int quarter = ((x2 - x1) / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(x1 + i + 2 * quarter, piece3, 2 * quarter,y1,y2);
+                }
             }
         }
 
         private void mapthread4()
         {
-            int quarter = (Main.maxTilesX / 4);
-            for (int i = 0; i < quarter; i++)
+            if (!crop)
             {
-                maprenderloop(i + 3 * quarter, piece4, 3 * quarter);
+                int quarter = (Main.maxTilesX / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(i + 3 * quarter, piece4, 3 * quarter);
+                }
+            }
+            else
+            {
+                int quarter = ((x2 - x1) / 4);
+                for (int i = 0; i < quarter; i++)
+                {
+                    maprenderloop(x1 + i + 3 * quarter, piece4, 3 * quarter,y1,y2);
+                }
             }
         }
 
+        /**
+         * This maps a 1 pixel vertical slice at x = i;
+         */
         private void maprenderloop(int i, Bitmap bmp, int piece)
+        {
+            maprenderloop(i,bmp,piece,0,Main.maxTilesY);
+        }
+
+        /**
+         * This maps a 1 pixel vertical slice at x = i; (from y = ymin to y = ymax)
+         */
+        private void maprenderloop(int i, Bitmap bmp, int piece, int ymin, int ymax)
         {
             UInt32 tempColor;
             List<int> list;
-            for (int j = 0; j < Main.maxTilesY; j++)
+            int x = i - x1;
+            for (int j = ymin; j < ymax; j++)
             {
                 if (highlight) //dim the world
                 {
@@ -187,7 +322,7 @@ namespace Map
                     {
                         if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i-piece, j, DimColorDefs[Main.tile[i, j].type]);
+                            bmp.SetPixel(x-piece, j-ymin, DimColorDefs[Main.tile[i, j].type]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
@@ -200,12 +335,12 @@ namespace Map
                         //priority to tiles
                         if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile[i, j].type]);
+                            bmp.SetPixel(x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(i - piece, j, DimColorDefs[Main.tile[i, j].wall + 267]);
+                            bmp.SetPixel(x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 267]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
@@ -214,7 +349,7 @@ namespace Map
                     {
                         if (lavadimlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(i - piece, j, Main.tile[i, j].lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
+                            bmp.SetPixel(x - piece, j - ymin, Main.tile[i, j].lava ? lavadimlist[tempColor] : waterdimlist[tempColor]);
                         }
                     }
 
@@ -222,7 +357,7 @@ namespace Map
                     //highlight the tiles of supplied type from the map command
                     if (list.Contains(highlightID))
                     {
-                        bmp.SetPixel(i - piece, j, System.Drawing.Color.White);
+                        bmp.SetPixel(x - piece, j - ymin, System.Drawing.Color.White);
                     }
                 }
                 else
@@ -232,7 +367,7 @@ namespace Map
                     {
                         if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].type]);
+                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
                             tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
@@ -245,12 +380,12 @@ namespace Map
                         //priority to tiles
                         if (Main.tile[i, j].active)
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].type]);
+                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
                             tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(i - piece, j, ColorDefs[Main.tile[i, j].wall + 267]);
+                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 267]);
                             tempColor = UInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
@@ -259,7 +394,7 @@ namespace Map
                     {
                         if (lavablendlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(i - piece, j, Main.tile[i, j].lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                            bmp.SetPixel(x - piece, j - ymin, Main.tile[i, j].lava ? lavablendlist[tempColor] : waterblendlist[tempColor]);
                         }
                     }
                 }

@@ -19,7 +19,7 @@ namespace Map
     {
 		PropertiesFile properties;
 		bool isEnabled = false;
-		
+
 		string mapoutputpath
 		{
 			get { return properties.getValue ("mapoutput-path", Environment.CurrentDirectory); }
@@ -84,7 +84,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version("3.9.0.0"); }
+            get { return new Version("4.0.5.0"); }
         }
 
         public override void Initialize()
