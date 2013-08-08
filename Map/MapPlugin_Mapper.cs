@@ -14,40 +14,58 @@ namespace Map
 		
 		public void mapWorld () 
 		{	
+            if (!crop)
+            {
+                x1 = 0;
+                x2 = Main.maxTilesX;
+                y1 = 0;
+                y2 = Main.maxTilesY;
+            }
+            else //enforce boundaries
+            {
+                if(x1 < 0)
+                    x1 = 0;
+                if(y1 < 0)
+                    y1 = 0;
+                if(x2 > Main.maxTilesX)
+                    x2 = Main.maxTilesX;
+                if(y2 > Main.maxTilesY)
+                    y2 = Main.maxTilesY;
+            }
 			Stopwatch stopwatch = new Stopwatch ();
             TShockAPI.Log.Info("Saving Image...");
 			stopwatch.Start ();
-			bmp = new Bitmap (Main.maxTilesX, Main.maxTilesY, PixelFormat.Format32bppArgb);
+			bmp = new Bitmap ((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
 			graphicsHandle.FillRectangle (new SolidBrush (Constants.MoreTerra_Color.SKY), 0, 0, bmp.Width, bmp.Height);
 			
-			using (var prog = new ProgressLogger(Main.maxTilesX - 1, "Saving image data"))
-				for (int i = 0; i < Main.maxTilesX; i++) {
+			using (var prog = new ProgressLogger(x2 - 1, "Saving image data"))
+				for (int i = x1; i < x2; i++) {
 					prog.Value = i;
-					for (int j = 0; j < Main.maxTilesY; j++) {		
+					for (int j = y1; j < y2; j++) {		
 					
 					//TODO: find a more understandable way on these if statements
 						if (Main.tile[i, j].wall == 0) {
 							if (Main.tile[i, j].active) {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].type]);
+                                bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
 							} else {
 								
 								if (j > Main.worldSurface) {
-									bmp.SetPixel (i, j, Constants.MoreTerra_Color.WALL_BACKGROUND);
+                                    bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WALL_BACKGROUND);
 								}
 								if (Main.tile[i, j].liquid > 0) {
 									if (Main.tile[i, j].lava) {
-										bmp.SetPixel (i, j, Constants.MoreTerra_Color.LAVA);
+                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.LAVA);
 									} else {
-										bmp.SetPixel (i, j, Constants.MoreTerra_Color.WATER);
+                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WATER);
 									}	
 								}
 							}
 						} else {
 							if (Main.tile[i, j].active) {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].type]);
+                                bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
 							} else {
-								bmp.SetPixel (i, j, tileTypeDefs [Main.tile[i, j].wall + 267]);
+                                bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].wall + 267]);
 							}
 						}
 						
