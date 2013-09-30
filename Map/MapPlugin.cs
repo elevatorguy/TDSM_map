@@ -84,7 +84,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version("4.1.0.0926"); }
+            get { return new Version("4.1.0.0929"); }
         }
 
         public override void Initialize()

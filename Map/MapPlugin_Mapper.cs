@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using Terraria;
 using TShock_Map;
+using System;
 
 namespace Map
 {
@@ -35,7 +36,20 @@ namespace Map
 			Stopwatch stopwatch = new Stopwatch ();
             TShockAPI.Log.Info("Saving Image...");
 			stopwatch.Start ();
-			bmp = new Bitmap ((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
+
+            try
+            {
+                bmp = new Bitmap((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
+            }
+            catch (ArgumentException e)
+            {
+                TShockAPI.Log.Error("<map> ERROR: could not create the Bitmap object.");
+                TShockAPI.Log.Info(e.StackTrace.ToString());
+                stopwatch.Stop();
+                isMapping = false;
+                return;
+            }
+
 			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
 			graphicsHandle.FillRectangle (new SolidBrush (Constants.MoreTerra_Color.SKY), 0, 0, bmp.Width, bmp.Height);
 			

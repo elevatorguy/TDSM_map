@@ -72,7 +72,7 @@ namespace Map
         }
 
         public void mapWorld2()
-        {
+        { 
             if (!crop)
             {
                 x1 = 0;
@@ -93,9 +93,22 @@ namespace Map
             }
 
             Stopwatch stopwatch = new Stopwatch();
-			utils.SendLogs("Saving Image...", Color.WhiteSmoke);
+            utils.SendLogs("Saving Image...", Color.WhiteSmoke);
             stopwatch.Start();
-            bmp = new Bitmap((x2 - x1)/4, (y2 - y1), PixelFormat.Format32bppArgb);
+
+            try
+            {
+                bmp = new Bitmap((x2 - x1) / 4, (y2 - y1), PixelFormat.Format32bppArgb);
+            }
+            catch (ArgumentException e)
+            {
+                utils.SendLogs("<map> ERROR: could not create initial Bitmap object.", Color.Red);
+                utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                stopwatch.Stop();
+                isMapping = false;
+                return;
+            }
+
             Graphics graphicsHandle = Graphics.FromImage((Image)bmp);
             //draw background
             if (highlight)
@@ -109,26 +122,46 @@ namespace Map
                 if (state != 2)
                 {
                     //this fades the background from rock to hell
-                    System.Drawing.Color dimColor;
-                    for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                    try
                     {
-                        dimColor = dimC(UInt32Defs[331 + (y+y1)]);
-                        graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
+                        System.Drawing.Color dimColor;
+                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        {
+                            dimColor = dimC(UInt32Defs[331 + (y + y1)]);
+                            graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
+                        }
+                    }
+                    catch (KeyNotFoundException e)
+                    {
+                        utils.SendLogs("<map> ERROR: could not fade the dimmed background from rock to hell.", Color.Red);
+                        utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                        //continue and see if we keep getting errors when painting the actual world
                     }
                 }
             }
             else
             {
-                int state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
-                //if has earth or hell
-                if (state != 2)
+                try
                 {
-                    //this fades the background from rock to hell
-                    for (int y = (int)(Main.rockLayer-y1); y < y2; y++)
+                    int state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
+                    //if has earth or hell
+                    if (state != 2)
                     {
-                        graphicsHandle.DrawLine(new Pen(ColorDefs[331 + (y+y1)]), 0, y, bmp.Width, y);
+                        //this fades the background from rock to hell
+                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        {
+                            graphicsHandle.DrawLine(new Pen(ColorDefs[331 + (y + y1)]), 0, y, bmp.Width, y);
+                        }
                     }
                 }
+                catch (KeyNotFoundException e)
+                {
+                    utils.SendLogs("<map> ERROR: could not fade the background from rock to hell.", Color.Red);
+                    utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+
+                    //continue and see if we keep getting errors when painting the actual world
+                }
+                
             }
 
             piece1 = (Bitmap)bmp.Clone();
@@ -154,7 +187,19 @@ namespace Map
 
             while (part1.IsAlive || part2.IsAlive || part3.IsAlive || part4.IsAlive) ;
 
-            bmp = new Bitmap((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
+            try
+            {
+                bmp = new Bitmap((x2 - x1), (y2 - y1), PixelFormat.Format32bppArgb);
+            }
+            catch (ArgumentException e)
+            {
+                utils.SendLogs("<map> ERROR: could not create final Bitmap object.", Color.Red);
+                utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                stopwatch.Stop();
+                isMapping = false;
+                return;
+            }
+
             int quarter = ((x2 - x1) / 4);
             Graphics gfx;
             using (gfx = Graphics.FromImage(bmp))
@@ -169,7 +214,7 @@ namespace Map
             if (hlchests)
             {
                 Terraria.Chest[] c = Main.chest;
-                for (int i = 0; i < c.Length; i++ )
+                for (int i = 0; i < c.Length; i++)
                 {
                     if (c[i] != null)
                     {
@@ -184,12 +229,12 @@ namespace Map
                 }
             }
 
-			utils.SendLogs("Saving Data...", Color.WhiteSmoke);
+            utils.SendLogs("Saving Data...", Color.WhiteSmoke);
             bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
             bmp.Dispose();
             stopwatch.Stop();
-			utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
-			utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
+            utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
+            utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
             bmp = null;
             piece1.Dispose();
             piece1 = null;
@@ -200,7 +245,7 @@ namespace Map
             piece4.Dispose();
             piece4 = null;
 
-            isMapping = false;
+            isMapping = false;       
         }
 
         private static Bitmap piece1;
