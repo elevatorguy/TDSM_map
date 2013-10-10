@@ -46,17 +46,17 @@ to change colorscheme
 > `map -s -c MoreTerra` or > `map -s -c Terrafirma`
 
 to highlight a block
-> map -h [name/id]
+> `map -h [name/id]`
 
 chests can be mapped using
->map -h chest
+> `map -h chest`
 
 ingame command to change autosaving
->map -a (toggles enabled/disabled)
->map -a -t (toggles timestamp naming)
->map -a -n (toggles output name when not doing timestamp naming)
->map -a -h [name/id] (toggles highlighting, and sets the id to that specified)
->map -x1 500 -x2 600 -y1 500 -y2 600 (maps only a portion of the map, in this case from (500,500) to (600,600))
+> `map -a` (toggles enabled/disabled)
+> `map -a -t` (toggles timestamp naming)
+> `map -a -n` (toggles output name when not doing timestamp naming)
+> `map -a -h [name/id]` (toggles highlighting, and sets the id to that specified)
+> `map -x1 500 -x2 600 -y1 500 -y2 600` (maps only a portion of the map, in this case from (500,500) to (600,600))
 (x1,y1) must be the top left corner, and (x2,y2) the bottom right corner.
 
 Updates
@@ -72,8 +72,8 @@ Updates
 + 3.5.1.0: update to API 11
 + 3.4.5.1: auto-save settings for highlighting, timestamp naming, and ingame command
 + 3.4.5.0: auto-save feature, TShock release
---- before TShock ---
 + 0.36.2: mapping chests
++ 0.36.1: mapping is separated into four threads / command spamming fix / op only / highlight option
 + 0.36.1: mapping is separated into four threads / command spamming fix / op only / highlight option
 + 0.36.0: updated for TDSM b36's new API / hellwater fix
 + 0.35.4: blending/fading is now done on plugin load
@@ -89,8 +89,11 @@ Options
 -------
 
 The default paths are the server directory where Terraria_Server.exe is located.
+
 The default colorscheme is Terrafirma.
+
 The default auto map interval is every 30 minutes.
+
 The default auto map saves to autosave.png.
 
 
