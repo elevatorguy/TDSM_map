@@ -53,9 +53,13 @@ chests can be mapped using
 
 ingame command to change autosaving
 > `map -a` (toggles enabled/disabled)
+
 > `map -a -t` (toggles timestamp naming)
+
 > `map -a -n` (toggles output name when not doing timestamp naming)
+
 > `map -a -h [name/id]` (toggles highlighting, and sets the id to that specified)
+
 > `map -x1 500 -x2 600 -y1 500 -y2 600` (maps only a portion of the map, in this case from (500,500) to (600,600))
 (x1,y1) must be the top left corner, and (x2,y2) the bottom right corner.
 
