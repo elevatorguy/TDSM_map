@@ -1,17 +1,19 @@
-map for TDSM
+map for tshock
 ============
 
 This adds an in-game Terraria World Mapper:
-
+I would like to thank the authors of MoreTerra and Terrafirma for their work on the color codes, without them this plugin would not be possible.
 Features
 --------
 
-+ Faster than downloading a map and mapping
-+ It maps from the world in use (RAM=faster)
++ Faster than downloading the World and using MoreTerra/Terrafirma on it
++ Same color schemes as MoreTerra and Terrafirma
 + Path output configurable
 + Image name configurable
 + Timestamp naming
-+ Two colorschemes to choose from: MoreTerra, Terrafirma
++ ability to change between color schemes
++ auto mapping ability in a certain interval of minutes
++ mapping only a specified rectangle of the map, faster than mapping and then cropping
 
 Usage
 -----
@@ -43,9 +45,36 @@ or in windows
 to change colorscheme
 > `map -s -c MoreTerra` or > `map -s -c Terrafirma`
 
+to highlight a block
+> map -h [name/id]
+
+chests can be mapped using
+>map -h chest
+
+ingame command to change autosaving
+>map -a (toggles enabled/disabled)
+>map -a -t (toggles timestamp naming)
+>map -a -n (toggles output name when not doing timestamp naming)
+>map -a -h [name/id] (toggles highlighting, and sets the id to that specified)
+>map -x1 500 -x2 600 -y1 500 -y2 600 (maps only a portion of the map, in this case from (500,500) to (600,600))
+(x1,y1) must be the top left corner, and (x2,y2) the bottom right corner.
+
 Updates
 -------
-
++ 4.2: update to API 14, and terraria 1.2 (TerraFirma colorscheme updated only)
++ 4.1.0.0929: crash fix when Bitmap object can't be created.
++ 4.1.0.0926: update to API 13
++ 4.0.5.0: added mapping a subset of the map, by specifying coordinates for a rectangle
++ 4.0.0.0: chest highlight bug fix
++ 3.9.0.0: update to API 12
++ 3.8.0.1: fixed the MoreTerra color scheme
++ 3.8.0.0: small update for TShock 3.8.0
++ 3.5.1.0: update to API 11
++ 3.4.5.1: auto-save settings for highlighting, timestamp naming, and ingame command
++ 3.4.5.0: auto-save feature, TShock release
+--- before TShock ---
++ 0.36.2: mapping chests
++ 0.36.1: mapping is separated into four threads / command spamming fix / op only / highlight option
 + 0.36.0: updated for TDSM b36's new API / hellwater fix
 + 0.35.4: blending/fading is now done on plugin load
 + 0.35.3: added liquid blending in Terrafirma color scheme
@@ -59,8 +88,10 @@ Updates
 Options
 -------
 
-The default path is the server directory where Terraria_Server.exe is located.
+The default paths are the server directory where Terraria_Server.exe is located.
 The default colorscheme is Terrafirma.
+The default auto map interval is every 30 minutes.
+The default auto map saves to autosave.png.
 
 
 Please let me know if I have overlooked any bugs.
