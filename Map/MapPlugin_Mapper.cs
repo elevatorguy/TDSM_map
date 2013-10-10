@@ -60,15 +60,15 @@ namespace Map
 					
 					//TODO: find a more understandable way on these if statements
 						if (Main.tile[i, j].wall == 0) {
-							if (Main.tile[i, j].active) {
+							if (Main.tile[i, j].active()) {
                                 bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
 							} else {
-								
+
 								if (j > Main.worldSurface) {
                                     bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WALL_BACKGROUND);
 								}
 								if (Main.tile[i, j].liquid > 0) {
-									if (Main.tile[i, j].lava) {
+									if (Main.tile[i, j].lava()) {
                                         bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.LAVA);
 									} else {
                                         bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WATER);
@@ -76,7 +76,8 @@ namespace Map
 								}
 							}
 						} else {
-							if (Main.tile[i, j].active) {
+                            if (Main.tile[i, j].active())
+                            {
                                 bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
 							} else {
                                 bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].wall + 267]);
