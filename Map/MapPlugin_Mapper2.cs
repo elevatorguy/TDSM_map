@@ -183,20 +183,28 @@ namespace Map
             bmp = null;
 
             // splits the work into four threads
-            Thread part1 = new Thread(mapthread1);
-            Thread part2 = new Thread(mapthread2);
-            Thread part3 = new Thread(mapthread3);
-            Thread part4 = new Thread(mapthread4);
-            part1.Name = "Map mapper 1";
-            part2.Name = "Map mapper 2";
-            part3.Name = "Map mapper 3";
-            part4.Name = "Map mapper 4";
-            part1.Start();
-            part2.Start();
-            part3.Start();
-            part4.Start();
+            Thread part1 = null, part2 = null, part3 = null, part4 = null;
+            try
+            {
+                part1 = new Thread(mapthread1);
+                part2 = new Thread(mapthread2);
+                part3 = new Thread(mapthread3);
+                part4 = new Thread(mapthread4);
+                part1.Name = "Map mapper 1";
+                part2.Name = "Map mapper 2";
+                part3.Name = "Map mapper 3";
+                part4.Name = "Map mapper 4";
+                part1.Start();
+                part2.Start();
+                part3.Start();
+                part4.Start();
+            }
+            catch (Exception)
+            {
+                while (((part1 != null) && (part1.IsAlive)) || ((part2 != null) && (part2.IsAlive)) || ((part3 != null) && (part3.IsAlive)) || ((part4 != null) && (part4.IsAlive)));
 
-            while (part1.IsAlive || part2.IsAlive || part3.IsAlive || part4.IsAlive) ;
+                return;
+            }
 
             try
             {
@@ -255,8 +263,11 @@ namespace Map
             piece3 = null;
             piece4.Dispose();
             piece4 = null;
-
-            isMapping = false;       
+            part1.Join();
+            part2.Join();
+            part3.Join();
+            part4.Join();
+            isMapping = false;
         }
 
         private static Bitmap piece1;
