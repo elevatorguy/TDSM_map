@@ -74,7 +74,7 @@ namespace Map
         }
         public override string Author
         {
-            get { return "elevatorguy, updated by Enerdy"; }
+            get { return "elevatorguy"; }
         }
         public override string Description
         {
@@ -82,7 +82,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 3); }
+            get { return new Version(4, 2, 2, 0422); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
@@ -135,9 +135,6 @@ namespace Map
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-            }
             isEnabled = false;
             base.Dispose(disposing);
         }
