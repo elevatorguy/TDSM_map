@@ -17,6 +17,17 @@ namespace Map
         public static Dictionary<int, UInt32> DimUInt32Defs;
 
         public static Bitmap bmp;
+        public static void SetPixel(Bitmap bit, int x, int y, System.Drawing.Color color)   // To prevent out of memory errors
+        {
+            try
+            {
+                bit.SetPixel(x, y, color);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
         public static Dictionary<UInt32, System.Drawing.Color> waterblendlist = new Dictionary<UInt32, System.Drawing.Color>();
         public static Dictionary<UInt32, System.Drawing.Color> lavablendlist = new Dictionary<UInt32, System.Drawing.Color>();
         //better to have a separate list for dim liquid lists
@@ -172,20 +183,28 @@ namespace Map
             bmp = null;
 
             // splits the work into four threads
-            Thread part1 = new Thread(mapthread1);
-            Thread part2 = new Thread(mapthread2);
-            Thread part3 = new Thread(mapthread3);
-            Thread part4 = new Thread(mapthread4);
-            part1.Name = "Map mapper 1";
-            part2.Name = "Map mapper 2";
-            part3.Name = "Map mapper 3";
-            part4.Name = "Map mapper 4";
-            part1.Start();
-            part2.Start();
-            part3.Start();
-            part4.Start();
+            Thread part1 = null, part2 = null, part3 = null, part4 = null;
+            try
+            {
+                part1 = new Thread(mapthread1);
+                part2 = new Thread(mapthread2);
+                part3 = new Thread(mapthread3);
+                part4 = new Thread(mapthread4);
+                part1.Name = "Map mapper 1";
+                part2.Name = "Map mapper 2";
+                part3.Name = "Map mapper 3";
+                part4.Name = "Map mapper 4";
+                part1.Start();
+                part2.Start();
+                part3.Start();
+                part4.Start();
+            }
+            catch (Exception)
+            {
+                while (((part1 != null) && (part1.IsAlive)) || ((part2 != null) && (part2.IsAlive)) || ((part3 != null) && (part3.IsAlive)) || ((part4 != null) && (part4.IsAlive)));
 
-            while (part1.IsAlive || part2.IsAlive || part3.IsAlive || part4.IsAlive) ;
+                return;
+            }
 
             try
             {
@@ -218,13 +237,13 @@ namespace Map
                 {
                     if (c[i] != null)
                     {
-                        bmp.SetPixel(c[i].x, c[i].y, System.Drawing.Color.White);
+                        SetPixel(bmp, c[i].x, c[i].y, System.Drawing.Color.White);
 
                         //also the four pixels next to it so we can actually see it on the map
-                        bmp.SetPixel(c[i].x + 1, c[i].y, System.Drawing.Color.White);
-                        bmp.SetPixel(c[i].x - 1, c[i].y, System.Drawing.Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y + 1, System.Drawing.Color.White);
-                        bmp.SetPixel(c[i].x, c[i].y - 1, System.Drawing.Color.White);
+                        SetPixel(bmp, c[i].x + 1, c[i].y, System.Drawing.Color.White);
+                        SetPixel(bmp, c[i].x - 1, c[i].y, System.Drawing.Color.White);
+                        SetPixel(bmp, c[i].x, c[i].y + 1, System.Drawing.Color.White);
+                        SetPixel(bmp, c[i].x, c[i].y - 1, System.Drawing.Color.White);
                     }
                 }
             }
@@ -244,8 +263,11 @@ namespace Map
             piece3 = null;
             piece4.Dispose();
             piece4 = null;
-
-            isMapping = false;       
+            part1.Join();
+            part2.Join();
+            part3.Join();
+            part4.Join();
+            isMapping = false;
         }
 
         private static Bitmap piece1;
@@ -367,7 +389,7 @@ namespace Map
                     {
                         if (Main.tile[i, j].active())
                         {
-                            bmp.SetPixel(x-piece, j-ymin, DimColorDefs[Main.tile[i, j].type]);
+                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
@@ -380,12 +402,12 @@ namespace Map
                         //priority to tiles
                         if (Main.tile[i, j].active())
                         {
-                            bmp.SetPixel(x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type]);
+                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 267]);
+                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 267]);
                             tempColor = DimUInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
@@ -394,7 +416,7 @@ namespace Map
                     {
                         if (lavadimlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(x - piece, j - ymin, Main.tile[i, j].lava() ? lavadimlist[tempColor] : waterdimlist[tempColor]);
+                            SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavadimlist[tempColor] : waterdimlist[tempColor]);
                         }
                     }
 
@@ -402,7 +424,7 @@ namespace Map
                     //highlight the tiles of supplied type from the map command
                     if (list.Contains(highlightID))
                     {
-                        bmp.SetPixel(x - piece, j - ymin, System.Drawing.Color.White);
+                        SetPixel(bmp, x - piece, j - ymin, System.Drawing.Color.White);
                     }
                 }
                 else
@@ -412,7 +434,7 @@ namespace Map
                     {
                         if (Main.tile[i, j].active())
                         {
-                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
+                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
                             tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
@@ -425,12 +447,12 @@ namespace Map
                         //priority to tiles
                         if (Main.tile[i, j].active())
                         {
-                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
+                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type]);
                             tempColor = UInt32Defs[Main.tile[i, j].type];
                         }
                         else
                         {
-                            bmp.SetPixel(x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 267]);
+                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 267]);
                             tempColor = UInt32Defs[Main.tile[i, j].wall + 267];
                         }
                     }
@@ -439,7 +461,7 @@ namespace Map
                     {
                         if (lavablendlist.ContainsKey(tempColor))
                         {  // incase the map has hacked data
-                            bmp.SetPixel(x - piece, j - ymin, Main.tile[i, j].lava() ? lavablendlist[tempColor] : waterblendlist[tempColor]);
+                            SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavablendlist[tempColor] : waterblendlist[tempColor]);
                         }
                     }
                 }

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,7 +12,7 @@ using TShock_Map;
 
 namespace Map
 {
-    [ApiVersion(1, 14)]
+    [ApiVersion(1, 15)]
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
@@ -75,7 +74,7 @@ namespace Map
         }
         public override string Author
         {
-            get { return "elevatorguy"; }
+            get { return "elevatorguy, updated by Enerdy"; }
         }
         public override string Description
         {
@@ -83,27 +82,12 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 2); }
+            get { return new Version(4, 3); }
         }
 
         public override void Initialize()
         {
-            ServerApi.Hooks.GameInitialize.Register(this, OnInitialize);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ServerApi.Hooks.GameInitialize.Deregister(this, OnInitialize);
-            }
-            isEnabled = false;
-            base.Dispose(disposing);
-        }
-
-        public void OnInitialize(EventArgs e)
-        {
-			Commands.ChatCommands.Add(new Command("map", MapCommand, "map"));
+            Commands.ChatCommands.Add(new Command("map", MapCommand, "map"));
 
             string pluginFolder = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "map";
             CreateDirectory(pluginFolder);
@@ -149,6 +133,16 @@ namespace Map
             while (!autosavethread.IsAlive) ;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+            }
+            isEnabled = false;
+            base.Dispose(disposing);
+        }
+
+        
         public void autoSave()
         {
             bool firstrun = true;
