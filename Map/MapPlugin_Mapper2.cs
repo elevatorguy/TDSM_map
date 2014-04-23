@@ -497,12 +497,13 @@ namespace Map
                     }
                 }
 
+            }
+
                 if(pixelfailureflag)
                 {
                     utils.SendLogs("<map> WARNING: could not draw certain pixel at row (" + i + ",y).", Color.Yellow);
                     pixelfailureflag = false;
                 }
-            }
 
         }
 
