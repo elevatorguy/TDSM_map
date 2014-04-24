@@ -65,6 +65,7 @@ ingame command to change autosaving
 
 Updates
 -------
++ 4.2.2.0422: update to API 15 and added tiles/walls for terraria 1.2.3.1 (Terrafirma only for now)
 + 4.2: update to API 14, and terraria 1.2 (TerraFirma colorscheme updated only)
 + 4.1.0.0929: crash fix when Bitmap object can't be created.
 + 4.1.0.0926: update to API 13
