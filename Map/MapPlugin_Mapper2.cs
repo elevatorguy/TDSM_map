@@ -145,7 +145,7 @@ namespace Map
                         System.Drawing.Color dimColor;
                         for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
-                            dimColor = dimC(UInt32Defs[379 + (y + y1)]);
+                            dimColor = dimC(UInt32Defs[595 + (y + y1)]);
                             graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
                         }
                     }
@@ -168,7 +168,7 @@ namespace Map
                         //this fades the background from rock to hell
                         for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
-                            graphicsHandle.DrawLine(new Pen(ColorDefs[379 + (y + y1)]), 0, y, bmp.Width, y);
+                            graphicsHandle.DrawLine(new Pen(ColorDefs[595 + (y + y1)]), 0, y, bmp.Width, y);
                         }
                     }
                 }
@@ -425,7 +425,7 @@ namespace Map
                         }
                         else
                         {
-                            tempColor = DimUInt32Defs[j + 379];
+                            tempColor = DimUInt32Defs[j + 595];
                         }
                     }
                     else
@@ -438,8 +438,8 @@ namespace Map
                         }
                         else
                         {
-                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 267], false);
-                            tempColor = DimUInt32Defs[Main.tile[i, j].wall + 267];
+                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 450], false);
+                            tempColor = DimUInt32Defs[Main.tile[i, j].wall + 450];
                         }
                     }
                     // lookup blendcolor of color just drawn, and draw again
@@ -470,7 +470,7 @@ namespace Map
                         }
                         else
                         {
-                            tempColor = UInt32Defs[j + 379];
+                            tempColor = UInt32Defs[j + 595];
                         }
                     }
                     else
@@ -483,8 +483,8 @@ namespace Map
                         }
                         else
                         {
-                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 267], false);
-                            tempColor = UInt32Defs[Main.tile[i, j].wall + 267];
+                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 450], false);
+                            tempColor = UInt32Defs[Main.tile[i, j].wall + 450];
                         }
                     }
                     // lookup blendcolor of color just drawn, and draw again
@@ -515,7 +515,7 @@ namespace Map
             UInt32 lavaColor = 0xFD2003;
             //blends water and lava with UInt32Defs
             using (var blendprog = new ProgressLogger(Main.maxTilesX - 1, "[map] Blending colors"))
-                for (int y = 0; y <= Main.maxTilesY + 379; y++)
+                for (int y = 0; y <= Main.maxTilesY + 595; y++)
                 {
                     if (UInt32Defs.ContainsKey(y))
                     {
@@ -569,12 +569,12 @@ namespace Map
                 public static System.Drawing.Color COPPER_ORE = ColorTranslator.FromHtml("#964316");
                 public static System.Drawing.Color GOLD_ORE = ColorTranslator.FromHtml("#B9A417");
                 public static System.Drawing.Color SILVER_ORE = ColorTranslator.FromHtml("#D9DFDF");
-                public static System.Drawing.Color CLOSED_WOODEN_DOOR = ColorTranslator.FromHtml("#BF8F6F");
-                public static System.Drawing.Color OPEN_WOODEN_DOOR = ColorTranslator.FromHtml("#946B50");
+                public static System.Drawing.Color CLOSED_DOORS = ColorTranslator.FromHtml("#BF8F6F");
+                public static System.Drawing.Color OPEN_DOORS = ColorTranslator.FromHtml("#946B50");
                 public static System.Drawing.Color HEARTSTONE = ColorTranslator.FromHtml("#B61239");
                 public static System.Drawing.Color BOTTLE = ColorTranslator.FromHtml("#4EC5FC");
-                public static System.Drawing.Color WOODEN_TABLE = ColorTranslator.FromHtml("#7F5C45");
-                public static System.Drawing.Color WOODEN_CHAIR = ColorTranslator.FromHtml("#A2785C");
+                public static System.Drawing.Color TABLES = ColorTranslator.FromHtml("#7F5C45");
+                public static System.Drawing.Color CHAIRS = ColorTranslator.FromHtml("#A2785C");
                 public static System.Drawing.Color IRON_ANVIL = ColorTranslator.FromHtml("#505050");
                 public static System.Drawing.Color FURNACE = ColorTranslator.FromHtml("#636363");
                 public static System.Drawing.Color WORK_BENCH = ColorTranslator.FromHtml("#7F5C45");
@@ -594,8 +594,8 @@ namespace Map
                 public static System.Drawing.Color CORRUPTED_VINES = ColorTranslator.FromHtml("#7A618F");
                 public static System.Drawing.Color CANDLE = ColorTranslator.FromHtml("#FDDD03");
                 public static System.Drawing.Color COPPER_CHANDELIER = ColorTranslator.FromHtml("#B75819");
-                public static System.Drawing.Color SILVER_CHANDELIER = ColorTranslator.FromHtml("#C1CACB");
-                public static System.Drawing.Color GOLD_CHANDELIER = ColorTranslator.FromHtml("#B9A417");
+                public static System.Drawing.Color JACK_O_LANTERN = ColorTranslator.FromHtml("#EAAD53");
+                public static System.Drawing.Color PRESENT = ColorTranslator.FromHtml("#C22E32");
                 public static System.Drawing.Color METEORITE = ColorTranslator.FromHtml("#685654");
                 public static System.Drawing.Color GRAY_BRICK = ColorTranslator.FromHtml("#8C8C8C");
                 public static System.Drawing.Color RED_BRICK = ColorTranslator.FromHtml("#C37057");
@@ -672,6 +672,7 @@ namespace Map
                 public static System.Drawing.Color WEEDS = ColorTranslator.FromHtml("#1E9648");
                 public static System.Drawing.Color ADAMANTITE_ORE = ColorTranslator.FromHtml("#801A34");
                 public static System.Drawing.Color EBONSAND = ColorTranslator.FromHtml("#67627A");
+                public static System.Drawing.Color WEEDS_2 = ColorTranslator.FromHtml("#1E9648");
                 public static System.Drawing.Color TINKERERS_WORKSHOP = ColorTranslator.FromHtml("#7F5C45");
                 public static System.Drawing.Color VINES_2 = ColorTranslator.FromHtml("#327FA1");
                 public static System.Drawing.Color PEARLSAND = ColorTranslator.FromHtml("#D5C4C5");
@@ -720,7 +721,7 @@ namespace Map
                 public static System.Drawing.Color PEARLWOOD = ColorTranslator.FromHtml("#57503F");
                 public static System.Drawing.Color RAINBOW_BRICK = ColorTranslator.FromHtml("#D4D4D4");
                 public static System.Drawing.Color ICE = ColorTranslator.FromHtml("#90C3E8");
-                public static System.Drawing.Color ICE_2 = ColorTranslator.FromHtml("#92AEBF");
+                public static System.Drawing.Color BREAKABLE_ICE = ColorTranslator.FromHtml("#92AEBF");
                 public static System.Drawing.Color PURPLE_ICE = ColorTranslator.FromHtml("#9188CB");
                 public static System.Drawing.Color PINK_ICE = ColorTranslator.FromHtml("#D197BC");
                 public static System.Drawing.Color STALAGTITE = ColorTranslator.FromHtml("#5C8FAF");
@@ -728,15 +729,15 @@ namespace Map
                 public static System.Drawing.Color LEAD_ORE = ColorTranslator.FromHtml("#2F3E57");
                 public static System.Drawing.Color TUNGSTEN_ORE = ColorTranslator.FromHtml("#5A7D53");
                 public static System.Drawing.Color PLATINUM_ORE = ColorTranslator.FromHtml("#8097B8");
-                public static System.Drawing.Color TIN_CHANDELIER = ColorTranslator.FromHtml("#817D5D");
-                public static System.Drawing.Color TUNGSTEN_CHANDELIER = ColorTranslator.FromHtml("#7A907E");
-                public static System.Drawing.Color PLATINUM_CHANDELIER = ColorTranslator.FromHtml("#8097B8");
+                public static System.Drawing.Color PINE_TREE_BLOCK = ColorTranslator.FromHtml("#003F2C");
+                public static System.Drawing.Color CHRISTMAS_TREE = ColorTranslator.FromHtml("#269660");
+                public static System.Drawing.Color HAUNTED_PLATINUM_CHANDELIER = ColorTranslator.FromHtml("#4A3D26");
                 public static System.Drawing.Color PLATINUM_CANDELABRA = ColorTranslator.FromHtml("#8097B8");
                 public static System.Drawing.Color PLATINUM_CANDLE = ColorTranslator.FromHtml("#FE7902");
                 public static System.Drawing.Color TIN_BRICK = ColorTranslator.FromHtml("#BBA57C");
                 public static System.Drawing.Color TUNGSTEN_BRICK = ColorTranslator.FromHtml("#9CC09D");
                 public static System.Drawing.Color PLATINUM_BRICK = ColorTranslator.FromHtml("#B5C2D9");
-                public static System.Drawing.Color AMETHYST_2 = ColorTranslator.FromHtml("#892880");
+                public static System.Drawing.Color GEM = ColorTranslator.FromHtml("#892880");
                 public static System.Drawing.Color MOSS = ColorTranslator.FromHtml("#318672");
                 public static System.Drawing.Color BROWN_MOSS = ColorTranslator.FromHtml("#7E8631");
                 public static System.Drawing.Color RED_MOSS = ColorTranslator.FromHtml("#863B31");
@@ -785,7 +786,7 @@ namespace Map
                 public static System.Drawing.Color SLUSH = ColorTranslator.FromHtml("#7E989D");
                 public static System.Drawing.Color HIVE = ColorTranslator.FromHtml("#C86C10");
                 public static System.Drawing.Color LIHZAHRD_BRICK = ColorTranslator.FromHtml("#8D3800");
-                public static System.Drawing.Color TEAL_MUSHROOM = ColorTranslator.FromHtml("#46BB93");
+                public static System.Drawing.Color DYE_FLOWERS = ColorTranslator.FromHtml("#46BB93");
                 public static System.Drawing.Color DYE_VAT = ColorTranslator.FromHtml("#A87858");
                 public static System.Drawing.Color HONEY = ColorTranslator.FromHtml("#FF9C0C");
                 public static System.Drawing.Color CRISPY_HONEY = ColorTranslator.FromHtml("#5E3E24");
@@ -794,10 +795,10 @@ namespace Map
                 public static System.Drawing.Color PLANT = ColorTranslator.FromHtml("#6BB600");
                 public static System.Drawing.Color CRIMSAND = ColorTranslator.FromHtml("#4D4C42");
                 public static System.Drawing.Color TELEPORTER = ColorTranslator.FromHtml("#B3BB44");
-                public static System.Drawing.Color HEART_FRUIT = ColorTranslator.FromHtml("#CD733D");
+                public static System.Drawing.Color LIFE_FRUIT = ColorTranslator.FromHtml("#CD733D");
                 public static System.Drawing.Color LIHZAHRD_ALTAR = ColorTranslator.FromHtml("#FFF133");
-                public static System.Drawing.Color PURPLE_FLOWER = ColorTranslator.FromHtml("#E180CE");
-                public static System.Drawing.Color COPPER_BAR = ColorTranslator.FromHtml("#CD8647");
+                public static System.Drawing.Color PLANTERAS_BULB = ColorTranslator.FromHtml("#E180CE");
+                public static System.Drawing.Color INGOTS = ColorTranslator.FromHtml("#CD8647");
                 public static System.Drawing.Color PICTURE = ColorTranslator.FromHtml("#634732");
                 public static System.Drawing.Color CATACOMB = ColorTranslator.FromHtml("#4D4A48");
                 public static System.Drawing.Color PICTURE_2 = ColorTranslator.FromHtml("#454B45");
@@ -809,6 +810,69 @@ namespace Map
                 public static System.Drawing.Color PALLADIUM_COLUMN = ColorTranslator.FromHtml("#E1623F");
                 public static System.Drawing.Color BUBBLEGUM = ColorTranslator.FromHtml("#DF23DC");
                 public static System.Drawing.Color TITANSTONE = ColorTranslator.FromHtml("#636169");
+                public static System.Drawing.Color PUMPKIN = ColorTranslator.FromHtml("#FAAC0F");
+                public static System.Drawing.Color HAY = ColorTranslator.FromHtml("#D7BA36");
+                public static System.Drawing.Color SPOOKY_WOOD = ColorTranslator.FromHtml("#4F3E5C");
+                public static System.Drawing.Color PUMPKIN_SEED = ColorTranslator.FromHtml("#1E9648");
+                public static System.Drawing.Color AMETHYST_BLOCK = ColorTranslator.FromHtml("#6B319A");
+                public static System.Drawing.Color TOPAZ_BLOCK = ColorTranslator.FromHtml("#9A9431");
+                public static System.Drawing.Color SAPPHIRE_BLOCK = ColorTranslator.FromHtml("#31319A");
+                public static System.Drawing.Color EMERALD_BLOCK = ColorTranslator.FromHtml("#319A44");
+                public static System.Drawing.Color RUBY_BLOCK = ColorTranslator.FromHtml("#9A314D");
+                public static System.Drawing.Color DIAMOND_BLOCK = ColorTranslator.FromHtml("#555976");
+                public static System.Drawing.Color AMBER_BLOCK = ColorTranslator.FromHtml("#9A5331");
+                public static System.Drawing.Color AMETHYST_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#DD4FFF");
+                public static System.Drawing.Color TOPAZ_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#FAFF4F");
+                public static System.Drawing.Color SAPPHIRE_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#4F66FF");
+                public static System.Drawing.Color EMERALD_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#4FFF59");
+                public static System.Drawing.Color RUBY_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#FF4F4F");
+                public static System.Drawing.Color DIAMOND_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#F0F0F7");
+                public static System.Drawing.Color AMBER_GEMSPARK_BLOCK = ColorTranslator.FromHtml("#FF914F");
+                public static System.Drawing.Color WOMANNEQUIN = ColorTranslator.FromHtml("#906850");
+                public static System.Drawing.Color FIREFLY_IN_A_BOTTLE = ColorTranslator.FromHtml("#3E6350");
+                public static System.Drawing.Color LIGHTNING_BUG_IN_A_BOTTLE = ColorTranslator.FromHtml("#4BA8AF");
+                public static System.Drawing.Color IRON_PLATING = ColorTranslator.FromHtml("#434343");
+                public static System.Drawing.Color STONE_SLAB = ColorTranslator.FromHtml("#636363");
+                public static System.Drawing.Color SANDSTONE_SLAB = ColorTranslator.FromHtml("#D3C66F");
+                public static System.Drawing.Color BUNNY_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color SQUIRREL_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color MALLARD_DUCK_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color DUCK_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color BIRD_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color BLUE_JAY_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color CARDINAL_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color FISH_BOWL = ColorTranslator.FromHtml("#0839B5");
+                public static System.Drawing.Color HEAVY_WORK_BENCH = ColorTranslator.FromHtml("#332E29");
+                public static System.Drawing.Color COPPER_PLATING = ColorTranslator.FromHtml("#B75819");
+                public static System.Drawing.Color SNAIL_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color GLOWING_SNAIL_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color AMMO_BOX = ColorTranslator.FromHtml("#40660D");
+                public static System.Drawing.Color MONARCH_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color PURPLE_EMPEROR_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color RED_ADMIRAL_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color ULYSSES_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color SULPHUR_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color TREE_NYMPH_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color ZEBRA_SWALLOWTAIL_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color JULIA_BUTTERFLY_JAR = ColorTranslator.FromHtml("#B7BBD8");
+                public static System.Drawing.Color SCORPION_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color BLACK_SCORPION_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color FROG_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color MOUSE_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color BONE_WELDER = ColorTranslator.FromHtml("#81815F");
+                public static System.Drawing.Color FLESH_CLONING_VAT = ColorTranslator.FromHtml("#DEECAF");
+                public static System.Drawing.Color GLASS_KILN = ColorTranslator.FromHtml("#C1CACB");
+                public static System.Drawing.Color LIHZAHRD_FURNACE = ColorTranslator.FromHtml("#8D3800");
+                public static System.Drawing.Color LIVING_LOOM = ColorTranslator.FromHtml("#345401");
+                public static System.Drawing.Color SKY_MILL = ColorTranslator.FromHtml("#007FA6");
+                public static System.Drawing.Color ICE_MACHINE = ColorTranslator.FromHtml("#687799");
+                public static System.Drawing.Color STEAMPUNK_BOILER = ColorTranslator.FromHtml("#808080");
+                public static System.Drawing.Color HONEY_DISPENSER = ColorTranslator.FromHtml("#73450C");
+                public static System.Drawing.Color PENGUIN_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color WORM_CAGE = ColorTranslator.FromHtml("#3E7994");
+                public static System.Drawing.Color DYNASTY_WOOD = ColorTranslator.FromHtml("#874C1F");
+                public static System.Drawing.Color RED_DYNASTY_SHINGLES = ColorTranslator.FromHtml("#B4443E");
+                public static System.Drawing.Color BLUE_DYNASTY_SHINGLES = ColorTranslator.FromHtml("#599BA8");
 
                 //walls
                 public static System.Drawing.Color STONE_WALL = ColorTranslator.FromHtml("#343434");
@@ -922,20 +986,64 @@ namespace Map
                 public static System.Drawing.Color PALLADIUM_COLUMN_WALL = ColorTranslator.FromHtml("#5E1911");
                 public static System.Drawing.Color BUBBLEGUM_WALL = ColorTranslator.FromHtml("#994996");
                 public static System.Drawing.Color TITANSTONE_WALL = ColorTranslator.FromHtml("#1F1814");
+                public static System.Drawing.Color LIHZAHRD_BRICK_WALL_2 = ColorTranslator.FromHtml("#320F08");
+                public static System.Drawing.Color PUMPKIN_WALL = ColorTranslator.FromHtml("#803700");
+                public static System.Drawing.Color HAY_WALL = ColorTranslator.FromHtml("#745E19");
+                public static System.Drawing.Color SPOOKY_WOOD_WALL = ColorTranslator.FromHtml("#33243F");
+                public static System.Drawing.Color CHRISTMAS_TREE_WALLPAPER = ColorTranslator.FromHtml("#5A1B1C");
+                public static System.Drawing.Color ORNAMENT_WALLPAPER = ColorTranslator.FromHtml("#7D7A71");
+                public static System.Drawing.Color CANDY_CANE_WALLPAPER = ColorTranslator.FromHtml("#073112");
+                public static System.Drawing.Color FESTIVE_WALLPAPER = ColorTranslator.FromHtml("#69181B");
+                public static System.Drawing.Color STARS_WALLPAPER = ColorTranslator.FromHtml("#111F41");
+                public static System.Drawing.Color SQUIGGLES_WALLPAPER = ColorTranslator.FromHtml("#C6C3B7");
+                public static System.Drawing.Color SNOWFLAKE_WALLPAPER = ColorTranslator.FromHtml("#6E6E7E");
+                public static System.Drawing.Color KRAMPUS_HORN_WALLPAPER = ColorTranslator.FromHtml("#85755F");
+                public static System.Drawing.Color BLUEGREEN_WALLPAPER = ColorTranslator.FromHtml("#100340");
+                public static System.Drawing.Color GRINCH_FINGER_WALLPAPER = ColorTranslator.FromHtml("#748352");
+                public static System.Drawing.Color FANCY_GREY_WALLPAPER = ColorTranslator.FromHtml("#8F919D");
+                public static System.Drawing.Color ICE_FLOE_WALLPAPER = ColorTranslator.FromHtml("#8CB9E2");
+                public static System.Drawing.Color MUSIC_WALLPAPER = ColorTranslator.FromHtml("#6F1975");
+                public static System.Drawing.Color PURPLE_RAIN_WALLPAPER = ColorTranslator.FromHtml("#311B91");
+                public static System.Drawing.Color RAINBOW_WALLPAPER = ColorTranslator.FromHtml("#6505C1");
+                public static System.Drawing.Color SPARKLE_STONE_WALLPAPER = ColorTranslator.FromHtml("#575E7D");
+                public static System.Drawing.Color STARLIT_HEAVEN_WALLPAPER = ColorTranslator.FromHtml("#060606");
+                public static System.Drawing.Color BUBBLE_WALLPAPER = ColorTranslator.FromHtml("#4D3FA9");
+                public static System.Drawing.Color COPPER_PIPE_WALLPAPER = ColorTranslator.FromHtml("#C25C17");
+                public static System.Drawing.Color DUCKY_WALLPAPER = ColorTranslator.FromHtml("#177FA8");
+                public static System.Drawing.Color WATERFALL_WALL = ColorTranslator.FromHtml("#285697");
+                public static System.Drawing.Color LAVAFALL_WALL = ColorTranslator.FromHtml("#B7210F");
+                public static System.Drawing.Color EBONWOOD_FENCE = ColorTranslator.FromHtml("#9989A5");
+                public static System.Drawing.Color RICH_MAHOGANY_FENCE = ColorTranslator.FromHtml("#A36368");
+                public static System.Drawing.Color PEARLWOOD_FENCE = ColorTranslator.FromHtml("#776C51");
+                public static System.Drawing.Color SHADEWOOD_FENCE = ColorTranslator.FromHtml("#586976");
+                public static System.Drawing.Color WHITE_DYNASTY_WALL = ColorTranslator.FromHtml("#E0DACC");
+                public static System.Drawing.Color BLUE_DYNASTY_WALL = ColorTranslator.FromHtml("#516863");
+                public static System.Drawing.Color ARCANE_RUNE_WALL = ColorTranslator.FromHtml("#3E1C57");
 
                 //global
                 public static System.Drawing.Color SKY = ColorTranslator.FromHtml("#84AAF8");
                 public static System.Drawing.Color EARTH = ColorTranslator.FromHtml("#583D2E");
                 public static System.Drawing.Color ROCK = ColorTranslator.FromHtml("#4A433C");
                 public static System.Drawing.Color HELL = ColorTranslator.FromHtml("#000000");
-                public static System.Drawing.Color LAVA = ColorTranslator.FromHtml("#fd2003");
-                public static System.Drawing.Color WATER = ColorTranslator.FromHtml("#093dbf");
+                public static System.Drawing.Color LAVA = ColorTranslator.FromHtml("#FD2003");
+                public static System.Drawing.Color WATER = ColorTranslator.FromHtml("#093DBF");
+
+                //TODO?
+                public static System.Drawing.Color LIQUID2 = ColorTranslator.FromHtml("#3B1D83");
+                public static System.Drawing.Color LIQUID3 = ColorTranslator.FromHtml("#07918E");
+                public static System.Drawing.Color LIQUID4 = ColorTranslator.FromHtml("#AB0BD1");
+                public static System.Drawing.Color LIQUID5 = ColorTranslator.FromHtml("#0989BF");
+                public static System.Drawing.Color LIQUID6 = ColorTranslator.FromHtml("#A86A20");
+                public static System.Drawing.Color LIQUID7 = ColorTranslator.FromHtml("#243C94");
+                public static System.Drawing.Color LIQUID8 = ColorTranslator.FromHtml("#413B65");
+                public static System.Drawing.Color LIQUID9 = ColorTranslator.FromHtml("#C80000");
+                public static System.Drawing.Color LIQUID10 = ColorTranslator.FromHtml("#B1364F");
             }
         }
 
         public void InitializeMapperDefs2() //Credits go to the authors of MoreTerra
         {
-            ColorDefs = new Dictionary<int, System.Drawing.Color>(379 + Main.maxTilesY);
+            ColorDefs = new Dictionary<int, System.Drawing.Color>(595 + Main.maxTilesY);
 
             //tiles
             ColorDefs[0] = Constants.Terrafirma_Color.DIRT;
@@ -948,12 +1056,12 @@ namespace Map
             ColorDefs[7] = Constants.Terrafirma_Color.COPPER_ORE;
             ColorDefs[8] = Constants.Terrafirma_Color.GOLD_ORE;
             ColorDefs[9] = Constants.Terrafirma_Color.SILVER_ORE;
-            ColorDefs[10] = Constants.Terrafirma_Color.CLOSED_WOODEN_DOOR;
-            ColorDefs[11] = Constants.Terrafirma_Color.OPEN_WOODEN_DOOR;
+            ColorDefs[10] = Constants.Terrafirma_Color.CLOSED_DOORS;
+            ColorDefs[11] = Constants.Terrafirma_Color.OPEN_DOORS;
             ColorDefs[12] = Constants.Terrafirma_Color.HEARTSTONE;
             ColorDefs[13] = Constants.Terrafirma_Color.BOTTLE;
-            ColorDefs[14] = Constants.Terrafirma_Color.WOODEN_TABLE;
-            ColorDefs[15] = Constants.Terrafirma_Color.WOODEN_CHAIR;
+            ColorDefs[14] = Constants.Terrafirma_Color.TABLES;
+            ColorDefs[15] = Constants.Terrafirma_Color.CHAIRS;
             ColorDefs[16] = Constants.Terrafirma_Color.IRON_ANVIL;
             ColorDefs[17] = Constants.Terrafirma_Color.FURNACE;
             ColorDefs[18] = Constants.Terrafirma_Color.WORK_BENCH;
@@ -973,8 +1081,8 @@ namespace Map
             ColorDefs[32] = Constants.Terrafirma_Color.CORRUPTED_VINES;
             ColorDefs[33] = Constants.Terrafirma_Color.CANDLE;
             ColorDefs[34] = Constants.Terrafirma_Color.COPPER_CHANDELIER;
-            ColorDefs[35] = Constants.Terrafirma_Color.SILVER_CHANDELIER;
-            ColorDefs[36] = Constants.Terrafirma_Color.GOLD_CHANDELIER;
+            ColorDefs[35] = Constants.Terrafirma_Color.JACK_O_LANTERN;
+            ColorDefs[36] = Constants.Terrafirma_Color.PRESENT;
             ColorDefs[37] = Constants.Terrafirma_Color.METEORITE;
             ColorDefs[38] = Constants.Terrafirma_Color.GRAY_BRICK;
             ColorDefs[39] = Constants.Terrafirma_Color.RED_BRICK;
@@ -1051,7 +1159,7 @@ namespace Map
             ColorDefs[110] = Constants.Terrafirma_Color.WEEDS;
             ColorDefs[111] = Constants.Terrafirma_Color.ADAMANTITE_ORE;
             ColorDefs[112] = Constants.Terrafirma_Color.EBONSAND;
-            ColorDefs[113] = Constants.Terrafirma_Color.WEEDS;
+            ColorDefs[113] = Constants.Terrafirma_Color.WEEDS_2;
             ColorDefs[114] = Constants.Terrafirma_Color.TINKERERS_WORKSHOP;
             ColorDefs[115] = Constants.Terrafirma_Color.VINES_2;
             ColorDefs[116] = Constants.Terrafirma_Color.PEARLSAND;
@@ -1100,7 +1208,7 @@ namespace Map
             ColorDefs[159] = Constants.Terrafirma_Color.PEARLWOOD;
             ColorDefs[160] = Constants.Terrafirma_Color.RAINBOW_BRICK;
             ColorDefs[161] = Constants.Terrafirma_Color.ICE;
-            ColorDefs[162] = Constants.Terrafirma_Color.ICE_2;
+            ColorDefs[162] = Constants.Terrafirma_Color.BREAKABLE_ICE;
             ColorDefs[163] = Constants.Terrafirma_Color.PURPLE_ICE;
             ColorDefs[164] = Constants.Terrafirma_Color.PINK_ICE;
             ColorDefs[165] = Constants.Terrafirma_Color.STALAGTITE;
@@ -1108,15 +1216,15 @@ namespace Map
             ColorDefs[167] = Constants.Terrafirma_Color.LEAD_ORE;
             ColorDefs[168] = Constants.Terrafirma_Color.TUNGSTEN_ORE;
             ColorDefs[169] = Constants.Terrafirma_Color.PLATINUM_ORE;
-            ColorDefs[170] = Constants.Terrafirma_Color.TIN_CHANDELIER;
-            ColorDefs[171] = Constants.Terrafirma_Color.TUNGSTEN_CHANDELIER;
-            ColorDefs[172] = Constants.Terrafirma_Color.PLATINUM_CHANDELIER;
+            ColorDefs[170] = Constants.Terrafirma_Color.PINE_TREE_BLOCK;
+            ColorDefs[171] = Constants.Terrafirma_Color.CHRISTMAS_TREE;
+            ColorDefs[172] = Constants.Terrafirma_Color.HAUNTED_PLATINUM_CHANDELIER;
             ColorDefs[173] = Constants.Terrafirma_Color.PLATINUM_CANDELABRA;
             ColorDefs[174] = Constants.Terrafirma_Color.PLATINUM_CANDLE;
             ColorDefs[175] = Constants.Terrafirma_Color.TIN_BRICK;
             ColorDefs[176] = Constants.Terrafirma_Color.TUNGSTEN_BRICK;
             ColorDefs[177] = Constants.Terrafirma_Color.PLATINUM_BRICK;
-            ColorDefs[178] = Constants.Terrafirma_Color.AMETHYST_2;
+            ColorDefs[178] = Constants.Terrafirma_Color.GEM;
             ColorDefs[179] = Constants.Terrafirma_Color.MOSS;
             ColorDefs[180] = Constants.Terrafirma_Color.BROWN_MOSS;
             ColorDefs[181] = Constants.Terrafirma_Color.RED_MOSS;
@@ -1165,7 +1273,7 @@ namespace Map
             ColorDefs[224] = Constants.Terrafirma_Color.SLUSH;
             ColorDefs[225] = Constants.Terrafirma_Color.HIVE;
             ColorDefs[226] = Constants.Terrafirma_Color.LIHZAHRD_BRICK;
-            ColorDefs[227] = Constants.Terrafirma_Color.TEAL_MUSHROOM;
+            ColorDefs[227] = Constants.Terrafirma_Color.DYE_FLOWERS;
             ColorDefs[228] = Constants.Terrafirma_Color.DYE_VAT;
             ColorDefs[229] = Constants.Terrafirma_Color.HONEY;
             ColorDefs[230] = Constants.Terrafirma_Color.CRISPY_HONEY;
@@ -1174,10 +1282,10 @@ namespace Map
             ColorDefs[233] = Constants.Terrafirma_Color.PLANT;
             ColorDefs[234] = Constants.Terrafirma_Color.CRIMSAND;
             ColorDefs[235] = Constants.Terrafirma_Color.TELEPORTER;
-            ColorDefs[236] = Constants.Terrafirma_Color.HEART_FRUIT;
+            ColorDefs[236] = Constants.Terrafirma_Color.LIFE_FRUIT;
             ColorDefs[237] = Constants.Terrafirma_Color.LIHZAHRD_ALTAR;
-            ColorDefs[238] = Constants.Terrafirma_Color.PURPLE_FLOWER;
-            ColorDefs[239] = Constants.Terrafirma_Color.COPPER_BAR;
+            ColorDefs[238] = Constants.Terrafirma_Color.PLANTERAS_BULB;
+            ColorDefs[239] = Constants.Terrafirma_Color.INGOTS;
             ColorDefs[240] = Constants.Terrafirma_Color.PICTURE;
             ColorDefs[241] = Constants.Terrafirma_Color.CATACOMB;
             ColorDefs[242] = Constants.Terrafirma_Color.PICTURE_2;
@@ -1189,147 +1297,238 @@ namespace Map
             ColorDefs[248] = Constants.Terrafirma_Color.PALLADIUM_COLUMN;
             ColorDefs[249] = Constants.Terrafirma_Color.BUBBLEGUM;
             ColorDefs[250] = Constants.Terrafirma_Color.TITANSTONE;
+            ColorDefs[251] = Constants.Terrafirma_Color.PUMPKIN;
+            ColorDefs[252] = Constants.Terrafirma_Color.HAY;
+            ColorDefs[253] = Constants.Terrafirma_Color.SPOOKY_WOOD;
+            ColorDefs[254] = Constants.Terrafirma_Color.PUMPKIN_SEED;
+            ColorDefs[255] = Constants.Terrafirma_Color.AMETHYST_BLOCK;
+            ColorDefs[256] = Constants.Terrafirma_Color.TOPAZ_BLOCK;
+            ColorDefs[257] = Constants.Terrafirma_Color.SAPPHIRE_BLOCK;
+            ColorDefs[258] = Constants.Terrafirma_Color.EMERALD_BLOCK;
+            ColorDefs[259] = Constants.Terrafirma_Color.RUBY_BLOCK;
+            ColorDefs[260] = Constants.Terrafirma_Color.DIAMOND_BLOCK;
+            ColorDefs[261] = Constants.Terrafirma_Color.AMBER_BLOCK;
+            ColorDefs[262] = Constants.Terrafirma_Color.AMETHYST_GEMSPARK_BLOCK;
+            ColorDefs[263] = Constants.Terrafirma_Color.TOPAZ_GEMSPARK_BLOCK;
+            ColorDefs[264] = Constants.Terrafirma_Color.SAPPHIRE_GEMSPARK_BLOCK;
+            ColorDefs[265] = Constants.Terrafirma_Color.EMERALD_GEMSPARK_BLOCK;
+            ColorDefs[266] = Constants.Terrafirma_Color.RUBY_GEMSPARK_BLOCK;
+            ColorDefs[267] = Constants.Terrafirma_Color.DIAMOND_GEMSPARK_BLOCK;
+            ColorDefs[268] = Constants.Terrafirma_Color.AMBER_GEMSPARK_BLOCK;
+            ColorDefs[269] = Constants.Terrafirma_Color.WOMANNEQUIN;
+            ColorDefs[270] = Constants.Terrafirma_Color.FIREFLY_IN_A_BOTTLE;
+            ColorDefs[271] = Constants.Terrafirma_Color.LIGHTNING_BUG_IN_A_BOTTLE;
+            ColorDefs[272] = Constants.Terrafirma_Color.IRON_PLATING;
+            ColorDefs[273] = Constants.Terrafirma_Color.STONE_SLAB;
+            ColorDefs[274] = Constants.Terrafirma_Color.SANDSTONE_SLAB;
+            ColorDefs[275] = Constants.Terrafirma_Color.BUNNY_CAGE;
+            ColorDefs[276] = Constants.Terrafirma_Color.SQUIRREL_CAGE;
+            ColorDefs[277] = Constants.Terrafirma_Color.MALLARD_DUCK_CAGE;
+            ColorDefs[278] = Constants.Terrafirma_Color.DUCK_CAGE;
+            ColorDefs[279] = Constants.Terrafirma_Color.BIRD_CAGE;
+            ColorDefs[280] = Constants.Terrafirma_Color.BLUE_JAY_CAGE;
+            ColorDefs[281] = Constants.Terrafirma_Color.CARDINAL_CAGE;
+            ColorDefs[282] = Constants.Terrafirma_Color.FISH_BOWL;
+            ColorDefs[283] = Constants.Terrafirma_Color.HEAVY_WORK_BENCH;
+            ColorDefs[284] = Constants.Terrafirma_Color.COPPER_PLATING;
+            ColorDefs[285] = Constants.Terrafirma_Color.SNAIL_CAGE;
+            ColorDefs[286] = Constants.Terrafirma_Color.GLOWING_SNAIL_CAGE;
+            ColorDefs[287] = Constants.Terrafirma_Color.AMMO_BOX;
+            ColorDefs[288] = Constants.Terrafirma_Color.MONARCH_BUTTERFLY_JAR;
+            ColorDefs[289] = Constants.Terrafirma_Color.PURPLE_EMPEROR_BUTTERFLY_JAR;
+            ColorDefs[290] = Constants.Terrafirma_Color.RED_ADMIRAL_BUTTERFLY_JAR;
+            ColorDefs[291] = Constants.Terrafirma_Color.ULYSSES_BUTTERFLY_JAR;
+            ColorDefs[292] = Constants.Terrafirma_Color.SULPHUR_BUTTERFLY_JAR;
+            ColorDefs[293] = Constants.Terrafirma_Color.TREE_NYMPH_BUTTERFLY_JAR;
+            ColorDefs[294] = Constants.Terrafirma_Color.ZEBRA_SWALLOWTAIL_BUTTERFLY_JAR;
+            ColorDefs[295] = Constants.Terrafirma_Color.JULIA_BUTTERFLY_JAR;
+            ColorDefs[296] = Constants.Terrafirma_Color.SCORPION_CAGE;
+            ColorDefs[297] = Constants.Terrafirma_Color.BLACK_SCORPION_CAGE;
+            ColorDefs[298] = Constants.Terrafirma_Color.FROG_CAGE;
+            ColorDefs[299] = Constants.Terrafirma_Color.MOUSE_CAGE;
+            ColorDefs[300] = Constants.Terrafirma_Color.BONE_WELDER;
+            ColorDefs[301] = Constants.Terrafirma_Color.FLESH_CLONING_VAT;
+            ColorDefs[302] = Constants.Terrafirma_Color.GLASS_KILN;
+            ColorDefs[303] = Constants.Terrafirma_Color.LIHZAHRD_FURNACE;
+            ColorDefs[304] = Constants.Terrafirma_Color.LIVING_LOOM;
+            ColorDefs[305] = Constants.Terrafirma_Color.SKY_MILL;
+            ColorDefs[306] = Constants.Terrafirma_Color.ICE_MACHINE;
+            ColorDefs[307] = Constants.Terrafirma_Color.STEAMPUNK_BOILER;
+            ColorDefs[308] = Constants.Terrafirma_Color.HONEY_DISPENSER;
+            ColorDefs[309] = Constants.Terrafirma_Color.PENGUIN_CAGE;
+            ColorDefs[310] = Constants.Terrafirma_Color.WORM_CAGE;
+            ColorDefs[311] = Constants.Terrafirma_Color.DYNASTY_WOOD;
+            ColorDefs[312] = Constants.Terrafirma_Color.RED_DYNASTY_SHINGLES;
+            ColorDefs[313] = Constants.Terrafirma_Color.BLUE_DYNASTY_SHINGLES;
 
-            for (int i = 251; i < 265; i++)
+            for (int i = 314; i < 451; i++)
             {
                 ColorDefs[i] = System.Drawing.Color.Magenta;
             }
 
-            //global
-            ColorDefs[265] = Constants.Terrafirma_Color.SKY;
-            ColorDefs[266] = Constants.Terrafirma_Color.WATER;
-            ColorDefs[267] = Constants.Terrafirma_Color.LAVA;
-
             //walls
-            ColorDefs[268] = Constants.Terrafirma_Color.STONE_WALL;
-            ColorDefs[269] = Constants.Terrafirma_Color.DIRT_WALL;
-            ColorDefs[270] = Constants.Terrafirma_Color.STONE_WALL_2;
-            ColorDefs[271] = Constants.Terrafirma_Color.WOOD_WALL;
-            ColorDefs[272] = Constants.Terrafirma_Color.GRAY_BRICK_WALL;
-            ColorDefs[273] = Constants.Terrafirma_Color.RED_BRICK_WALL;
-            ColorDefs[274] = Constants.Terrafirma_Color.BLUE_BRICK_WALL;
-            ColorDefs[275] = Constants.Terrafirma_Color.GREEN_BRICK_WALL;
-            ColorDefs[276] = Constants.Terrafirma_Color.PINK_BRICK_WALL;
-            ColorDefs[277] = Constants.Terrafirma_Color.GOLD_BRICK_WALL;
-            ColorDefs[278] = Constants.Terrafirma_Color.SILVER_BRICK_WALL;
-            ColorDefs[279] = Constants.Terrafirma_Color.COPPER_BRICK_WALL;
-            ColorDefs[280] = Constants.Terrafirma_Color.HELLSTONE_BRICK_WALL;
-            ColorDefs[281] = Constants.Terrafirma_Color.OBSIDIAN_WALL;
-            ColorDefs[282] = Constants.Terrafirma_Color.MUD_WALL;
-            ColorDefs[283] = Constants.Terrafirma_Color.DIRT_WALL_2;
-            ColorDefs[284] = Constants.Terrafirma_Color.BLUE_BRICK_WALL_2;
-            ColorDefs[285] = Constants.Terrafirma_Color.GREEN_BRICK_WALL_2;
-            ColorDefs[286] = Constants.Terrafirma_Color.PINK_BRICK_WALL_2;
-            ColorDefs[287] = Constants.Terrafirma_Color.OBSIDIAN_BRICK_WALL;
-            ColorDefs[288] = Constants.Terrafirma_Color.GLASS_WALL;
-            ColorDefs[289] = Constants.Terrafirma_Color.PEARLSTONE_BRICK_WALL;
-            ColorDefs[290] = Constants.Terrafirma_Color.IRIDESCENT_BRICK_WALL;
-            ColorDefs[291] = Constants.Terrafirma_Color.MUDSTONE_BRICK_WALL;
-            ColorDefs[292] = Constants.Terrafirma_Color.COBALT_BRICK_WALL;
-            ColorDefs[293] = Constants.Terrafirma_Color.MYTHRIL_BRICK_WALL;
-            ColorDefs[294] = Constants.Terrafirma_Color.PLANKED_WALL;
-            ColorDefs[295] = Constants.Terrafirma_Color.PEARLSTONE_WALL;
-            ColorDefs[296] = Constants.Terrafirma_Color.CANDY_CANE_WALL;
-            ColorDefs[297] = Constants.Terrafirma_Color.GREEN_CANDY_CANE_WALL;
-            ColorDefs[298] = Constants.Terrafirma_Color.SNOW_BRICK_WALL;
-            ColorDefs[299] = Constants.Terrafirma_Color.ADAMANTITE_BEAM_WALL;
-            ColorDefs[300] = Constants.Terrafirma_Color.DEMONITE_BRICK_WALL;
-            ColorDefs[301] = Constants.Terrafirma_Color.SANDSTONE_BRICK_WALL;
-            ColorDefs[302] = Constants.Terrafirma_Color.EBONSTONE_BRICK_WALL;
-            ColorDefs[303] = Constants.Terrafirma_Color.RED_STUCCO_WALL;
-            ColorDefs[304] = Constants.Terrafirma_Color.YELLOW_STUCCO_WALL;
-            ColorDefs[305] = Constants.Terrafirma_Color.GREEN_STUCCO_WALL;
-            ColorDefs[306] = Constants.Terrafirma_Color.GRAY_STUCCO_WALL;
-            ColorDefs[307] = Constants.Terrafirma_Color.SNOW_WALL;
-            ColorDefs[308] = Constants.Terrafirma_Color.EBONWOOD_WALL;
-            ColorDefs[309] = Constants.Terrafirma_Color.RICH_MAHOGANY_WALL;
-            ColorDefs[310] = Constants.Terrafirma_Color.PEARLWOOD_WALL;
-            ColorDefs[311] = Constants.Terrafirma_Color.RAINBOW_BRICK_WALL;
-            ColorDefs[312] = Constants.Terrafirma_Color.TIN_BRICK_WALL;
-            ColorDefs[313] = Constants.Terrafirma_Color.TUNGSTEN_BRICK_WALL;
-            ColorDefs[314] = Constants.Terrafirma_Color.PLATINUM_BRICK_WALL;
-            ColorDefs[315] = Constants.Terrafirma_Color.AMETHYST_WALL;
-            ColorDefs[316] = Constants.Terrafirma_Color.TOPAZ_WALL;
-            ColorDefs[317] = Constants.Terrafirma_Color.SAPPHIRE_WALL;
-            ColorDefs[318] = Constants.Terrafirma_Color.EMERALD_WALL;
-            ColorDefs[319] = Constants.Terrafirma_Color.RUBY_WALL;
-            ColorDefs[320] = Constants.Terrafirma_Color.DIAMOND_WALL;
-            ColorDefs[321] = Constants.Terrafirma_Color.MOSS_WALL;
-            ColorDefs[322] = Constants.Terrafirma_Color.GREEN_MOSS_WALL;
-            ColorDefs[323] = Constants.Terrafirma_Color.RED_MOSS_WALL;
-            ColorDefs[324] = Constants.Terrafirma_Color.BLUE_MOSS_WALL;
-            ColorDefs[325] = Constants.Terrafirma_Color.PURPLE_MOSS_WALL;
-            ColorDefs[326] = Constants.Terrafirma_Color.ROCKY_DIRT_WALL;
-            ColorDefs[327] = Constants.Terrafirma_Color.SHRUB_WALL;
-            ColorDefs[328] = Constants.Terrafirma_Color.ROCK_WALL;
-            ColorDefs[329] = Constants.Terrafirma_Color.SPIDER_CAVE_WALL;
-            ColorDefs[330] = Constants.Terrafirma_Color.SHRUB_WALL_2;
-            ColorDefs[331] = Constants.Terrafirma_Color.SHRUB_WALL_3;
-            ColorDefs[332] = Constants.Terrafirma_Color.SHRUB_WALL_4;
-            ColorDefs[333] = Constants.Terrafirma_Color.GRASS_WALL;
-            ColorDefs[334] = Constants.Terrafirma_Color.JUNGLE_WALL;
-            ColorDefs[335] = Constants.Terrafirma_Color.FLOWER_WALL;
-            ColorDefs[336] = Constants.Terrafirma_Color.SHRUB_WALL_5;
-            ColorDefs[337] = Constants.Terrafirma_Color.SHRUB_WALL_6;
-            ColorDefs[338] = Constants.Terrafirma_Color.ICE_WALL;
-            ColorDefs[339] = Constants.Terrafirma_Color.CACTUS_WALL;
-            ColorDefs[340] = Constants.Terrafirma_Color.CLOUD_WALL;
-            ColorDefs[341] = Constants.Terrafirma_Color.MUSHROOM_WALL;
-            ColorDefs[342] = Constants.Terrafirma_Color.BONE_WALL;
-            ColorDefs[343] = Constants.Terrafirma_Color.SLIME_WALL;
-            ColorDefs[344] = Constants.Terrafirma_Color.FLESH_WALL;
-            ColorDefs[345] = Constants.Terrafirma_Color.LIVING_WOOD_WALL;
-            ColorDefs[346] = Constants.Terrafirma_Color.CAVE_WALL;
-            ColorDefs[347] = Constants.Terrafirma_Color.MUSHROOM_WALL_2;
-            ColorDefs[348] = Constants.Terrafirma_Color.CLAY_WALL;
-            ColorDefs[349] = Constants.Terrafirma_Color.DISC_WALL;
-            ColorDefs[350] = Constants.Terrafirma_Color.HELLSTONE_WALL;
-            ColorDefs[351] = Constants.Terrafirma_Color.ICE_BRICK_WALL;
-            ColorDefs[352] = Constants.Terrafirma_Color.SHADEWOOD_WALL;
-            ColorDefs[353] = Constants.Terrafirma_Color.HIVE_WALL;
-            ColorDefs[354] = Constants.Terrafirma_Color.LIHZAHRD_BRICK_WALL;
-            ColorDefs[355] = Constants.Terrafirma_Color.PURPLE_STAINED_GLASS;
-            ColorDefs[356] = Constants.Terrafirma_Color.YELLOW_STAINED_GLASS;
-            ColorDefs[357] = Constants.Terrafirma_Color.BLUE_STAINED_GLASS;
-            ColorDefs[358] = Constants.Terrafirma_Color.GREEN_STAINED_GLASS;
-            ColorDefs[359] = Constants.Terrafirma_Color.RED_STAINED_GLASS;
-            ColorDefs[360] = Constants.Terrafirma_Color.MULTICOLORED_STAINED_GLASS;
-            ColorDefs[361] = Constants.Terrafirma_Color.SMALL_BLUE_BRICK_WALL;
-            ColorDefs[362] = Constants.Terrafirma_Color.BLUE_BLOCK_WALL;
-            ColorDefs[363] = Constants.Terrafirma_Color.PINK_BLOCK_WALL;
-            ColorDefs[364] = Constants.Terrafirma_Color.SMALL_PINK_BRICK_WALL;
-            ColorDefs[365] = Constants.Terrafirma_Color.SMALL_GREEN_BRICK_WALL;
-            ColorDefs[366] = Constants.Terrafirma_Color.GREEN_BLOCK_WALL;
-            ColorDefs[367] = Constants.Terrafirma_Color.BLUE_SLAB_WALL;
-            ColorDefs[368] = Constants.Terrafirma_Color.BLUE_TILED_WALL;
-            ColorDefs[369] = Constants.Terrafirma_Color.PINK_SLAB_WALL;
-            ColorDefs[370] = Constants.Terrafirma_Color.PINK_TILED_WALL;
-            ColorDefs[371] = Constants.Terrafirma_Color.GREEN_SLAB_WALL;
-            ColorDefs[372] = Constants.Terrafirma_Color.GREEN_TILED_WALL;
-            ColorDefs[373] = Constants.Terrafirma_Color.WOODEN_FENCE;
-            ColorDefs[374] = Constants.Terrafirma_Color.METAL_FENCE;
-            ColorDefs[375] = Constants.Terrafirma_Color.HIVE_WALL_2;
-            ColorDefs[376] = Constants.Terrafirma_Color.PALLADIUM_COLUMN_WALL;
-            ColorDefs[377] = Constants.Terrafirma_Color.BUBBLEGUM_WALL;
-            ColorDefs[378] = Constants.Terrafirma_Color.TITANSTONE_WALL;
+            ColorDefs[451] = Constants.Terrafirma_Color.STONE_WALL;
+            ColorDefs[452] = Constants.Terrafirma_Color.DIRT_WALL;
+            ColorDefs[453] = Constants.Terrafirma_Color.STONE_WALL_2;
+            ColorDefs[454] = Constants.Terrafirma_Color.WOOD_WALL;
+            ColorDefs[455] = Constants.Terrafirma_Color.GRAY_BRICK_WALL;
+            ColorDefs[456] = Constants.Terrafirma_Color.RED_BRICK_WALL;
+            ColorDefs[457] = Constants.Terrafirma_Color.BLUE_BRICK_WALL;
+            ColorDefs[458] = Constants.Terrafirma_Color.GREEN_BRICK_WALL;
+            ColorDefs[459] = Constants.Terrafirma_Color.PINK_BRICK_WALL;
+            ColorDefs[460] = Constants.Terrafirma_Color.GOLD_BRICK_WALL;
+            ColorDefs[461] = Constants.Terrafirma_Color.SILVER_BRICK_WALL;
+            ColorDefs[462] = Constants.Terrafirma_Color.COPPER_BRICK_WALL;
+            ColorDefs[463] = Constants.Terrafirma_Color.HELLSTONE_BRICK_WALL;
+            ColorDefs[464] = Constants.Terrafirma_Color.OBSIDIAN_WALL;
+            ColorDefs[465] = Constants.Terrafirma_Color.MUD_WALL;
+            ColorDefs[466] = Constants.Terrafirma_Color.DIRT_WALL_2;
+            ColorDefs[467] = Constants.Terrafirma_Color.BLUE_BRICK_WALL_2;
+            ColorDefs[468] = Constants.Terrafirma_Color.GREEN_BRICK_WALL_2;
+            ColorDefs[469] = Constants.Terrafirma_Color.PINK_BRICK_WALL_2;
+            ColorDefs[470] = Constants.Terrafirma_Color.OBSIDIAN_BRICK_WALL;
+            ColorDefs[471] = Constants.Terrafirma_Color.GLASS_WALL;
+            ColorDefs[472] = Constants.Terrafirma_Color.PEARLSTONE_BRICK_WALL;
+            ColorDefs[473] = Constants.Terrafirma_Color.IRIDESCENT_BRICK_WALL;
+            ColorDefs[474] = Constants.Terrafirma_Color.MUDSTONE_BRICK_WALL;
+            ColorDefs[475] = Constants.Terrafirma_Color.COBALT_BRICK_WALL;
+            ColorDefs[476] = Constants.Terrafirma_Color.MYTHRIL_BRICK_WALL;
+            ColorDefs[477] = Constants.Terrafirma_Color.PLANKED_WALL;
+            ColorDefs[478] = Constants.Terrafirma_Color.PEARLSTONE_WALL;
+            ColorDefs[479] = Constants.Terrafirma_Color.CANDY_CANE_WALL;
+            ColorDefs[480] = Constants.Terrafirma_Color.GREEN_CANDY_CANE_WALL;
+            ColorDefs[481] = Constants.Terrafirma_Color.SNOW_BRICK_WALL;
+            ColorDefs[482] = Constants.Terrafirma_Color.ADAMANTITE_BEAM_WALL;
+            ColorDefs[483] = Constants.Terrafirma_Color.DEMONITE_BRICK_WALL;
+            ColorDefs[484] = Constants.Terrafirma_Color.SANDSTONE_BRICK_WALL;
+            ColorDefs[485] = Constants.Terrafirma_Color.EBONSTONE_BRICK_WALL;
+            ColorDefs[486] = Constants.Terrafirma_Color.RED_STUCCO_WALL;
+            ColorDefs[487] = Constants.Terrafirma_Color.YELLOW_STUCCO_WALL;
+            ColorDefs[488] = Constants.Terrafirma_Color.GREEN_STUCCO_WALL;
+            ColorDefs[489] = Constants.Terrafirma_Color.GRAY_STUCCO_WALL;
+            ColorDefs[490] = Constants.Terrafirma_Color.SNOW_WALL;
+            ColorDefs[491] = Constants.Terrafirma_Color.EBONWOOD_WALL;
+            ColorDefs[492] = Constants.Terrafirma_Color.RICH_MAHOGANY_WALL;
+            ColorDefs[493] = Constants.Terrafirma_Color.PEARLWOOD_WALL;
+            ColorDefs[494] = Constants.Terrafirma_Color.RAINBOW_BRICK_WALL;
+            ColorDefs[495] = Constants.Terrafirma_Color.TIN_BRICK_WALL;
+            ColorDefs[496] = Constants.Terrafirma_Color.TUNGSTEN_BRICK_WALL;
+            ColorDefs[497] = Constants.Terrafirma_Color.PLATINUM_BRICK_WALL;
+            ColorDefs[498] = Constants.Terrafirma_Color.AMETHYST_WALL;
+            ColorDefs[499] = Constants.Terrafirma_Color.TOPAZ_WALL;
+            ColorDefs[500] = Constants.Terrafirma_Color.SAPPHIRE_WALL;
+            ColorDefs[501] = Constants.Terrafirma_Color.EMERALD_WALL;
+            ColorDefs[502] = Constants.Terrafirma_Color.RUBY_WALL;
+            ColorDefs[503] = Constants.Terrafirma_Color.DIAMOND_WALL;
+            ColorDefs[504] = Constants.Terrafirma_Color.MOSS_WALL;
+            ColorDefs[505] = Constants.Terrafirma_Color.GREEN_MOSS_WALL;
+            ColorDefs[506] = Constants.Terrafirma_Color.RED_MOSS_WALL;
+            ColorDefs[507] = Constants.Terrafirma_Color.BLUE_MOSS_WALL;
+            ColorDefs[508] = Constants.Terrafirma_Color.PURPLE_MOSS_WALL;
+            ColorDefs[509] = Constants.Terrafirma_Color.ROCKY_DIRT_WALL;
+            ColorDefs[510] = Constants.Terrafirma_Color.SHRUB_WALL;
+            ColorDefs[511] = Constants.Terrafirma_Color.ROCK_WALL;
+            ColorDefs[512] = Constants.Terrafirma_Color.SPIDER_CAVE_WALL;
+            ColorDefs[513] = Constants.Terrafirma_Color.SHRUB_WALL_2;
+            ColorDefs[514] = Constants.Terrafirma_Color.SHRUB_WALL_3;
+            ColorDefs[515] = Constants.Terrafirma_Color.SHRUB_WALL_4;
+            ColorDefs[516] = Constants.Terrafirma_Color.GRASS_WALL;
+            ColorDefs[517] = Constants.Terrafirma_Color.JUNGLE_WALL;
+            ColorDefs[518] = Constants.Terrafirma_Color.FLOWER_WALL;
+            ColorDefs[519] = Constants.Terrafirma_Color.SHRUB_WALL_5;
+            ColorDefs[520] = Constants.Terrafirma_Color.SHRUB_WALL_6;
+            ColorDefs[521] = Constants.Terrafirma_Color.ICE_WALL;
+            ColorDefs[522] = Constants.Terrafirma_Color.CACTUS_WALL;
+            ColorDefs[523] = Constants.Terrafirma_Color.CLOUD_WALL;
+            ColorDefs[524] = Constants.Terrafirma_Color.MUSHROOM_WALL;
+            ColorDefs[525] = Constants.Terrafirma_Color.BONE_WALL;
+            ColorDefs[526] = Constants.Terrafirma_Color.SLIME_WALL;
+            ColorDefs[527] = Constants.Terrafirma_Color.FLESH_WALL;
+            ColorDefs[528] = Constants.Terrafirma_Color.LIVING_WOOD_WALL;
+            ColorDefs[529] = Constants.Terrafirma_Color.CAVE_WALL;
+            ColorDefs[530] = Constants.Terrafirma_Color.MUSHROOM_WALL_2;
+            ColorDefs[531] = Constants.Terrafirma_Color.CLAY_WALL;
+            ColorDefs[532] = Constants.Terrafirma_Color.DISC_WALL;
+            ColorDefs[533] = Constants.Terrafirma_Color.HELLSTONE_WALL;
+            ColorDefs[534] = Constants.Terrafirma_Color.ICE_BRICK_WALL;
+            ColorDefs[535] = Constants.Terrafirma_Color.SHADEWOOD_WALL;
+            ColorDefs[536] = Constants.Terrafirma_Color.HIVE_WALL;
+            ColorDefs[537] = Constants.Terrafirma_Color.LIHZAHRD_BRICK_WALL;
+            ColorDefs[538] = Constants.Terrafirma_Color.PURPLE_STAINED_GLASS;
+            ColorDefs[539] = Constants.Terrafirma_Color.YELLOW_STAINED_GLASS;
+            ColorDefs[540] = Constants.Terrafirma_Color.BLUE_STAINED_GLASS;
+            ColorDefs[541] = Constants.Terrafirma_Color.GREEN_STAINED_GLASS;
+            ColorDefs[542] = Constants.Terrafirma_Color.RED_STAINED_GLASS;
+            ColorDefs[543] = Constants.Terrafirma_Color.MULTICOLORED_STAINED_GLASS;
+            ColorDefs[544] = Constants.Terrafirma_Color.SMALL_BLUE_BRICK_WALL;
+            ColorDefs[545] = Constants.Terrafirma_Color.BLUE_BLOCK_WALL;
+            ColorDefs[546] = Constants.Terrafirma_Color.PINK_BLOCK_WALL;
+            ColorDefs[547] = Constants.Terrafirma_Color.SMALL_PINK_BRICK_WALL;
+            ColorDefs[548] = Constants.Terrafirma_Color.SMALL_GREEN_BRICK_WALL;
+            ColorDefs[549] = Constants.Terrafirma_Color.GREEN_BLOCK_WALL;
+            ColorDefs[550] = Constants.Terrafirma_Color.BLUE_SLAB_WALL;
+            ColorDefs[551] = Constants.Terrafirma_Color.BLUE_TILED_WALL;
+            ColorDefs[552] = Constants.Terrafirma_Color.PINK_SLAB_WALL;
+            ColorDefs[553] = Constants.Terrafirma_Color.PINK_TILED_WALL;
+            ColorDefs[554] = Constants.Terrafirma_Color.GREEN_SLAB_WALL;
+            ColorDefs[555] = Constants.Terrafirma_Color.GREEN_TILED_WALL;
+            ColorDefs[556] = Constants.Terrafirma_Color.WOODEN_FENCE;
+            ColorDefs[557] = Constants.Terrafirma_Color.METAL_FENCE;
+            ColorDefs[558] = Constants.Terrafirma_Color.HIVE_WALL_2;
+            ColorDefs[559] = Constants.Terrafirma_Color.PALLADIUM_COLUMN_WALL;
+            ColorDefs[560] = Constants.Terrafirma_Color.BUBBLEGUM_WALL;
+            ColorDefs[561] = Constants.Terrafirma_Color.TITANSTONE_WALL;
+            ColorDefs[562] = Constants.Terrafirma_Color.LIHZAHRD_BRICK_WALL_2;
+            ColorDefs[563] = Constants.Terrafirma_Color.PUMPKIN_WALL;
+            ColorDefs[564] = Constants.Terrafirma_Color.HAY_WALL;
+            ColorDefs[565] = Constants.Terrafirma_Color.SPOOKY_WOOD_WALL;
+            ColorDefs[566] = Constants.Terrafirma_Color.CHRISTMAS_TREE_WALLPAPER;
+            ColorDefs[567] = Constants.Terrafirma_Color.ORNAMENT_WALLPAPER;
+            ColorDefs[568] = Constants.Terrafirma_Color.CANDY_CANE_WALLPAPER;
+            ColorDefs[569] = Constants.Terrafirma_Color.FESTIVE_WALLPAPER;
+            ColorDefs[570] = Constants.Terrafirma_Color.STARS_WALLPAPER;
+            ColorDefs[571] = Constants.Terrafirma_Color.SQUIGGLES_WALLPAPER;
+            ColorDefs[572] = Constants.Terrafirma_Color.SNOWFLAKE_WALLPAPER;
+            ColorDefs[573] = Constants.Terrafirma_Color.KRAMPUS_HORN_WALLPAPER;
+            ColorDefs[574] = Constants.Terrafirma_Color.BLUEGREEN_WALLPAPER;
+            ColorDefs[575] = Constants.Terrafirma_Color.GRINCH_FINGER_WALLPAPER;
+            ColorDefs[576] = Constants.Terrafirma_Color.FANCY_GREY_WALLPAPER;
+            ColorDefs[577] = Constants.Terrafirma_Color.ICE_FLOE_WALLPAPER;
+            ColorDefs[578] = Constants.Terrafirma_Color.MUSIC_WALLPAPER;
+            ColorDefs[579] = Constants.Terrafirma_Color.PURPLE_RAIN_WALLPAPER;
+            ColorDefs[580] = Constants.Terrafirma_Color.RAINBOW_WALLPAPER;
+            ColorDefs[581] = Constants.Terrafirma_Color.SPARKLE_STONE_WALLPAPER;
+            ColorDefs[582] = Constants.Terrafirma_Color.STARLIT_HEAVEN_WALLPAPER;
+            ColorDefs[583] = Constants.Terrafirma_Color.BUBBLE_WALLPAPER;
+            ColorDefs[584] = Constants.Terrafirma_Color.COPPER_PIPE_WALLPAPER;
+            ColorDefs[585] = Constants.Terrafirma_Color.DUCKY_WALLPAPER;
+            ColorDefs[586] = Constants.Terrafirma_Color.WATERFALL_WALL;
+            ColorDefs[587] = Constants.Terrafirma_Color.LAVAFALL_WALL;
+            ColorDefs[588] = Constants.Terrafirma_Color.EBONWOOD_FENCE;
+            ColorDefs[589] = Constants.Terrafirma_Color.RICH_MAHOGANY_FENCE;
+            ColorDefs[590] = Constants.Terrafirma_Color.PEARLWOOD_FENCE;
+            ColorDefs[591] = Constants.Terrafirma_Color.SHADEWOOD_FENCE;
+            ColorDefs[592] = Constants.Terrafirma_Color.WHITE_DYNASTY_WALL;
+            ColorDefs[593] = Constants.Terrafirma_Color.BLUE_DYNASTY_WALL;
+            ColorDefs[594] = Constants.Terrafirma_Color.ARCANE_RUNE_WALL;
 
             // this is for faster performace
             // rather than converting from Color to UInt32 alot.
-            UInt32Defs = new Dictionary<int, UInt32>(379 + Main.maxTilesY);
+            UInt32Defs = new Dictionary<int, UInt32>(595 + Main.maxTilesY);
 
             //adds sky and earth
 
-            for (int i = 379; i < Main.worldSurface + 379; i++)
+            for (int i = 595; i < Main.worldSurface + 595; i++)
             {
                 UInt32Defs[i] = 0x84AAF8;
                 ColorDefs[i] = Constants.Terrafirma_Color.SKY;
             }
-            for (int i = (int)Main.worldSurface + 379; i < (int)Main.rockLayer + 379; i++)
+            for (int i = (int)Main.worldSurface + 595; i < (int)Main.rockLayer + 595; i++)
             {
                 UInt32Defs[i] = 0x583D2E;
                 ColorDefs[i] = Constants.Terrafirma_Color.EARTH;
             }
-            for (int i = (int)Main.rockLayer + 379; i < Main.maxTilesY + 379; i++)
+            for (int i = (int)Main.rockLayer + 595; i < Main.maxTilesY + 595; i++)
             {
                 UInt32Defs[i] = 0x000000;
                 ColorDefs[i] = Constants.Terrafirma_Color.HELL;
@@ -1340,8 +1539,8 @@ namespace Map
             {
                 double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY - Main.rockLayer);
                 UInt32 c = alphaBlend(0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
-                UInt32Defs[y + 379] = c;
-                ColorDefs[y + 379] = toColor(c);
+                UInt32Defs[y + 595] = c;
+                ColorDefs[y + 595] = toColor(c);
             }
 
             //tiles
@@ -1380,8 +1579,8 @@ namespace Map
             UInt32Defs[32] = 0x7A618F;
             UInt32Defs[33] = 0xFDDD03;
             UInt32Defs[34] = 0xB75819;
-            UInt32Defs[35] = 0xC1CACB;
-            UInt32Defs[36] = 0xB9A417;
+            UInt32Defs[35] = 0xEAAD53;
+            UInt32Defs[36] = 0xC22E32;
             UInt32Defs[37] = 0x685654;
             UInt32Defs[38] = 0x8C8C8C;
             UInt32Defs[39] = 0xC37057;
@@ -1515,9 +1714,9 @@ namespace Map
             UInt32Defs[167] = 0x2f3e57;
             UInt32Defs[168] = 0x5a7d53;
             UInt32Defs[169] = 0x8097b8;
-            UInt32Defs[170] = 0x817d5d;
-            UInt32Defs[171] = 0x7a907e;
-            UInt32Defs[172] = 0x8097b8;
+            UInt32Defs[170] = 0x003F2C;
+            UInt32Defs[171] = 0x269660;
+            UInt32Defs[172] = 0x4A3D26;
             UInt32Defs[173] = 0x8097b8;
             UInt32Defs[174] = 0xfe7902;
             UInt32Defs[175] = 0xbba57c;
@@ -1596,134 +1795,225 @@ namespace Map
             UInt32Defs[248] = 0xe1623f;
             UInt32Defs[249] = 0xdf23dc;
             UInt32Defs[250] = 0x636169;
+            UInt32Defs[251] = 0xFAAC0F;
+            UInt32Defs[252] = 0xD7BA36;
+            UInt32Defs[253] = 0x4F3E5C;
+            UInt32Defs[254] = 0x1E9648;
+            UInt32Defs[255] = 0x6B319A;
+            UInt32Defs[256] = 0x9A9431;
+            UInt32Defs[257] = 0x31319A;
+            UInt32Defs[258] = 0x319A44;
+            UInt32Defs[259] = 0x9A314D;
+            UInt32Defs[260] = 0x555976;
+            UInt32Defs[261] = 0x9A5331;
+            UInt32Defs[262] = 0xDD4FFF;
+            UInt32Defs[263] = 0xFAFF4F;
+            UInt32Defs[264] = 0x4F66FF;
+            UInt32Defs[265] = 0x4FFF59;
+            UInt32Defs[266] = 0xFF4F4F;
+            UInt32Defs[267] = 0xF0F0F7;
+            UInt32Defs[268] = 0xFF914F;
+            UInt32Defs[269] = 0x906850;
+            UInt32Defs[270] = 0x3E6350;
+            UInt32Defs[271] = 0x4BA8AF;
+            UInt32Defs[272] = 0x434343;
+            UInt32Defs[273] = 0x636363;
+            UInt32Defs[274] = 0xD3C66F;
+            UInt32Defs[275] = 0x3E7994;
+            UInt32Defs[276] = 0x3E7994;
+            UInt32Defs[277] = 0x3E7994;
+            UInt32Defs[278] = 0x3E7994;
+            UInt32Defs[279] = 0x3E7994;
+            UInt32Defs[280] = 0x3E7994;
+            UInt32Defs[281] = 0x3E7994;
+            UInt32Defs[282] = 0x0839B5;
+            UInt32Defs[283] = 0x332E29;
+            UInt32Defs[284] = 0xB75819;
+            UInt32Defs[285] = 0x3E7994;
+            UInt32Defs[286] = 0x3E7994;
+            UInt32Defs[287] = 0x40660D;
+            UInt32Defs[288] = 0xB7BBD8;
+            UInt32Defs[289] = 0xB7BBD8;
+            UInt32Defs[290] = 0xB7BBD8;
+            UInt32Defs[291] = 0xB7BBD8;
+            UInt32Defs[292] = 0xB7BBD8;
+            UInt32Defs[293] = 0xB7BBD8;
+            UInt32Defs[294] = 0xB7BBD8;
+            UInt32Defs[295] = 0xB7BBD8;
+            UInt32Defs[296] = 0x3E7994;
+            UInt32Defs[297] = 0x3E7994;
+            UInt32Defs[298] = 0x3E7994;
+            UInt32Defs[299] = 0x3E7994;
+            UInt32Defs[300] = 0x81815F;
+            UInt32Defs[301] = 0xDEECAF;
+            UInt32Defs[302] = 0xC1CACB;
+            UInt32Defs[303] = 0x8D3800;
+            UInt32Defs[304] = 0x345401;
+            UInt32Defs[305] = 0x007FA6;
+            UInt32Defs[306] = 0x687799;
+            UInt32Defs[307] = 0x808080;
+            UInt32Defs[308] = 0x73450C;
+            UInt32Defs[309] = 0x3E7994;
+            UInt32Defs[310] = 0x3E7994;
+            UInt32Defs[311] = 0x874C1F;
+            UInt32Defs[312] = 0xB4443E;
+            UInt32Defs[313] = 0x599BA8;
 
             // unknown
-            for (int i = 251; i < 265; i++)
+            for (int i = 314; i < 451; i++)
             {
                 UInt32Defs[i] = 0xFF00FF;
             }
 
-            //global
-            UInt32Defs[265] = 0x84AAF8;
-            UInt32Defs[266] = 0x093dbf;
-            UInt32Defs[267] = 0xfd2003;
-
             //walls
-            UInt32Defs[268] = 0x343434;
-            UInt32Defs[269] = 0x583D2E;
-            UInt32Defs[270] = 0x3D3A4E;
-            UInt32Defs[271] = 0x523C2D;
-            UInt32Defs[272] = 0x3C3C3C;
-            UInt32Defs[273] = 0x5B1E1E;
-            UInt32Defs[274] = 0x3D4456;
-            UInt32Defs[275] = 0x384147;
-            UInt32Defs[276] = 0x603E5C;
-            UInt32Defs[277] = 0x64510A;
-            UInt32Defs[278] = 0x616969;
-            UInt32Defs[279] = 0x532E16;
-            UInt32Defs[280] = 0x492929;
-            UInt32Defs[281] = 0x020202;
-            UInt32Defs[282] = 0x31282B;
-            UInt32Defs[283] = 0x583D2E;
-            UInt32Defs[284] = 0x492929;
-            UInt32Defs[285] = 0x384147;
-            UInt32Defs[286] = 0x603E5C;
-            UInt32Defs[287] = 0x0F0F0F;
-            UInt32Defs[288] = 0x12242C;
-            UInt32Defs[289] = 0x827C79;
-            UInt32Defs[290] = 0x56494B;
-            UInt32Defs[291] = 0x403033;
-            UInt32Defs[292] = 0x0B233E;
-            UInt32Defs[293] = 0x3C5B3A;
-            UInt32Defs[294] = 0x3A291D;
-            UInt32Defs[295] = 0x515465;
-            UInt32Defs[296] = 0x581717;
-            UInt32Defs[297] = 0x2C6A26;
-            UInt32Defs[298] = 0x6B7577;
-            UInt32Defs[299] = 0x5a122b;
-            UInt32Defs[300] = 0x46455e;
-            UInt32Defs[301] = 0x6c6748;
-            UInt32Defs[302] = 0x333346;
-            UInt32Defs[303] = 0x704b46;
-            UInt32Defs[304] = 0x574f30;
-            UInt32Defs[305] = 0x5a5d73;
-            UInt32Defs[306] = 0x6d6d6b;
-            UInt32Defs[307] = 0x577173;
-            UInt32Defs[308] = 0x3a3944;
-            UInt32Defs[309] = 0x4e1e20;
-            UInt32Defs[310] = 0x776c51;
-            UInt32Defs[311] = 0x414141;
-            UInt32Defs[312] = 0x3c3b33;
-            UInt32Defs[313] = 0x586758;
-            UInt32Defs[314] = 0x666b75;
-            UInt32Defs[315] = 0x3c2452;
-            UInt32Defs[316] = 0x614b1c;
-            UInt32Defs[317] = 0x32527d;
-            UInt32Defs[318] = 0x1c4924;
-            UInt32Defs[319] = 0x431d22;
-            UInt32Defs[320] = 0x234249;
-            UInt32Defs[321] = 0x304a42;
-            UInt32Defs[322] = 0x4f4f33;
-            UInt32Defs[323] = 0x4e3938;
-            UInt32Defs[324] = 0x334452;
-            UInt32Defs[325] = 0x432f49;
-            UInt32Defs[326] = 0x83d2e;
-            UInt32Defs[327] = 0x013e17;
-            UInt32Defs[328] = 0x362619;
-            UInt32Defs[329] = 0x242424;
-            UInt32Defs[330] = 0x235f39;
-            UInt32Defs[331] = 0x3f5f23;
-            UInt32Defs[332] = 0x1e5030;
-            UInt32Defs[333] = 0x1e5030;
-            UInt32Defs[334] = 0x35501e;
-            UInt32Defs[335] = 0x1e5030;
-            UInt32Defs[336] = 0x333250;
-            UInt32Defs[337] = 0x143736;
-            UInt32Defs[338] = 0x306085;
-            UInt32Defs[339] = 0x34540c;
-            UInt32Defs[340] = 0xe4ecee;
-            UInt32Defs[341] = 0x313b8c;
-            UInt32Defs[342] = 0x63633c;
-            UInt32Defs[343] = 0x213c79;
-            UInt32Defs[344] = 0x3d0d10;
-            UInt32Defs[345] = 0x513426;
-            UInt32Defs[346] = 0x332f60;
-            UInt32Defs[347] = 0x313b8c;
-            UInt32Defs[348] = 0x844545;
-            UInt32Defs[349] = 0x4d4022;
-            UInt32Defs[350] = 0x3f1c21;
-            UInt32Defs[351] = 0x596f72;
-            UInt32Defs[352] = 0x2a363f;
-            UInt32Defs[353] = 0x8c5131;
-            UInt32Defs[354] = 0x320f08;
-            UInt32Defs[355] = 0x6c3c82;
-            UInt32Defs[356] = 0x787a45;
-            UInt32Defs[357] = 0x35498a;
-            UInt32Defs[358] = 0x45794f;
-            UInt32Defs[359] = 0x8a3535;
-            UInt32Defs[360] = 0x99255c;
-            UInt32Defs[361] = 0x303f46;
-            UInt32Defs[362] = 0x393643;
-            UInt32Defs[363] = 0x593e5f;
-            UInt32Defs[364] = 0x4e3245;
-            UInt32Defs[365] = 0x384745;
-            UInt32Defs[366] = 0x383e47;
-            UInt32Defs[367] = 0x303f46;
-            UInt32Defs[368] = 0x393643;
-            UInt32Defs[369] = 0x48324d;
-            UInt32Defs[370] = 0x4e3245;
-            UInt32Defs[371] = 0x445747;
-            UInt32Defs[372] = 0x383e47;
-            UInt32Defs[373] = 0x604438;
-            UInt32Defs[374] = 0x3c3c3c;
-            UInt32Defs[375] = 0x8c5131;
-            UInt32Defs[376] = 0x5e1911;
-            UInt32Defs[377] = 0x994996;
-            UInt32Defs[378] = 0x1f1814;
+            UInt32Defs[451] = 0x343434;
+            UInt32Defs[452] = 0x583D2E;
+            UInt32Defs[453] = 0x3D3A4E;
+            UInt32Defs[454] = 0x523C2D;
+            UInt32Defs[455] = 0x3C3C3C;
+            UInt32Defs[456] = 0x5B1E1E;
+            UInt32Defs[457] = 0x3D4456;
+            UInt32Defs[458] = 0x384147;
+            UInt32Defs[459] = 0x603E5C;
+            UInt32Defs[460] = 0x64510A;
+            UInt32Defs[461] = 0x616969;
+            UInt32Defs[462] = 0x532E16;
+            UInt32Defs[463] = 0x492929;
+            UInt32Defs[464] = 0x020202;
+            UInt32Defs[465] = 0x31282B;
+            UInt32Defs[466] = 0x583D2E;
+            UInt32Defs[467] = 0x492929;
+            UInt32Defs[468] = 0x384147;
+            UInt32Defs[469] = 0x603E5C;
+            UInt32Defs[470] = 0x0F0F0F;
+            UInt32Defs[471] = 0x12242C;
+            UInt32Defs[472] = 0x827C79;
+            UInt32Defs[473] = 0x56494B;
+            UInt32Defs[474] = 0x403033;
+            UInt32Defs[475] = 0x0B233E;
+            UInt32Defs[476] = 0x3C5B3A;
+            UInt32Defs[477] = 0x3A291D;
+            UInt32Defs[478] = 0x515465;
+            UInt32Defs[479] = 0x581717;
+            UInt32Defs[480] = 0x2C6A26;
+            UInt32Defs[481] = 0x6B7577;
+            UInt32Defs[482] = 0x5a122b;
+            UInt32Defs[483] = 0x46455e;
+            UInt32Defs[484] = 0x6c6748;
+            UInt32Defs[485] = 0x333346;
+            UInt32Defs[486] = 0x704b46;
+            UInt32Defs[487] = 0x574f30;
+            UInt32Defs[488] = 0x5a5d73;
+            UInt32Defs[489] = 0x6d6d6b;
+            UInt32Defs[490] = 0x577173;
+            UInt32Defs[491] = 0x3a3944;
+            UInt32Defs[492] = 0x4e1e20;
+            UInt32Defs[493] = 0x776c51;
+            UInt32Defs[494] = 0x414141;
+            UInt32Defs[495] = 0x3c3b33;
+            UInt32Defs[496] = 0x586758;
+            UInt32Defs[497] = 0x666b75;
+            UInt32Defs[498] = 0x3c2452;
+            UInt32Defs[499] = 0x614b1c;
+            UInt32Defs[500] = 0x32527d;
+            UInt32Defs[501] = 0x1c4924;
+            UInt32Defs[502] = 0x431d22;
+            UInt32Defs[503] = 0x234249;
+            UInt32Defs[504] = 0x304a42;
+            UInt32Defs[505] = 0x4f4f33;
+            UInt32Defs[506] = 0x4e3938;
+            UInt32Defs[507] = 0x334452;
+            UInt32Defs[508] = 0x432f49;
+            UInt32Defs[509] = 0x83d2e;
+            UInt32Defs[510] = 0x013e17;
+            UInt32Defs[511] = 0x362619;
+            UInt32Defs[512] = 0x242424;
+            UInt32Defs[513] = 0x235f39;
+            UInt32Defs[514] = 0x3f5f23;
+            UInt32Defs[515] = 0x1e5030;
+            UInt32Defs[516] = 0x1e5030;
+            UInt32Defs[517] = 0x35501e;
+            UInt32Defs[518] = 0x1e5030;
+            UInt32Defs[519] = 0x333250;
+            UInt32Defs[520] = 0x143736;
+            UInt32Defs[521] = 0x306085;
+            UInt32Defs[522] = 0x34540c;
+            UInt32Defs[523] = 0xe4ecee;
+            UInt32Defs[524] = 0x313b8c;
+            UInt32Defs[525] = 0x63633c;
+            UInt32Defs[526] = 0x213c79;
+            UInt32Defs[527] = 0x3d0d10;
+            UInt32Defs[528] = 0x513426;
+            UInt32Defs[529] = 0x332f60;
+            UInt32Defs[530] = 0x313b8c;
+            UInt32Defs[531] = 0x844545;
+            UInt32Defs[532] = 0x4d4022;
+            UInt32Defs[533] = 0x3f1c21;
+            UInt32Defs[534] = 0x596f72;
+            UInt32Defs[535] = 0x2a363f;
+            UInt32Defs[536] = 0x8c5131;
+            UInt32Defs[537] = 0x320f08;
+            UInt32Defs[538] = 0x6c3c82;
+            UInt32Defs[539] = 0x787a45;
+            UInt32Defs[540] = 0x35498a;
+            UInt32Defs[541] = 0x45794f;
+            UInt32Defs[542] = 0x8a3535;
+            UInt32Defs[543] = 0x99255c;
+            UInt32Defs[544] = 0x303f46;
+            UInt32Defs[545] = 0x393643;
+            UInt32Defs[546] = 0x593e5f;
+            UInt32Defs[547] = 0x4e3245;
+            UInt32Defs[548] = 0x384745;
+            UInt32Defs[549] = 0x383e47;
+            UInt32Defs[550] = 0x303f46;
+            UInt32Defs[551] = 0x393643;
+            UInt32Defs[552] = 0x48324d;
+            UInt32Defs[553] = 0x4e3245;
+            UInt32Defs[554] = 0x445747;
+            UInt32Defs[555] = 0x383e47;
+            UInt32Defs[556] = 0x604438;
+            UInt32Defs[557] = 0x3c3c3c;
+            UInt32Defs[558] = 0x8c5131;
+            UInt32Defs[559] = 0x5e1911;
+            UInt32Defs[560] = 0x994996;
+            UInt32Defs[561] = 0x1f1814;
+            UInt32Defs[562] = 0x320F08;
+            UInt32Defs[563] = 0x803700;
+            UInt32Defs[564] = 0x745E19;
+            UInt32Defs[565] = 0x33243F;
+            UInt32Defs[566] = 0x5A1B1C;
+            UInt32Defs[567] = 0x7D7A71;
+            UInt32Defs[568] = 0x073112;
+            UInt32Defs[569] = 0x69181B;
+            UInt32Defs[570] = 0x111F41;
+            UInt32Defs[571] = 0xC6C3B7;
+            UInt32Defs[572] = 0x6E6E7E;
+            UInt32Defs[573] = 0x85755F;
+            UInt32Defs[574] = 0x100340;
+            UInt32Defs[575] = 0x748352;
+            UInt32Defs[576] = 0x8F919D;
+            UInt32Defs[577] = 0x8CB9E2;
+            UInt32Defs[578] = 0x6F1975;
+            UInt32Defs[579] = 0x311B91;
+            UInt32Defs[580] = 0x6505C1;
+            UInt32Defs[581] = 0x575E7D;
+            UInt32Defs[582] = 0x060606;
+            UInt32Defs[583] = 0x4D3FA9;
+            UInt32Defs[584] = 0xC25C17;
+            UInt32Defs[585] = 0x177FA8;
+            UInt32Defs[586] = 0x285697;
+            UInt32Defs[587] = 0xB7210F;
+            UInt32Defs[588] = 0x9989A5;
+            UInt32Defs[589] = 0xA36368;
+            UInt32Defs[590] = 0x776C51;
+            UInt32Defs[591] = 0x586976;
+            UInt32Defs[592] = 0xE0DACC;
+            UInt32Defs[593] = 0x516863;
+            UInt32Defs[594] = 0x3E1C57;
 
             //list for when dimming the world for highlighting
-            DimColorDefs = new Dictionary<int, System.Drawing.Color>(379 + Main.maxTilesY);
-            DimUInt32Defs = new Dictionary<int, UInt32>(379 + Main.maxTilesY);
+            DimColorDefs = new Dictionary<int, System.Drawing.Color>(595 + Main.maxTilesY);
+            DimUInt32Defs = new Dictionary<int, UInt32>(595 + Main.maxTilesY);
         }
     }
 }
