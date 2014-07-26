@@ -8,13 +8,13 @@
     <ProjectGuid>{CA18997C-8876-4717-B153-48923A735D2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TShock_Map</RootNamespace>
-    <AssemblyName>TShock_Map</AssemblyName>
+    <AssemblyName>Map_TShock</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Terraria\tshock\ServerPlugins\</OutputPath>
+    <OutputPath>..\..\..\..\Terraria\TShock.4.2.3.0720\ServerPlugins\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,10 +45,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
     <Reference Include="TerrariaServer">
-      <HintPath>..\..\..\..\Terraria\tshock\TerrariaServer.exe</HintPath>
+      <HintPath>..\..\..\..\Terraria\TShock.4.2.3.0720\TerrariaServer.exe</HintPath>
     </Reference>
     <Reference Include="TShockAPI">
-      <HintPath>..\..\..\..\Terraria\tshock\ServerPlugins\TShockAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Terraria\TShock.4.2.3.0720\ServerPlugins\TShockAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />
