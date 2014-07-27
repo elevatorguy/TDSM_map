@@ -15,6 +15,11 @@ Features
 + auto mapping ability in a certain interval of minutes
 + mapping only a specified rectangle of the map, faster than mapping and then cropping
 
+Permissions
+-----------
+
++ `map.create` gives player access to the `map` command.
+
 Usage
 -----
 
@@ -65,6 +70,7 @@ ingame command to change autosaving
 
 Updates
 -------
++ 4.2.3.0727: update to API 16. Permissions is now "map.create" instead of "map".
 + 4.2.2.0422: update to API 15 and added tiles/walls for terraria 1.2.3.1 (Terrafirma only for now)
 + 4.2: update to API 14, and terraria 1.2 (TerraFirma colorscheme updated only)
 + 4.1.0.0929: crash fix when Bitmap object can't be created.

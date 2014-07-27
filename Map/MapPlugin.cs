@@ -82,12 +82,12 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 2, 3, 0726); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 2, 3, 0727); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
         {
-            Commands.ChatCommands.Add(new Command("map", MapCommand, "map"));
+            Commands.ChatCommands.Add(new Command("map.create", MapCommand, "map"));
 
             string pluginFolder = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "map";
             CreateDirectory(pluginFolder);
