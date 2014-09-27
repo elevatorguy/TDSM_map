@@ -411,99 +411,110 @@ namespace Map
             UInt32 tempColor;
             List<int> list;
             int x = i - x1;
-            for (int j = ymin; j < ymax; j++)
+            int j = 0;
+            try
             {
-                if (highlight) //dim the world
+                for (j = ymin; j < ymax; j++)
                 {
-                    //draws tiles or walls
-                    if (Main.tile[i, j].wall == 0)
+                    if (highlight) //dim the world
                     {
-                        if (Main.tile[i, j].active())
+                        //draws tiles or walls
+                        if (Main.tile[i, j].wall == 0)
                         {
-                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type], false);
-                            tempColor = DimUInt32Defs[Main.tile[i, j].type];
+                            if (Main.tile[i, j].active())
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type], false);
+                                tempColor = DimUInt32Defs[Main.tile[i, j].type];
+                            }
+                            else
+                            {
+                                tempColor = DimUInt32Defs[j + 595];
+                            }
                         }
                         else
                         {
-                            tempColor = DimUInt32Defs[j + 595];
+                            //priority to tiles
+                            if (Main.tile[i, j].active())
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type], false);
+                                tempColor = DimUInt32Defs[Main.tile[i, j].type];
+                            }
+                            else
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 450], false);
+                                tempColor = DimUInt32Defs[Main.tile[i, j].wall + 450];
+                            }
+                        }
+                        // lookup blendcolor of color just drawn, and draw again
+                        if (Main.tile[i, j].liquid > 0)
+                        {
+                            if (lavadimlist.ContainsKey(tempColor))
+                            {  // incase the map has hacked data
+                                SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavadimlist[tempColor] : waterdimlist[tempColor], false);
+                            }
+                        }
+
+                        list = getGiveID(Main.tile[i, j].type, (Main.tile[i, j].wall));
+                        //highlight the tiles of supplied type from the map command
+                        if (list.Contains(highlightID))
+                        {
+                            SetPixel(bmp, x - piece, j - ymin, System.Drawing.Color.White, false);
                         }
                     }
                     else
                     {
-                        //priority to tiles
-                        if (Main.tile[i, j].active())
+                        //draws tiles or walls
+                        if (Main.tile[i, j].wall == 0)
                         {
-                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].type], false);
-                            tempColor = DimUInt32Defs[Main.tile[i, j].type];
+                            if (Main.tile[i, j].active())
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type], false);
+                                tempColor = UInt32Defs[Main.tile[i, j].type];
+                            }
+                            else
+                            {
+                                tempColor = UInt32Defs[j + 595];
+                            }
                         }
                         else
                         {
-                            SetPixel(bmp, x - piece, j - ymin, DimColorDefs[Main.tile[i, j].wall + 450], false);
-                            tempColor = DimUInt32Defs[Main.tile[i, j].wall + 450];
+                            //priority to tiles
+                            if (Main.tile[i, j].active())
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type], false);
+                                tempColor = UInt32Defs[Main.tile[i, j].type];
+                            }
+                            else
+                            {
+                                SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 450], false);
+                                tempColor = UInt32Defs[Main.tile[i, j].wall + 450];
+                            }
                         }
-                    }
-                    // lookup blendcolor of color just drawn, and draw again
-                    if (Main.tile[i, j].liquid > 0)
-                    {
-                        if (lavadimlist.ContainsKey(tempColor))
-                        {  // incase the map has hacked data
-                            SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavadimlist[tempColor] : waterdimlist[tempColor], false);
-                        }
-                    }
-
-                    list = getGiveID(Main.tile[i, j].type, (Main.tile[i, j].wall));
-                    //highlight the tiles of supplied type from the map command
-                    if (list.Contains(highlightID))
-                    {
-                        SetPixel(bmp, x - piece, j - ymin, System.Drawing.Color.White, false);
-                    }
-                }
-                else
-                {
-                    //draws tiles or walls
-                    if (Main.tile[i, j].wall == 0)
-                    {
-                        if (Main.tile[i, j].active())
+                        // lookup blendcolor of color just drawn, and draw again
+                        if (Main.tile[i, j].liquid > 0)
                         {
-                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type], false);
-                            tempColor = UInt32Defs[Main.tile[i, j].type];
-                        }
-                        else
-                        {
-                            tempColor = UInt32Defs[j + 595];
-                        }
-                    }
-                    else
-                    {
-                        //priority to tiles
-                        if (Main.tile[i, j].active())
-                        {
-                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].type], false);
-                            tempColor = UInt32Defs[Main.tile[i, j].type];
-                        }
-                        else
-                        {
-                            SetPixel(bmp, x - piece, j - ymin, ColorDefs[Main.tile[i, j].wall + 450], false);
-                            tempColor = UInt32Defs[Main.tile[i, j].wall + 450];
-                        }
-                    }
-                    // lookup blendcolor of color just drawn, and draw again
-                    if (Main.tile[i, j].liquid > 0)
-                    {
-                        if (lavablendlist.ContainsKey(tempColor))
-                        {  // incase the map has hacked data
-                            SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavablendlist[tempColor] : waterblendlist[tempColor], false);
+                            if (lavablendlist.ContainsKey(tempColor))
+                            {  // incase the map has hacked data
+                                SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavablendlist[tempColor] : waterblendlist[tempColor], false);
+                            }
                         }
                     }
                 }
+            }
+            catch (KeyNotFoundException e)
+            {
+                utils.SendLogs("<map> ERROR: Problem with pixel lookup at (x,y): (" + i + "," + j + ").", Color.Red);
+                utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
 
+                //continue and see how many pixels are bad...
+                //this might be a new item added to the game that we havn't added to the plugin yet.
             }
 
-                if(pixelfailureflag)
-                {
-                    utils.SendLogs("<map> WARNING: could not draw certain pixel at row (" + i + ",y).", Color.Yellow);
-                    pixelfailureflag = false;
-                }
+            if(pixelfailureflag)
+            {
+                utils.SendLogs("<map> WARNING: Could not draw certain pixel at row (" + i + ",y).", Color.Yellow);
+                pixelfailureflag = false;
+            }
 
         }
 
