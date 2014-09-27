@@ -503,7 +503,7 @@ namespace Map
             }
             catch (KeyNotFoundException e)
             {
-                utils.SendLogs("<map> ERROR: Problem with pixel lookup at (x,y): (" + i + "," + j + ").", Color.Red);
+                utils.SendLogs("<map> ERROR: Problem with pixel lookup at (x,y): (" + i + "," + j + "). Key: " + e.Data.Keys.ToString(), Color.Red);
                 utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
 
                 //continue and see how many pixels are bad...
