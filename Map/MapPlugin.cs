@@ -12,7 +12,7 @@ using TShock_Map;
 
 namespace Map
 {
-    [ApiVersion(1, 16)]
+    [ApiVersion(1, 17)]
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
@@ -82,7 +82,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 2, 3, 0926); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 2, 7, 0308); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
@@ -111,8 +111,8 @@ namespace Map
             }
             else
             {
-                TShockAPI.Log.Error("<map> ERROR: colorscheme must be either 'MoreTerra' or 'Terrafirma'");
-                TShockAPI.Log.Error("<map> ERROR: map command will not work until you change it");
+                TShock.Log.Error("<map> ERROR: colorscheme must be either 'MoreTerra' or 'Terrafirma'");
+                TShock.Log.Error("<map> ERROR: map command will not work until you change it");
                 isEnabled = false;
             }
 

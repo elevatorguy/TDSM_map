@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Terraria\TShock.4.2.3.0720\ServerPlugins\</OutputPath>
+    <OutputPath>..\..\..\..\Terraria\TShock.API-17.prerelease\ServerPlugins\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,10 +45,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
     <Reference Include="TerrariaServer">
-      <HintPath>..\..\..\..\Terraria\TShock.4.2.3.0720\TerrariaServer.exe</HintPath>
+      <HintPath>..\..\..\..\Terraria\TShock.API-17.prerelease\TerrariaServer.exe</HintPath>
     </Reference>
     <Reference Include="TShockAPI">
-      <HintPath>..\..\..\..\Terraria\TShock.4.2.3.0720\ServerPlugins\TShockAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Terraria\TShock.API-17.prerelease\ServerPlugins\TShockAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

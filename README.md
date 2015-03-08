@@ -70,6 +70,8 @@ ingame command to change autosaving
 
 Updates
 -------
++ 4.2.7.0308: update to API 17. added tiles/walls. (Terrafirma only, MoreTerra is still broken.)
++ 4.2.3.0926: mapper keeps on mapping, ignoring bad keys. (KeyNotFoundException)
 + 4.2.3.0727: update to API 16. Permissions is now "map.create" instead of "map".
 + 4.2.2.0422: update to API 15 and added tiles/walls for terraria 1.2.3.1 (Terrafirma only for now)
 + 4.2: update to API 14, and terraria 1.2 (TerraFirma colorscheme updated only)

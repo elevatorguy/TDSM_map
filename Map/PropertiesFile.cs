@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using TShockAPI;
 
 namespace TShock_Map
 {
@@ -88,17 +89,17 @@ namespace TShock_Map
             {
                 File.Replace(tmpName, propertiesPath, null, true);
                 if (log)
-                    TShockAPI.Log.Info("Saved file \"" + propertiesPath + "\".");
+                    TShock.Log.Info("Saved file \"" + propertiesPath + "\".");
             }
             catch (IOException e)
             {
                 if (log)
-                    TShockAPI.Log.Error("Save to \""+propertiesPath+"\" failed: "+e.Message);
+                    TShock.Log.Error("Save to \""+propertiesPath+"\" failed: "+e.Message);
             }
             catch (SystemException e)
             {
                 if (log)
-                    TShockAPI.Log.Error("Save to \"" + propertiesPath + "\" failed: " + e.Message);
+                    TShock.Log.Error("Save to \"" + propertiesPath + "\" failed: " + e.Message);
             }
 
         }

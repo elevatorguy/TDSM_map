@@ -176,7 +176,7 @@ namespace Map
                     if(reload)
                         player.SendInfoMessage("map: Reloaded settings database, entries: " + properties.Count);
                     if(autosave)
-                        TShockAPI.Log.Info("<map> Reloaded settings database, entries: " + properties.Count);
+                        TShock.Log.Info("<map> Reloaded settings database, entries: " + properties.Count);
 
                     properties.Load();
                     var msg = string.Concat(
@@ -185,17 +185,17 @@ namespace Map
                     if (!(Directory.Exists(p)))
                     {
                         msg = string.Concat(msg, "  (DOESNT EXIST)");
-                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
+                        TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
                     }
                     if (!autosave)
                     {
-                        TShockAPI.Log.Info("<map> " + msg);
+                        TShock.Log.Info("<map> " + msg);
                     }
                     //sender.sendMessage ("map: " + msg);
 
                     if (!(cs == "MoreTerra" || cs == "Terrafirma"))
                     {
-                        TShockAPI.Log.Error("<map> ERROR: please change colorscheme");
+                        TShock.Log.Error("<map> ERROR: please change colorscheme");
                     }
                 }
 
@@ -256,11 +256,11 @@ namespace Map
 								// the thread terminates itself since there is no while loop in mapWorld
 						}
 						else{
-                            TShockAPI.Log.Error("Save ERROR: check colorscheme");
+                            TShock.Log.Error("Save ERROR: check colorscheme");
 						}
 						if( !(Directory.Exists(p)) ){
 						player.SendErrorMessage ("map: "+p+" does not exist.");
-                        TShockAPI.Log.Error("<map> ERROR: Loaded Directory does not exist.");
+                        TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
 				}
 					}
 				} else {

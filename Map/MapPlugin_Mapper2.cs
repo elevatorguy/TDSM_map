@@ -145,7 +145,7 @@ namespace Map
                         System.Drawing.Color dimColor;
                         for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
-                            dimColor = dimC(UInt32Defs[595 + (y + y1)]);
+                            dimColor = dimC(UInt32Defs[622 + (y + y1)]);
                             graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
                         }
                     }
@@ -168,7 +168,7 @@ namespace Map
                         //this fades the background from rock to hell
                         for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
-                            graphicsHandle.DrawLine(new Pen(ColorDefs[595 + (y + y1)]), 0, y, bmp.Width, y);
+                            graphicsHandle.DrawLine(new Pen(ColorDefs[622 + (y + y1)]), 0, y, bmp.Width, y);
                         }
                     }
                 }
@@ -428,7 +428,7 @@ namespace Map
                             }
                             else
                             {
-                                tempColor = DimUInt32Defs[j + 595];
+                                tempColor = DimUInt32Defs[j + 622];
                             }
                         }
                         else
@@ -473,7 +473,7 @@ namespace Map
                             }
                             else
                             {
-                                tempColor = UInt32Defs[j + 595];
+                                tempColor = UInt32Defs[j + 622];
                             }
                         }
                         else
@@ -526,7 +526,7 @@ namespace Map
             UInt32 lavaColor = 0xFD2003;
             //blends water and lava with UInt32Defs
             using (var blendprog = new ProgressLogger(Main.maxTilesX - 1, "[map] Blending colors"))
-                for (int y = 0; y <= Main.maxTilesY + 595; y++)
+                for (int y = 0; y <= Main.maxTilesY + 622; y++)
                 {
                     if (UInt32Defs.ContainsKey(y))
                     {
@@ -884,6 +884,32 @@ namespace Map
                 public static System.Drawing.Color DYNASTY_WOOD = ColorTranslator.FromHtml("#874C1F");
                 public static System.Drawing.Color RED_DYNASTY_SHINGLES = ColorTranslator.FromHtml("#B4443E");
                 public static System.Drawing.Color BLUE_DYNASTY_SHINGLES = ColorTranslator.FromHtml("#599BA8");
+                public static System.Drawing.Color MINECART_TRACKS = ColorTranslator.FromHtml("#A3A6A8");
+                public static System.Drawing.Color CORALSTONE_BLOCK = ColorTranslator.FromHtml("#C94642");
+                public static System.Drawing.Color BLUE_JELLYFISH_JAR = ColorTranslator.FromHtml("#7792E2");
+                public static System.Drawing.Color GREEN_JELLYFISH_JAR = ColorTranslator.FromHtml("#76E381");
+                public static System.Drawing.Color PINK_JELLYFISH_JAR = ColorTranslator.FromHtml("#E2A0DA");
+                public static System.Drawing.Color SHIP_IN_A_BOTTLE = ColorTranslator.FromHtml("#C8F6FE");
+                public static System.Drawing.Color SEAWEED_PLANTER = ColorTranslator.FromHtml("#CBB997");
+                public static System.Drawing.Color BOREAL_WOOD = ColorTranslator.FromHtml("#604D40");
+                public static System.Drawing.Color PALM_WOOD = ColorTranslator.FromHtml("#8F6D3F");
+                public static System.Drawing.Color PILLAR = ColorTranslator.FromHtml("#B68D56");
+                public static System.Drawing.Color SEASHELL = ColorTranslator.FromHtml("#E4D5AD");
+                public static System.Drawing.Color TIN_PLATING = ColorTranslator.FromHtml("#817D5D");
+                public static System.Drawing.Color WATERFALL_BLOCK = ColorTranslator.FromHtml("#093DBF");
+                public static System.Drawing.Color LAVAFALL_BLOCK = ColorTranslator.FromHtml("#FD2003");
+                public static System.Drawing.Color CONFETTI_BLOCK = ColorTranslator.FromHtml("#C8F6FE");
+                public static System.Drawing.Color MIDNIGHT_CONFETTI_BLOCK = ColorTranslator.FromHtml("#FF20D8");
+                public static System.Drawing.Color COPPER_COIN_PILE = ColorTranslator.FromHtml("#E2764C");
+                public static System.Drawing.Color SILVER_COIN_PILE = ColorTranslator.FromHtml("#464D50");
+                public static System.Drawing.Color GOLD_COIN_PILE = ColorTranslator.FromHtml("#CCB548");
+                public static System.Drawing.Color PLATINUM_COIN_PILE = ColorTranslator.FromHtml("#BEBEB2");
+                public static System.Drawing.Color WEAPON_RACK = ColorTranslator.FromHtml("#78553C");
+                public static System.Drawing.Color FIREWORKS_BOX = ColorTranslator.FromHtml("#E3B994");
+                public static System.Drawing.Color LIVING_FIRE_BLOCK = ColorTranslator.FromHtml("#FE7902");
+                public static System.Drawing.Color CHARACTER_STATUES = ColorTranslator.FromHtml("#606460");
+                public static System.Drawing.Color FIREWORK_FOUNTAIN = ColorTranslator.FromHtml("#19C762");
+                public static System.Drawing.Color GRASSHOPPER_CAGE = ColorTranslator.FromHtml("#57ADBD");
 
                 //walls
                 public static System.Drawing.Color STONE_WALL = ColorTranslator.FromHtml("#343434");
@@ -1030,6 +1056,33 @@ namespace Map
                 public static System.Drawing.Color WHITE_DYNASTY_WALL = ColorTranslator.FromHtml("#E0DACC");
                 public static System.Drawing.Color BLUE_DYNASTY_WALL = ColorTranslator.FromHtml("#516863");
                 public static System.Drawing.Color ARCANE_RUNE_WALL = ColorTranslator.FromHtml("#3E1C57");
+                public static System.Drawing.Color IRON_FENCE = ColorTranslator.FromHtml("#919191");
+                public static System.Drawing.Color COPPER_PLATING_WALL = ColorTranslator.FromHtml("#703712");
+                public static System.Drawing.Color STONE_SLAB_WALL = ColorTranslator.FromHtml("#4C4C4C");
+                public static System.Drawing.Color SAIL = ColorTranslator.FromHtml("#E5DAA1");
+                public static System.Drawing.Color BOREAL_WOOD_WALL = ColorTranslator.FromHtml("#504237");
+                public static System.Drawing.Color BOREAL_WOOD_FENCE = ColorTranslator.FromHtml("#6B5647");
+                public static System.Drawing.Color PALM_WOOD_WALL = ColorTranslator.FromHtml("#664B22");
+                public static System.Drawing.Color PALM_WOOD_FENCE = ColorTranslator.FromHtml("#B68D56");
+                public static System.Drawing.Color AMBER_GEMSPARK_WALL = ColorTranslator.FromHtml("#FF743F");
+                public static System.Drawing.Color AMETHYST_GEMSPARK_WALL = ColorTranslator.FromHtml("#BF3FFF");
+                public static System.Drawing.Color DIAMOND_GEMSPARK_WALL = ColorTranslator.FromHtml("#DBDBE8");
+                public static System.Drawing.Color EMERALD_GEMSPARK_WALL = ColorTranslator.FromHtml("#3FFF47");
+                public static System.Drawing.Color OFFLINE_AMBER_GEMSPARK_WALL = ColorTranslator.FromHtml("#763F25");
+                public static System.Drawing.Color OFFLINE_AMETHYST_GEMSPARK_WALL = ColorTranslator.FromHtml("#512576");
+                public static System.Drawing.Color OFFLINE_DIAMOND_GEMSPARK_WALL = ColorTranslator.FromHtml("#404359");
+                public static System.Drawing.Color OFFLINE_EMERALD_GEMSPARK_WALL = ColorTranslator.FromHtml("#257634");
+                public static System.Drawing.Color OFFLINE_RUBY_GEMSPARK_WALL = ColorTranslator.FromHtml("#76253A");
+                public static System.Drawing.Color OFFLINE_SAPPHIRE_GEMSPARK_WALL = ColorTranslator.FromHtml("#252576");
+                public static System.Drawing.Color OFFLINE_TOPAZ_GEMSPARK_WALL = ColorTranslator.FromHtml("#767125");
+                public static System.Drawing.Color RUBY_GEMSPARK_WALL = ColorTranslator.FromHtml("#FF3F3F");
+                public static System.Drawing.Color SAPPHIRE_GEMSPARK_WALL = ColorTranslator.FromHtml("#3F51FF");
+                public static System.Drawing.Color TOPAZ_GEMSPARK_WALL = ColorTranslator.FromHtml("#EFFF3F");
+                public static System.Drawing.Color TIN_PLATING_WALL = ColorTranslator.FromHtml("#464433");
+                public static System.Drawing.Color CONFETTI_WALL = ColorTranslator.FromHtml("#0C6A8A");
+                public static System.Drawing.Color MIDNIGHT_CONFETTI_WALL = ColorTranslator.FromHtml("#850C77");
+                public static System.Drawing.Color UNKNOWN_WALL = ColorTranslator.FromHtml("#3B2716");
+                public static System.Drawing.Color UNKNOWN_WALL_2 = ColorTranslator.FromHtml("#3B2716");
 
                 //global
                 public static System.Drawing.Color SKY = ColorTranslator.FromHtml("#84AAF8");
@@ -1054,7 +1107,7 @@ namespace Map
 
         public void InitializeMapperDefs2() //Credits go to the authors of MoreTerra
         {
-            ColorDefs = new Dictionary<int, System.Drawing.Color>(595 + Main.maxTilesY);
+            ColorDefs = new Dictionary<int, System.Drawing.Color>(622 + Main.maxTilesY);
 
             //tiles
             ColorDefs[0] = Constants.Terrafirma_Color.DIRT;
@@ -1371,8 +1424,34 @@ namespace Map
             ColorDefs[311] = Constants.Terrafirma_Color.DYNASTY_WOOD;
             ColorDefs[312] = Constants.Terrafirma_Color.RED_DYNASTY_SHINGLES;
             ColorDefs[313] = Constants.Terrafirma_Color.BLUE_DYNASTY_SHINGLES;
+            ColorDefs[314] = Constants.Terrafirma_Color.MINECART_TRACKS;
+            ColorDefs[315] = Constants.Terrafirma_Color.CORALSTONE_BLOCK;
+            ColorDefs[316] = Constants.Terrafirma_Color.BLUE_JELLYFISH_JAR;
+            ColorDefs[317] = Constants.Terrafirma_Color.GREEN_JELLYFISH_JAR;
+            ColorDefs[318] = Constants.Terrafirma_Color.PINK_JELLYFISH_JAR;
+            ColorDefs[319] = Constants.Terrafirma_Color.SHIP_IN_A_BOTTLE;
+            ColorDefs[320] = Constants.Terrafirma_Color.SEAWEED_PLANTER;
+            ColorDefs[321] = Constants.Terrafirma_Color.BOREAL_WOOD;
+            ColorDefs[322] = Constants.Terrafirma_Color.PALM_WOOD;
+            ColorDefs[323] = Constants.Terrafirma_Color.PILLAR;
+            ColorDefs[324] = Constants.Terrafirma_Color.SEASHELL;
+            ColorDefs[325] = Constants.Terrafirma_Color.TIN_PLATING;
+            ColorDefs[326] = Constants.Terrafirma_Color.WATERFALL_BLOCK;
+            ColorDefs[327] = Constants.Terrafirma_Color.LAVAFALL_BLOCK;
+            ColorDefs[328] = Constants.Terrafirma_Color.CONFETTI_BLOCK;
+            ColorDefs[329] = Constants.Terrafirma_Color.MIDNIGHT_CONFETTI_BLOCK;
+            ColorDefs[330] = Constants.Terrafirma_Color.COPPER_COIN_PILE;
+            ColorDefs[331] = Constants.Terrafirma_Color.SILVER_COIN_PILE;
+            ColorDefs[332] = Constants.Terrafirma_Color.GOLD_COIN_PILE;
+            ColorDefs[333] = Constants.Terrafirma_Color.PLATINUM_COIN_PILE;
+            ColorDefs[334] = Constants.Terrafirma_Color.WEAPON_RACK;
+            ColorDefs[335] = Constants.Terrafirma_Color.FIREWORKS_BOX;
+            ColorDefs[336] = Constants.Terrafirma_Color.LIVING_FIRE_BLOCK;
+            ColorDefs[337] = Constants.Terrafirma_Color.CHARACTER_STATUES;
+            ColorDefs[338] = Constants.Terrafirma_Color.FIREWORK_FOUNTAIN;
+            ColorDefs[339] = Constants.Terrafirma_Color.GRASSHOPPER_CAGE;
 
-            for (int i = 314; i < 451; i++)
+            for (int i = 340; i < 451; i++)
             {
                 ColorDefs[i] = System.Drawing.Color.Magenta;
             }
@@ -1522,24 +1601,51 @@ namespace Map
             ColorDefs[592] = Constants.Terrafirma_Color.WHITE_DYNASTY_WALL;
             ColorDefs[593] = Constants.Terrafirma_Color.BLUE_DYNASTY_WALL;
             ColorDefs[594] = Constants.Terrafirma_Color.ARCANE_RUNE_WALL;
+            ColorDefs[595] = Constants.Terrafirma_Color.IRON_FENCE;
+            ColorDefs[596] = Constants.Terrafirma_Color.COPPER_PLATING_WALL;
+            ColorDefs[597] = Constants.Terrafirma_Color.STONE_SLAB_WALL;
+            ColorDefs[598] = Constants.Terrafirma_Color.SAIL;
+            ColorDefs[599] = Constants.Terrafirma_Color.BOREAL_WOOD_WALL;
+            ColorDefs[600] = Constants.Terrafirma_Color.BOREAL_WOOD_FENCE;
+            ColorDefs[601] = Constants.Terrafirma_Color.PALM_WOOD_WALL;
+            ColorDefs[602] = Constants.Terrafirma_Color.PALM_WOOD_FENCE;
+            ColorDefs[603] = Constants.Terrafirma_Color.AMBER_GEMSPARK_WALL;
+            ColorDefs[604] = Constants.Terrafirma_Color.AMETHYST_GEMSPARK_WALL;
+            ColorDefs[605] = Constants.Terrafirma_Color.DIAMOND_GEMSPARK_WALL;
+            ColorDefs[606] = Constants.Terrafirma_Color.EMERALD_GEMSPARK_WALL;
+            ColorDefs[607] = Constants.Terrafirma_Color.OFFLINE_AMBER_GEMSPARK_WALL;
+            ColorDefs[608] = Constants.Terrafirma_Color.OFFLINE_AMETHYST_GEMSPARK_WALL;
+            ColorDefs[609] = Constants.Terrafirma_Color.OFFLINE_DIAMOND_GEMSPARK_WALL;
+            ColorDefs[610] = Constants.Terrafirma_Color.OFFLINE_EMERALD_GEMSPARK_WALL;
+            ColorDefs[611] = Constants.Terrafirma_Color.OFFLINE_RUBY_GEMSPARK_WALL;
+            ColorDefs[612] = Constants.Terrafirma_Color.OFFLINE_SAPPHIRE_GEMSPARK_WALL;
+            ColorDefs[613] = Constants.Terrafirma_Color.OFFLINE_TOPAZ_GEMSPARK_WALL;
+            ColorDefs[614] = Constants.Terrafirma_Color.RUBY_GEMSPARK_WALL;
+            ColorDefs[615] = Constants.Terrafirma_Color.SAPPHIRE_GEMSPARK_WALL;
+            ColorDefs[616] = Constants.Terrafirma_Color.TOPAZ_GEMSPARK_WALL;
+            ColorDefs[617] = Constants.Terrafirma_Color.TIN_PLATING_WALL;
+            ColorDefs[618] = Constants.Terrafirma_Color.CONFETTI_WALL;
+            ColorDefs[619] = Constants.Terrafirma_Color.MIDNIGHT_CONFETTI_WALL;
+            ColorDefs[620] = Constants.Terrafirma_Color.UNKNOWN_WALL;
+            ColorDefs[621] = Constants.Terrafirma_Color.UNKNOWN_WALL_2;
 
             // this is for faster performace
             // rather than converting from Color to UInt32 alot.
-            UInt32Defs = new Dictionary<int, UInt32>(595 + Main.maxTilesY);
+            UInt32Defs = new Dictionary<int, UInt32>(622 + Main.maxTilesY);
 
             //adds sky and earth
 
-            for (int i = 595; i < Main.worldSurface + 595; i++)
+            for (int i = 622; i < Main.worldSurface + 622; i++)
             {
                 UInt32Defs[i] = 0x84AAF8;
                 ColorDefs[i] = Constants.Terrafirma_Color.SKY;
             }
-            for (int i = (int)Main.worldSurface + 595; i < (int)Main.rockLayer + 595; i++)
+            for (int i = (int)Main.worldSurface + 622; i < (int)Main.rockLayer + 622; i++)
             {
                 UInt32Defs[i] = 0x583D2E;
                 ColorDefs[i] = Constants.Terrafirma_Color.EARTH;
             }
-            for (int i = (int)Main.rockLayer + 595; i < Main.maxTilesY + 595; i++)
+            for (int i = (int)Main.rockLayer + 622; i < Main.maxTilesY + 622; i++)
             {
                 UInt32Defs[i] = 0x000000;
                 ColorDefs[i] = Constants.Terrafirma_Color.HELL;
@@ -1550,8 +1656,8 @@ namespace Map
             {
                 double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY - Main.rockLayer);
                 UInt32 c = alphaBlend(0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
-                UInt32Defs[y + 595] = c;
-                ColorDefs[y + 595] = toColor(c);
+                UInt32Defs[y + 622] = c;
+                ColorDefs[y + 622] = toColor(c);
             }
 
             //tiles
@@ -1869,9 +1975,35 @@ namespace Map
             UInt32Defs[311] = 0x874C1F;
             UInt32Defs[312] = 0xB4443E;
             UInt32Defs[313] = 0x599BA8;
+            UInt32Defs[314] = 0xA3A6A8;
+            UInt32Defs[315] = 0xC94642;
+            UInt32Defs[316] = 0x7792E2;
+            UInt32Defs[317] = 0x76E381;
+            UInt32Defs[318] = 0xE2A0DA;
+            UInt32Defs[319] = 0xC8F6FE;
+            UInt32Defs[320] = 0xCBB997;
+            UInt32Defs[321] = 0x604D40;
+            UInt32Defs[322] = 0x8F6D3F;
+            UInt32Defs[323] = 0xB68D56;
+            UInt32Defs[324] = 0xE4D5AD;
+            UInt32Defs[325] = 0x817D5D;
+            UInt32Defs[326] = 0x093DBF;
+            UInt32Defs[327] = 0xFD2003;
+            UInt32Defs[328] = 0xC8F6FE;
+            UInt32Defs[329] = 0xFF20D8;
+            UInt32Defs[330] = 0xE2764C;
+            UInt32Defs[331] = 0x464D50;
+            UInt32Defs[332] = 0xCCB548;
+            UInt32Defs[333] = 0xBEBEB2;
+            UInt32Defs[334] = 0x78553C;
+            UInt32Defs[335] = 0xE3B994;
+            UInt32Defs[336] = 0xFE7902;
+            UInt32Defs[337] = 0x606460;
+            UInt32Defs[338] = 0x19C762;
+            UInt32Defs[339] = 0x57ADBD;
 
             // unknown
-            for (int i = 314; i < 451; i++)
+            for (int i = 340; i < 451; i++)
             {
                 UInt32Defs[i] = 0xFF00FF;
             }
@@ -2021,10 +2153,37 @@ namespace Map
             UInt32Defs[592] = 0xE0DACC;
             UInt32Defs[593] = 0x516863;
             UInt32Defs[594] = 0x3E1C57;
+            UInt32Defs[595] = 0x919191;
+            UInt32Defs[596] = 0x703712;
+            UInt32Defs[597] = 0x4C4C4C;
+            UInt32Defs[598] = 0xE5DAA1;
+            UInt32Defs[599] = 0x504237;
+            UInt32Defs[600] = 0x6B5647;
+            UInt32Defs[601] = 0x664B22;
+            UInt32Defs[602] = 0xB68D56;
+            UInt32Defs[603] = 0xFF743F;
+            UInt32Defs[604] = 0xBF3FFF;
+            UInt32Defs[605] = 0xDBDBE8;
+            UInt32Defs[606] = 0x3FFF47;
+            UInt32Defs[607] = 0x763F25;
+            UInt32Defs[608] = 0x512576;
+            UInt32Defs[609] = 0x404359;
+            UInt32Defs[610] = 0x257634;
+            UInt32Defs[611] = 0x76253A;
+            UInt32Defs[612] = 0x252576;
+            UInt32Defs[613] = 0x767125;
+            UInt32Defs[614] = 0xFF3F3F;
+            UInt32Defs[615] = 0x3F51FF;
+            UInt32Defs[616] = 0xEFFF3F;
+            UInt32Defs[617] = 0x464433;
+            UInt32Defs[618] = 0x0C6A8A;
+            UInt32Defs[619] = 0x850C77;
+            UInt32Defs[620] = 0x3B2716;
+            UInt32Defs[621] = 0x3B2716;
 
             //list for when dimming the world for highlighting
-            DimColorDefs = new Dictionary<int, System.Drawing.Color>(595 + Main.maxTilesY);
-            DimUInt32Defs = new Dictionary<int, UInt32>(595 + Main.maxTilesY);
+            DimColorDefs = new Dictionary<int, System.Drawing.Color>(622 + Main.maxTilesY);
+            DimUInt32Defs = new Dictionary<int, UInt32>(622 + Main.maxTilesY);
         }
     }
 }

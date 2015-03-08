@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using Terraria;
+using TShockAPI;
 using TShock_Map;
 using System;
 
@@ -34,7 +35,7 @@ namespace Map
                     y2 = Main.maxTilesY;
             }
 			Stopwatch stopwatch = new Stopwatch ();
-            TShockAPI.Log.Info("Saving Image...");
+            TShock.Log.Info("Saving Image...");
 			stopwatch.Start ();
 
             try
@@ -43,8 +44,8 @@ namespace Map
             }
             catch (ArgumentException e)
             {
-                TShockAPI.Log.Error("<map> ERROR: could not create the Bitmap object.");
-                TShockAPI.Log.Info(e.StackTrace.ToString());
+                TShock.Log.Error("<map> ERROR: could not create the Bitmap object.");
+                TShock.Log.Info(e.StackTrace.ToString());
                 stopwatch.Stop();
                 isMapping = false;
                 return;
@@ -86,11 +87,11 @@ namespace Map
 						
 					}
 				}
-                TShockAPI.Log.Info("Saving Data...");
+                TShock.Log.Info("Saving Data...");
 				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
 				stopwatch.Stop ();
-                TShockAPI.Log.Info("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-                TShockAPI.Log.Info("Saving Complete.");
+                TShock.Log.Info("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+                TShock.Log.Info("Saving Complete.");
 				bmp = null;
                 isMapping = false;
 		}
