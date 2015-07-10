@@ -12,7 +12,7 @@ using TShock_Map;
 
 namespace Map
 {
-    [ApiVersion(1, 17)]
+    [ApiVersion(1, 19)]
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
@@ -82,7 +82,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 2, 10, 0413); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 3, 1, 0709); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
