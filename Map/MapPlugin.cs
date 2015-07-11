@@ -82,7 +82,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 3, 1, 0709); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 3, 1, 0710); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
