@@ -1,4 +1,5 @@
-using Terraria_Server;
+using tdsm.api;
+using Terraria;
 using System.IO;
 using System;
 using System.Drawing;
@@ -20,7 +21,7 @@ namespace MapPlugin
         {
             name = name.ToLower();
 
-            foreach (var p in Main.players)
+            foreach (var p in Main.player)
             {
                 if (p != null && p.Name != null && p.Name.ToLower() == name)
                     return p;

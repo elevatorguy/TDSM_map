@@ -1,14 +1,15 @@
-using Terraria_Server;
-using Terraria_Server.Commands;
+using Terraria;
+using tdsm.api.Command;
 using NDesk.Options;
 using System;
-using Terraria_Server.Logging;
+using tdsm.api.Logging;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using tdsm.core.Definitions;
 
 namespace MapPlugin
 {
@@ -20,6 +21,11 @@ namespace MapPlugin
         public static bool hlchests;
         private static int highlightID;
         public bool isMapping = false;
+        public bool crop = false;
+        public int x1 = 0;
+        public int y1 = 0;
+        public int x2 = 0;
+        public int y2 = 0;
 
 		void MapCommand ( ISender sender, ArgumentList argz)
 		{
@@ -39,10 +45,17 @@ namespace MapPlugin
 				var timestamp = false;
 				var reload = false;
                 var highlight = false;
+                highlightID = 0;
+                hlchests = false;
                 string nameOrID = "";
 				var savefromcommand = false;
 				string cs = colorscheme;
                 var autosaveedit = false;
+                string x1 = "";
+                string x2 = "";
+                string y1 = "";
+                string y2 = "";
+                crop = false;
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -53,28 +66,90 @@ namespace MapPlugin
                     { "h|highlight=", v => { nameOrID = v; highlight = true; } },
 					{ "c|colorscheme=", v => cs = v },
                     { "a|autosave", v => autosaveedit = true },
+                    { "x1|xA=", v => { x1 = v; crop = true; } },
+                    { "x2|xB=", v => { x2 = v; crop = true; } },
+                    { "y1|yA=", v => { y1 = v; crop = true; } },
+                    { "y2|yB=", v => { y2 = v; crop = true; } },
 				};
 				var args = options.Parse (argz);
+
+                Player player = sender as Player;
+
+                if (crop)
+                {
+                    if (x1.Equals("") || x2.Equals("") || y1.Equals("") || y2.Equals(""))
+                    {
+                        //we need both coordinates
+                        throw new CommandError("If cropping, please specify x1, y1, x2, and y2.");
+                    }
+                    else
+                    {
+                        //we need x1,y1 to be the top left corner
+                        //and x2,y2 to the bottom right corner
+                        bool cornererror = false;
+                        int x1num;
+                        int x2num;
+                        int y1num;
+                        int y2num;
+                        try
+                        {
+                            x1num = Convert.ToInt32(x1);
+                            x2num = Convert.ToInt32(x2);
+                            y1num = Convert.ToInt32(y1);
+                            y2num = Convert.ToInt32(y2);
+                            //enforce bitmap boundaries
+                            if (x1num < 0)
+                                x1num = 0;
+                            if (y1num < 0)
+                                y1num = 0;
+                            if (x2num > Main.maxTilesX)
+                                x2num = Main.maxTilesX;
+                            if (y2num > Main.maxTilesY)
+                                y2num = Main.maxTilesY;
+
+                            if ((x1num >= x2num) || (y1num >= y2num))
+                            {
+                                cornererror = true;
+                            }
+                            if (!cornererror)
+                            {
+                                //update numbers, for use with the mapping threads
+                                this.x1 = x1num;
+                                this.x2 = x2num;
+                                this.y1 = y1num;
+                                this.y2 = y2num;
+                            }
+                        }
+                        catch
+                        {
+                            throw new CommandError("x1, y1, x2, and y2 must be integers.");
+                        }
+                        if (cornererror)
+                        {
+                            throw new CommandError("(" + x1num + "," + y1num + ")(" + x2num + "," + y2num + ")  (x1,y1) must be the top left corner.");
+                        }
+                    }
+                }
 
                 if (autosaveedit)
                 {
                     if (autosaveenabled)
                     {
-                        properties.setValue("autosave-enabled", "False");
-                        sender.sendMessage("autosave disabled.");
+                        properties.SetValue("autosave-enabled", "False");
+                        sender.SendMessage("autosave disabled.");
                     }
                     else
                     {
-                        properties.setValue("autosave-enabled", "True");
-                        sender.sendMessage("autosave enabled.");
+                        properties.SetValue("autosave-enabled", "True");
+                        sender.SendMessage("autosave enabled.");
                     }
                     if (highlight)
                     {
                         if (highlightsearch(sender as Player, nameOrID))
                         {
-                            properties.setValue("autosave-highlight", "True");
-                            properties.setValue("autosave-highlightID", nameOrID);
-                            sender.sendMessage("autosave highlight settings updated.");
+                            properties.SetValue("autosave-highlight", "True");
+                            properties.SetValue("autosave-highlightID", nameOrID);
+                            sender.SendMessage("autosave highlight settings updated.");
                         }
                     }
 
@@ -82,19 +157,19 @@ namespace MapPlugin
                     {
                         if (autosavetimestamp)
                         {
-                            properties.setValue("autosave-timestamp", "False");
-                            sender.sendMessage("autosave now using regular name.");
+                            properties.SetValue("autosave-timestamp", "False");
+                            sender.SendMessage("autosave now using regular name.");
                         }
                         else
                         {
-                            properties.setValue("autosave-timestamp", "True");
-                            sender.sendMessage("autosave now using timestamp.");
+                            properties.SetValue("autosave-timestamp", "True");
+                            sender.SendMessage("autosave now using timestamp.");
                         }
                     }
 
                     if (filename != "world-now.png")
                     {
-                        properties.setValue("autosave-filename", filename);
+                        properties.SetValue("autosave-filename", filename);
                     }
 
                     properties.Save();
@@ -102,7 +177,15 @@ namespace MapPlugin
                 }
 				
 				if (reload || autosave) {
-					sender.sendMessage ("map: Reloaded settings database, entries: " + properties.Count);
+                    if (reload)
+                    {
+                        sender.SendMessage("map: Reloaded settings database, entries: " + properties.Count);
+                    }
+                    if (autosave)
+                    {
+                        ProgramLog.BareLog(ProgramLog.Plugin, "<map> Reloaded settings database, entries: " + properties.Count);
+                    }
+
 					properties.Load ();
 					var msg = string.Concat (
 					"Settings: mapoutputpath=", p, ", ",
@@ -131,6 +214,7 @@ namespace MapPlugin
                     {
                         nameOrID = autosavehightlightID;
                     }
+                    highlight = autosavehighlight;
                 }
 
                 if (timestamp)
@@ -140,8 +224,8 @@ namespace MapPlugin
                     filename = string.Concat("terraria-", time, ".png");
                 }
 				if(savefromcommand){
-					properties.setValue ("color-scheme", cs);
-					properties.setValue ("mapoutput-path", p);
+					properties.SetValue ("color-scheme", cs);
+					properties.SetValue ("mapoutput-path", p);
 					properties.Save();
 				}
                 // chests are not an item so i draw them from the chest array
@@ -183,7 +267,7 @@ namespace MapPlugin
 							ProgramLog.Error.Log ("Save ERROR: check colorscheme");
 						}
 						if( !(Directory.Exists(p)) ){
-						sender.sendMessage ("map: "+p+" does not exist.");
+						sender.SendMessage ("map: "+p+" does not exist.");
 						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
 				        }
 					}
@@ -195,25 +279,25 @@ namespace MapPlugin
 			}
 		}
 
-        //the following is taken and modified from Commands.cs from TDSM source. Thanks guys!!! ;)
+        //the following is taken and modified from Commands.cs from tdsm.core source. Thanks guys!!! ;)
         public bool highlightsearch(Player player, string nameOrID)
         {
-            List<ItemInfo> itemlist;
+            ItemInfo[] itemlist = DefinitionManager.FindItem(nameOrID);
 
-            if (Server.TryFindItemByName(nameOrID, out itemlist) && itemlist.Count > 0)
+            if (itemlist != null && itemlist.Length > 0)
             {
-                if (itemlist.Count > 1)
+                if (itemlist.Length > 1)
                 {
-                    player.sendMessage("There were " + itemlist.Count + " Items found regarding the specified name");
+                    player.SendMessage("There were " + itemlist.Length + " Items found regarding the specified name");
                     return false;
                 }
 
-                foreach (ItemInfo id in itemlist)
-                    highlightID = id.Type;
+                ItemInfo item = itemlist[0];
+                highlightID = item.NetId; //todo: might be item.Id......
             }
             else
             {
-                player.sendMessage("There were no Items found regarding the specified Item Id/Name");
+                player.SendMessage("There were no Items found regarding the specified Item Id/Name");
                 return false;
             }
 

@@ -1,10 +1,10 @@
-using Terraria_Server.Plugins;
-using Terraria_Server.Misc;
-using Terraria_Server;
+using tdsm.api.Plugin;
+using tdsm.api.Misc;
+using tdsm.api;
 using System.IO;
-using Terraria_Server.Logging;
+using tdsm.api.Logging;
 using System;
-using Terraria_Server.Commands;
+using tdsm.api.Command;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -17,47 +17,47 @@ namespace MapPlugin
 		
 		string mapoutputpath
 		{
-			get { return properties.getValue ("mapoutput-path", Statics.SavePath); }
+			get { return properties.GetValue<string>("mapoutput-path", Globals.SavePath); }
 		}
 		
 		string colorscheme
 		{
-			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
+			get { return properties.GetValue<string>("color-scheme", "Terrafirma"); }		
 		}
 
         string autosavepath
         {
-            get { return properties.getValue("autosave-path", Environment.CurrentDirectory); }
+            get { return properties.GetValue<string>("autosave-path", Environment.CurrentDirectory); }
         }
 
         string autosavename
         {
-            get { return properties.getValue("autosave-filename", "autosave.png"); }
+            get { return properties.GetValue<string>("autosave-filename", "autosave.png"); }
         }
 
         bool autosaveenabled
         {
-            get { return properties.getValue("autosave-enabled", false); }
+            get { return properties.GetValue<bool>("autosave-enabled", false); }
         }
 
         int autosaveinterval
         {
-            get { return properties.getValue("autosave-interval", 30); } // in minutes
+            get { return properties.GetValue<int>("autosave-interval", 30); } // in minutes
         }
 
         bool autosavetimestamp
         {
-            get { return properties.getValue("autosave-timestamp", false); }
+            get { return properties.GetValue<bool>("autosave-timestamp", false); }
         }
 
         bool autosavehighlight
         {
-            get { return properties.getValue("autosave-highlight", false); }
+            get { return properties.GetValue<bool>("autosave-highlight", false); }
         }
 
         string autosavehightlightID
         {
-            get { return properties.getValue("autosave-highlightID", "chest"); }
+            get { return properties.GetValue<string>("autosave-highlightID", "chest"); }
         }
 
 		public MapPlugin ()
@@ -65,13 +65,13 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.38.1";
-			TDSMBuild = 38;
+			Version = "Rebind.2.1";
+			TDSMBuild = 2;
 		}
 		
 		protected override void Initialized (object state)
 		{
-			string pluginFolder = Statics.PluginPath + Path.DirectorySeparatorChar + "map";
+			string pluginFolder = Globals.PluginPath + Path.DirectorySeparatorChar + "map";
 			CreateDirectory (pluginFolder);
 			
 			properties = new PropertiesFile (pluginFolder + Path.DirectorySeparatorChar + "map.properties");
@@ -128,8 +128,7 @@ namespace MapPlugin
 			
 		}
 
-        [Hook(HookOrder.TERMINAL)]
-        void OnWorldLoad(ref HookContext ctx, ref HookArgs.WorldLoaded args)
+        protected override void WorldLoaded()
         {
             //UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
             InitializeMapperDefs();
@@ -145,7 +144,6 @@ namespace MapPlugin
             autosavethread.Start();
             while (!autosavethread.IsAlive) ;
         }
-
 
         public void autoSave()
         {
