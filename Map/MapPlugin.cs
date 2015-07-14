@@ -17,47 +17,47 @@ namespace MapPlugin
 		
 		string mapoutputpath
 		{
-			get { return properties.GetValue<string>("mapoutput-path", Globals.SavePath); }
+			get { return properties.GetValue<String>("mapoutput-path", Globals.SavePath); }
 		}
 		
 		string colorscheme
 		{
-			get { return properties.GetValue<string>("color-scheme", "Terrafirma"); }		
+			get { return properties.GetValue<String>("color-scheme", "Terrafirma"); }		
 		}
 
         string autosavepath
         {
-            get { return properties.GetValue<string>("autosave-path", Environment.CurrentDirectory); }
+            get { return properties.GetValue<String>("autosave-path", Environment.CurrentDirectory); }
         }
 
         string autosavename
         {
-            get { return properties.GetValue<string>("autosave-filename", "autosave.png"); }
+            get { return properties.GetValue<String>("autosave-filename", "autosave.png"); }
         }
 
         bool autosaveenabled
         {
-            get { return properties.GetValue<bool>("autosave-enabled", false); }
+            get { return properties.GetValue<Boolean>("autosave-enabled", false); }
         }
 
         int autosaveinterval
         {
-            get { return properties.GetValue<int>("autosave-interval", 30); } // in minutes
+            get { return properties.GetValue<Int32>("autosave-interval", 30); } // in minutes
         }
 
         bool autosavetimestamp
         {
-            get { return properties.GetValue<bool>("autosave-timestamp", false); }
+            get { return properties.GetValue<Boolean>("autosave-timestamp", false); }
         }
 
         bool autosavehighlight
         {
-            get { return properties.GetValue<bool>("autosave-highlight", false); }
+            get { return properties.GetValue<Boolean>("autosave-highlight", false); }
         }
 
         string autosavehightlightID
         {
-            get { return properties.GetValue<string>("autosave-highlightID", "chest"); }
+            get { return properties.GetValue<String>("autosave-highlightID", "chest"); }
         }
 
 		public MapPlugin ()
@@ -125,7 +125,8 @@ namespace MapPlugin
 		
 		protected override void Disposed (object state)
 		{
-			
+            isEnabled = false;
+            ProgramLog.Plugin.Log(base.Name + " " + base.Version + " disposed.");
 		}
 
         protected override void WorldLoaded()

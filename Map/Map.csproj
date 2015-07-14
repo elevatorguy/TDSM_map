@@ -33,15 +33,17 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="tdsm">
-      <HintPath>..\..\..\..\terraria\TDSM\Binaries\tdsm.exe</HintPath>
+    <Reference Include="tdsm, Version=0.0.2.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TDSM\Binaries\tdsm.exe</HintPath>
     </Reference>
-    <Reference Include="tdsm.api">
-      <HintPath>..\..\..\..\terraria\TDSM\Binaries\tdsm.api.dll</HintPath>
+    <Reference Include="tdsm.api, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TDSM\Binaries\tdsm.api.dll</HintPath>
     </Reference>
     <Reference Include="tdsm.core, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\terraria\TDSM\Binaries\Plugins\tdsm.core.dll</HintPath>
+      <HintPath>..\..\TDSM\Binaries\Plugins\tdsm.core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
