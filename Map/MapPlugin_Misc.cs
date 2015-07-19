@@ -1,4 +1,4 @@
-using tdsm.api;
+using TDSM.API;
 using Terraria;
 using System.IO;
 using System;

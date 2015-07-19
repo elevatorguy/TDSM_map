@@ -1,10 +1,10 @@
-using tdsm.api.Plugin;
-using tdsm.api.Misc;
-using tdsm.api;
+using TDSM.API.Plugin;
+using TDSM.API.Misc;
+using TDSM.API;
 using System.IO;
-using tdsm.api.Logging;
+using TDSM.API.Logging;
 using System;
-using tdsm.api.Command;
+using TDSM.API.Command;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -13,7 +13,7 @@ namespace MapPlugin
 	public partial class MapPlugin : BasePlugin
 	{
 		PropertiesFile properties;
-		bool isEnabled = false;
+		volatile bool isEnabled = false;
 		
 		string mapoutputpath
 		{

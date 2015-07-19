@@ -1,15 +1,15 @@
 using Terraria;
-using tdsm.api.Command;
+using TDSM.API.Command;
 using NDesk.Options;
 using System;
-using tdsm.api.Logging;
+using TDSM.API.Logging;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
-using tdsm.core.Definitions;
+using TDSM.Core.Definitions;
 
 namespace MapPlugin
 {

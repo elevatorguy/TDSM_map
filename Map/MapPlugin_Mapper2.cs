@@ -5,8 +5,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System;
 using System.Threading;
-using tdsm.api.Logging;
-using tdsm.api;
+using TDSM.API.Logging;
+using TDSM.API;
 using Terraria;
 
 namespace MapPlugin
