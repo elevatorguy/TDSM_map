@@ -15,7 +15,7 @@ namespace Map
         public static bool highlight;
         public static bool hlchests;
         private static int highlightID;
-        public bool isMapping = false;
+        public volatile bool isMapping = false;
         public bool crop = false;
         public int x1 = 0;
         public int y1 = 0;

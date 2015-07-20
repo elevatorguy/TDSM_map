@@ -180,7 +180,7 @@ namespace Map.API
     {
         public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
         {
-            if(MapPlugin.initialized)
+            if(MapPlugin.initialized && !MapPlugin.instance.isMapping)
             {
                 TSPlayer console = new TSPlayer(-1);
                 List<string> coords = new List<string>();
