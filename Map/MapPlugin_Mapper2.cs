@@ -94,7 +94,13 @@ namespace Map
         }
 
         public void mapWorld2()
-        { 
+        {
+            if (MapPlugin.bmp != null)
+            {
+                MapPlugin.bmp.Dispose();
+                MapPlugin.bmp = null;
+            }
+
             if (!crop)
             {
                 x1 = 0;
@@ -286,14 +292,16 @@ namespace Map
                 utils.SendLogs("<map> WARNING: pixel fail write on hlchests.", Color.Yellow);
                 pixelfailureflag = false;
             }
-            
-            utils.SendLogs("Saving Data...", Color.WhiteSmoke);
-            bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
-            bmp.Dispose();
+            if(!api_call)
+            {
+                utils.SendLogs("Saving Data...", Color.WhiteSmoke);
+                bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+                bmp.Dispose();
+                bmp = null;
+            }
             stopwatch.Stop();
             utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
             utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
-            bmp = null;
             piece1.Dispose();
             piece1 = null;
             piece2.Dispose();

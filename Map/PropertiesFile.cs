@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using TShockAPI;
 
-namespace TShock_Map
+namespace Map
 {
     public class PropertiesFile
     {

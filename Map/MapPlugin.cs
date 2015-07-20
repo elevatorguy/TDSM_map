@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using TerrariaApi.Server;
-using TShock_Map;
 
 namespace Map
 {
@@ -17,6 +16,10 @@ namespace Map
     {
 		PropertiesFile properties;
 		bool isEnabled = false;
+
+        public static MapPlugin instance;
+
+        public static bool initialized = false;
 
 		string mapoutputpath
 		{
@@ -131,6 +134,9 @@ namespace Map
             autosavethread.Name = "Auto-Mapper";
             autosavethread.Start();
             while (!autosavethread.IsAlive) ;
+
+            instance = this;
+            initialized = true;
         }
 
         protected override void Dispose(bool disposing)
@@ -165,6 +171,29 @@ namespace Map
                 Thread.Sleep(1000);
             }
         }
+    }
+}
 
+namespace Map.API
+{
+    public class Mapper
+    {
+        public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
+        {
+            if(MapPlugin.initialized)
+            {
+                TSPlayer console = new TSPlayer(-1);
+                List<string> coords = new List<string>();
+                coords.Add("-x1="+x1);
+                coords.Add("-x2="+x2);
+                coords.Add("-y1="+y1);
+                coords.Add("-y2="+y2);
+                CommandArgs arguments = new CommandArgs("api-call", console, coords); // the command method interprets this, along with the data in the properties file
+
+                MapPlugin.instance.MapCommand(arguments);
+                while (MapPlugin.instance.isMapping) ;
+            }
+            return MapPlugin.bmp;
+        }
     }
 }

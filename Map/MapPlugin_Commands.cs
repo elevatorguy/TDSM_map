@@ -21,15 +21,21 @@ namespace Map
         public int y1 = 0;
         public int x2 = 0;
         public int y2 = 0;
+        public bool api_call;
 
 		private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
 		
 		public void MapCommand(CommandArgs argzz)
 		{
             bool autosave = false;
+            api_call = false;
             if(argzz.Message == "automap")
             {
                 autosave = true;
+            }
+            if(argzz.Message == "api-call")
+            {
+                api_call = true; //don't save file... we only need the bitmap object.
             }
 
             TSPlayer player = argzz.Player;
@@ -171,7 +177,7 @@ namespace Map
                     return;
                 }
 
-                if (reload || autosave)
+                if (reload || autosave || api_call)
                 {
                     if(reload)
                         player.SendInfoMessage("map: Reloaded settings database, entries: " + properties.Count);
@@ -187,7 +193,7 @@ namespace Map
                         msg = string.Concat(msg, "  (DOESNT EXIST)");
                         TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
                     }
-                    if (!autosave)
+                    if (!autosave && !api_call)
                     {
                         TShock.Log.Info("<map> " + msg);
                     }
@@ -259,9 +265,9 @@ namespace Map
                             TShock.Log.Error("Save ERROR: check colorscheme");
 						}
 						if( !(Directory.Exists(p)) ){
-						player.SendErrorMessage ("map: "+p+" does not exist.");
-                        TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
-				}
+						    player.SendErrorMessage ("map: "+p+" does not exist.");
+                            TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
+				        }
 					}
 				} else {
                     return;

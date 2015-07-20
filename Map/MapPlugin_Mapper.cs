@@ -5,7 +5,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using Terraria;
 using TShockAPI;
-using TShock_Map;
 using System;
 
 namespace Map
