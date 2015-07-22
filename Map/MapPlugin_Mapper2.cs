@@ -121,8 +121,11 @@ namespace Map
             }
 
             Stopwatch stopwatch = new Stopwatch();
-            utils.SendLogs("Saving Image...", Color.WhiteSmoke);
-            stopwatch.Start();
+            if(!api_call)
+            {
+                utils.SendLogs("Saving Image...", Color.WhiteSmoke);
+                stopwatch.Start();
+            }
 
             try
             {
@@ -298,10 +301,10 @@ namespace Map
                 bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
                 bmp.Dispose();
                 bmp = null;
+                stopwatch.Stop();
+                utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
+                utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
             }
-            stopwatch.Stop();
-            utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
-            utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
             piece1.Dispose();
             piece1 = null;
             piece2.Dispose();
