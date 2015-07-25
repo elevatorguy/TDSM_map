@@ -11,7 +11,7 @@ using TerrariaApi.Server;
 
 namespace Map
 {
-    [ApiVersion(1, 19)]
+    [ApiVersion(1, 20)]
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
@@ -85,7 +85,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 3, 5, 0721); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 3, 7, 0724); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()
