@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\tshock_4.3.7-pre1\ServerPlugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,4 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup />
+  <PropertyGroup>
+    <PostBuildEvent>copy Map_TShock.* ..\..\..\..\tshock_4.3.7-pre1\ServerPlugins</PostBuildEvent>
+  </PropertyGroup>
 </Project>

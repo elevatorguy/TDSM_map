@@ -1,3 +1,5 @@
 *.csproj.user
 *.userprefs
 /Map/bin
+Map/obj/*
+*.suo
