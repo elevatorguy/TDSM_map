@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\TDSM\Binaries\Plugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
@@ -67,4 +67,7 @@
   </Target>
   -->
   <ItemGroup />
+  <PropertyGroup>
+    <PostBuildEvent>copy Map_TDSM.* ..\..\..\..\TDSM\Binaries\Plugins</PostBuildEvent>
+  </PropertyGroup>
 </Project>

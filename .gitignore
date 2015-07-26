@@ -2,4 +2,4 @@
 *.userprefs
 /Map/bin
 Map/obj/*
-Map.v12.suo
+*.suo
