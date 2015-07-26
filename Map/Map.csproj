@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MapPlugin</RootNamespace>
-    <AssemblyName>Map_Rebind_2_1</AssemblyName>
+    <AssemblyName>Map_TDSM</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ReleaseVersion>0.36.2</ReleaseVersion>
   </PropertyGroup>

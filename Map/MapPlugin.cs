@@ -65,13 +65,13 @@ namespace MapPlugin
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "Rebind.2.1";
+			Version = "0.38.0";
 			TDSMBuild = 2;
 		}
 		
 		protected override void Initialized (object state)
 		{
-			string pluginFolder = Globals.PluginPath + Path.DirectorySeparatorChar + "map";
+			string pluginFolder = Globals.DataPath + Path.DirectorySeparatorChar + "map";
 			CreateDirectory (pluginFolder);
 			
 			properties = new PropertiesFile (pluginFolder + Path.DirectorySeparatorChar + "map.properties");
