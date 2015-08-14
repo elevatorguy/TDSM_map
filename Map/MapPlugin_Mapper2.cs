@@ -154,10 +154,11 @@ namespace Map
                 if (state != 2)
                 {
                     //this fades the background from rock to hell
+                    int y = 0;
                     try
                     {
                         System.Drawing.Color dimColor;
-                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
                             dimColor = dimC(UInt32Defs[WALL_END_INDEX + (y + y1)]);
                             graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
@@ -166,13 +167,14 @@ namespace Map
                     catch (KeyNotFoundException e)
                     {
                         ProgramLog.BareLog(ProgramLog.Error, "<map> ERROR: could not fade the dimmed background from rock to hell.");
-                        ProgramLog.BareLog(ProgramLog.Plugin, e.StackTrace.ToString());
+                        ProgramLog.BareLog(ProgramLog.Plugin, e.StackTrace.ToString() + ", with key " + (WALL_END_INDEX + (y + y1)).ToString());
                         //continue and see if we keep getting errors when painting the actual world
                     }
                 }
             }
             else
             {
+                int y = 0;
                 try
                 {
                     int state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
@@ -180,7 +182,7 @@ namespace Map
                     if (state != 2)
                     {
                         //this fades the background from rock to hell
-                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); y < y2; y++)
                         {
                             graphicsHandle.DrawLine(new Pen(ColorDefs[WALL_END_INDEX + (y + y1)]), 0, y, bmp.Width, y);
                         }
@@ -189,7 +191,7 @@ namespace Map
                 catch (KeyNotFoundException e)
                 {
                     ProgramLog.BareLog(ProgramLog.Error, "<map> ERROR: could not fade the background from rock to hell.");
-                    ProgramLog.BareLog(ProgramLog.Plugin, e.StackTrace.ToString());
+                    ProgramLog.BareLog(ProgramLog.Plugin, e.StackTrace.ToString() + ", with key " + (WALL_END_INDEX + (y + y1)).ToString());
 
                     //continue and see if we keep getting errors when painting the actual world
                 }

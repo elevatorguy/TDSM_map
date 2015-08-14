@@ -31,7 +31,7 @@ namespace Map
 		public void MapCommand ( ISender sender, ArgumentList argz)
 		{
             bool autosave = false;
-            bool api_call = false;
+            api_call = false;
             if (argz.Contains("automap"))
             {
                 autosave = true;
