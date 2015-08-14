@@ -40,6 +40,7 @@ namespace Map
             if(argz.Contains("api-call"))
             {
                 api_call = true; //flag so we don't save png file later... we only need the bitmap object.
+                argz.Remove("api-call");
             }
 			try {
                 if (isMapping)
