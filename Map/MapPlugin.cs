@@ -67,8 +67,8 @@ namespace Map
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.38.0";
-			TDSMBuild = 2;
+			Version = "0.39.0";
+			TDSMBuild = 4;
 		}
 		
 		protected override void Initialized (object state)
