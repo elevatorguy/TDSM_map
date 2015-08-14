@@ -11,7 +11,7 @@ using System.Threading;
 using System.Collections.Generic;
 using TDSM.Core.Definitions;
 
-namespace MapPlugin
+namespace Map
 {
 	public partial class MapPlugin
 	{
@@ -20,20 +20,26 @@ namespace MapPlugin
         public static bool highlight;
         public static bool hlchests;
         private static int highlightID;
-        public bool isMapping = false;
+        public volatile bool isMapping = false;
         public bool crop = false;
         public int x1 = 0;
         public int y1 = 0;
         public int x2 = 0;
         public int y2 = 0;
+        public bool api_call;
 
-		void MapCommand ( ISender sender, ArgumentList argz)
+		public void MapCommand ( ISender sender, ArgumentList argz)
 		{
             bool autosave = false;
+            bool api_call = false;
             if (argz.Contains("automap"))
             {
                 autosave = true;
                 argz.Remove("automap");
+            }
+            if(argz.Contains("api-call"))
+            {
+                api_call = true; //flag so we don't save png file later... we only need the bitmap object.
             }
 			try {
                 if (isMapping)
@@ -176,7 +182,7 @@ namespace MapPlugin
                     return;
                 }
 				
-				if (reload || autosave) {
+				if (reload || autosave || api_call) {
                     if (reload)
                     {
                         sender.SendMessage("map: Reloaded settings database, entries: " + properties.Count);
@@ -194,7 +200,7 @@ namespace MapPlugin
 						msg = string.Concat ( msg , "  (DOESNT EXIST)" );
 						ProgramLog.Error.Log ("<map> ERROR: Loaded Directory does not exist.");
 					}
-                    if (!autosave)
+                    if (!autosave && !api_call)
                     {
                         ProgramLog.Admin.Log("<map> " + msg);
                     }

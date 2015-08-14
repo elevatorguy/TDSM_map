@@ -9,7 +9,7 @@ using TDSM.API.Logging;
 using TDSM.API;
 using Terraria;
 
-namespace MapPlugin
+namespace Map
 {
     public partial class MapPlugin
     {
@@ -97,6 +97,11 @@ namespace MapPlugin
 
         public void mapWorld2()
         {
+            if (MapPlugin.bmp != null)
+            {
+                MapPlugin.bmp.Dispose();
+                MapPlugin.bmp = null;
+            }
             if (!crop)
             {
                 x1 = 0;
@@ -117,8 +122,11 @@ namespace MapPlugin
             }
 
             Stopwatch stopwatch = new Stopwatch();
-            Tools.NotifyAllOps("Saving Image...");
-            stopwatch.Start();
+            if(!api_call)
+            {
+                Tools.NotifyAllOps("Saving Image...");
+                stopwatch.Start();
+            }
 
             try
             {
@@ -289,13 +297,16 @@ namespace MapPlugin
                 pixelfailureflag = false;
             }
 
-            Tools.NotifyAllOps("Saving Data...");
-            bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
-            bmp.Dispose();
-            stopwatch.Stop();
-            Tools.NotifyAllOps("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
-            Tools.NotifyAllOps("Saving Complete.");
-            bmp = null;
+            if (!api_call)
+            {
+                Tools.NotifyAllOps("Saving Data...");
+                bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+                bmp.Dispose();
+                bmp = null;
+                stopwatch.Stop();
+                Tools.NotifyAllOps("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+                Tools.NotifyAllOps("Saving Complete.");
+            }
             piece1.Dispose();
             piece1 = null;
             piece2.Dispose();

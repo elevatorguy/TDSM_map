@@ -8,13 +8,15 @@ using TDSM.API.Command;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace MapPlugin
+namespace Map
 {
 	public partial class MapPlugin : BasePlugin
 	{
 		PropertiesFile properties;
 		volatile bool isEnabled = false;
-		
+        public static MapPlugin instance;
+        public static bool initialized = false;
+
 		string mapoutputpath
 		{
 			get { return properties.GetValue<String>("mapoutput-path", Globals.SavePath); }
@@ -144,6 +146,9 @@ namespace MapPlugin
             autosavethread.Name = "Auto-Mapper";
             autosavethread.Start();
             while (!autosavethread.IsAlive) ;
+
+            instance = this;
+            initialized = true;
         }
 
         public void autoSave()
@@ -179,3 +184,26 @@ namespace MapPlugin
 	}
 }
 
+namespace Map.API
+{
+    public class Mapper
+    {
+        public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
+        {
+            if(MapPlugin.initialized && !MapPlugin.instance.isMapping)
+            {
+                ISender console = new ConsoleSender();
+                ArgumentList coords = new ArgumentList();
+                coords.Add("api-call");
+                coords.Add("-x1=" + x1);
+                coords.Add("-x2=" + x2);
+                coords.Add("-y1=" + y1);
+                coords.Add("-y2=" + y2);
+
+                MapPlugin.instance.MapCommand(console, coords);
+                while (MapPlugin.instance.isMapping) ;
+            }
+            return MapPlugin.bmp;
+        }
+    }
+}

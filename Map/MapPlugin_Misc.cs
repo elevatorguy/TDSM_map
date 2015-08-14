@@ -5,7 +5,7 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 
-namespace MapPlugin
+namespace Map
 {
     public partial class MapPlugin
     {

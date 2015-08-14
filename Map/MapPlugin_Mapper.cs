@@ -8,7 +8,7 @@ using TDSM.API;
 using Terraria;
 using System;
 
-namespace MapPlugin
+namespace Map
 {
     public partial class MapPlugin
     {
