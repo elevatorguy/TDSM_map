@@ -149,46 +149,58 @@ namespace Map
                 System.Drawing.Color HELL = dimC(0x000000);
                 int state = paintbackground(SKY, EARTH, HELL);
 
-                //if has earth or hell
-                if (state != 2)
+                //if has hell
+                if (state != 2 && state != 3 && state != 6)
                 {
+                    int y = 0;
                     //this fades the background from rock to hell
                     try
                     {
                         System.Drawing.Color dimColor;
-                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); (y + y1) < y2; y++)
                         {
-                            dimColor = dimC(UInt32Defs[WALL_END_INDEX + (y + y1)]);
+                            dimColor = dimC(UInt32Defs[WALL_END_INDEX+1 + (y + y1)]);
                             graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
                         }
                     }
                     catch (KeyNotFoundException e)
                     {
                         utils.SendLogs("<map> ERROR: could not fade the dimmed background from rock to hell.", Color.Red);
-                        utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                        utils.SendLogs(e.StackTrace.ToString()+", with key " + (WALL_END_INDEX+1 + (y + y1)).ToString(), Color.WhiteSmoke);
                         //continue and see if we keep getting errors when painting the actual world
                     }
                 }
             }
             else
             {
+                int y = 0;
+                int state = 2;
                 try
                 {
-                    int state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
-                    //if has earth or hell
-                    if (state != 2)
+                    state = paintbackground(Constants.Terrafirma_Color.SKY, Constants.Terrafirma_Color.EARTH, Constants.Terrafirma_Color.HELL);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    utils.SendLogs("<map> ERROR: could not paint the background.", Color.Red);
+                    utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                }
+
+                try
+                {
+                    //if has hell
+                    if (state != 2 && state != 3 && state != 6)
                     {
                         //this fades the background from rock to hell
-                        for (int y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); (y + y1) < y2; y++)
                         {
-                            graphicsHandle.DrawLine(new Pen(ColorDefs[WALL_END_INDEX + (y + y1)]), 0, y, bmp.Width, y);
+                            graphicsHandle.DrawLine(new Pen(ColorDefs[WALL_END_INDEX+1 + (y + y1)]), 0, y, bmp.Width, y);
                         }
                     }
                 }
                 catch (KeyNotFoundException e)
                 {
                     utils.SendLogs("<map> ERROR: could not fade the background from rock to hell.", Color.Red);
-                    utils.SendLogs(e.StackTrace.ToString(), Color.WhiteSmoke);
+                    utils.SendLogs(e.StackTrace.ToString() + ", with key " + (WALL_END_INDEX+1 + (y + y1)).ToString(), Color.WhiteSmoke);
 
                     //continue and see if we keep getting errors when painting the actual world
                 }
@@ -580,7 +592,7 @@ namespace Map
             }
         }
 
-        public partial class Constants //credits go to the authors of Terrafirma ..damn that xml took awhile to manually convert :(					
+        public partial class Constants //credits go to the authors of Terrafirma				
         {
             public static class Terrafirma_Color
             {
@@ -1254,7 +1266,7 @@ namespace Map
 
         public void InitializeMapperDefs2() //Credits go to the authors of MoreTerra
         {
-            ColorDefs = new Dictionary<int, System.Drawing.Color>(WALL_END_INDEX + Main.maxTilesY);
+            ColorDefs = new Dictionary<int, System.Drawing.Color>(WALL_END_INDEX+1 + Main.maxTilesY);
 
             //tiles
             ColorDefs[0] = Constants.Terrafirma_Color.DIRT;
@@ -1910,21 +1922,21 @@ namespace Map
 
             // this is for faster performace
             // rather than converting from Color to UInt32 alot.
-            UInt32Defs = new Dictionary<int, UInt32>(WALL_END_INDEX + Main.maxTilesY);
+            UInt32Defs = new Dictionary<int, UInt32>(WALL_END_INDEX+1 + Main.maxTilesY);
 
             //adds sky and earth
 
-            for (int i = WALL_END_INDEX; i < Main.worldSurface + WALL_END_INDEX; i++)
+            for (int i = WALL_END_INDEX+1; i < Main.worldSurface + WALL_END_INDEX+1; i++)
             {
                 UInt32Defs[i] = 0x84AAF8;
                 ColorDefs[i] = Constants.Terrafirma_Color.SKY;
             }
-            for (int i = (int)Main.worldSurface + WALL_END_INDEX; i < (int)Main.rockLayer + WALL_END_INDEX; i++)
+            for (int i = (int)Main.worldSurface + WALL_END_INDEX+1; i < (int)Main.rockLayer + WALL_END_INDEX+1; i++)
             {
                 UInt32Defs[i] = 0x583D2E;
                 ColorDefs[i] = Constants.Terrafirma_Color.EARTH;
             }
-            for (int i = (int)Main.rockLayer + WALL_END_INDEX; i < Main.maxTilesY + WALL_END_INDEX; i++)
+            for (int i = (int)Main.rockLayer + WALL_END_INDEX+1; i < Main.maxTilesY + WALL_END_INDEX+1; i++)
             {
                 UInt32Defs[i] = 0x000000;
                 ColorDefs[i] = Constants.Terrafirma_Color.HELL;
@@ -1935,8 +1947,8 @@ namespace Map
             {
                 double alpha = (double)(y - Main.rockLayer) / (double)(Main.maxTilesY - Main.rockLayer);
                 UInt32 c = alphaBlend(0x4A433C, 0x000000, alpha);   // (rockcolor, hellcolor, alpha)
-                UInt32Defs[y + WALL_END_INDEX] = c;
-                ColorDefs[y + WALL_END_INDEX] = toColor(c);
+                UInt32Defs[y + WALL_END_INDEX+1] = c;
+                ColorDefs[y + WALL_END_INDEX+1] = toColor(c);
             }
 
             //tiles
@@ -2367,7 +2379,7 @@ namespace Map
             }
 
             //walls
-                        UInt32Defs[451] = 0x343434;
+            UInt32Defs[451] = 0x343434;
             UInt32Defs[452] = 0x583D2E;
             UInt32Defs[453] = 0x3D3A4E;
             UInt32Defs[454] = 0x523C2D;
@@ -2593,8 +2605,8 @@ namespace Map
             UInt32Defs[674] = 0x262424;
 
             //list for when dimming the world for highlighting
-            DimColorDefs = new Dictionary<int, System.Drawing.Color>(WALL_END_INDEX + Main.maxTilesY);
-            DimUInt32Defs = new Dictionary<int, UInt32>(WALL_END_INDEX + Main.maxTilesY);
+            DimColorDefs = new Dictionary<int, System.Drawing.Color>(WALL_END_INDEX+1 + Main.maxTilesY);
+            DimUInt32Defs = new Dictionary<int, UInt32>(WALL_END_INDEX+1 + Main.maxTilesY);
         }
     }
 }
