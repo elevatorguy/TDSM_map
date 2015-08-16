@@ -67,7 +67,7 @@ namespace Map
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.39.1";
+			Version = "0.39.2";
 			TDSMBuild = 5;
 		}
 		
@@ -110,6 +110,7 @@ namespace Map
 				.WithHelpText ("map [-s] -c MoreTerra")
 				.WithHelpText ("map [-s] -c Terrafirma")
                 .WithHelpText ("map -h \"name or ID of item to highlight\"")
+                .WithHelpText ("map -web")
 				.Calls (this.MapCommand);
 		}
 		

@@ -302,11 +302,64 @@ namespace Map
             if (!api_call)
             {
                 Tools.NotifyAllOps("Saving Data...");
-                bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
-                bmp.Dispose();
-                bmp = null;
+                if (generate_tiles)
+                {
+                    //create directory and make sure it's empty.
+                    CreateDirectory(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    System.IO.DirectoryInfo map_tiles = new DirectoryInfo(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    foreach (FileInfo file in map_tiles.GetFiles())
+                    {
+                        file.Delete();
+                    }
+
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    int countx = 0;
+                    int county = 0;
+                    int filecount = 0;
+                    Bitmap tile = null;
+                    System.Drawing.Imaging.PixelFormat format = bmp.PixelFormat;
+                    for (int x = 0; x < Main.maxTilesX; x = x + 256)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 256)
+                        {
+                            if(tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            int xsize = 256;
+                            int ysize = 256;
+                            if(x + 256 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if(y + 256 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            Rectangle size = new Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+                            tile.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_" + countx + "_" + county + ".png"));
+                            county++;
+                            filecount++;
+                        }
+                        countx++;
+                    }
+                    string html = "<html><head><link rel = \"stylesheet\" href = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css\" />   <title> Terraria world </title>      </head>            <body>      <div id = \"map\" style = \"height: 100%;\"></div>         <script src = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js\"></script>          <script>          var map = L.map('map', {                    maxZoom: 18,  minZoom: 18,  crs:                    L.CRS.Simple          }).setView([0, 0], 18);                var southWest = map.unproject([0, "+Main.maxTilesY+"], map.getMaxZoom());                var northEast = map.unproject(["+Main.maxTilesX+", 0], map.getMaxZoom());                map.setMaxBounds(new L.LatLngBounds(southWest, northEast));                L.tileLayer('map-tiles/map_{x}_{y}.png', {                    attribution: 'Imagery © <a href=\"http://github.com/elevatorguy/TDSM_map\">Map</a>',}).addTo(map);</script></body></html> ";
+                    System.IO.File.WriteAllText(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
+                    watch.Stop();
+                    TDSM.API.Tools.NotifyAllOps("Saved "+filecount+" file(s) in " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000 * watch.Elapsed.Seconds) + "s");
+                }
+                else
+                {
+                    bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+                    bmp.Dispose();
+                    bmp = null;
+                }
                 stopwatch.Stop();
-                Tools.NotifyAllOps("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)");
+                TDSM.API.Tools.NotifyAllOps("Total duration: " + stopwatch.Elapsed.Seconds + "." + (stopwatch.ElapsedMilliseconds - 1000 * stopwatch.Elapsed.Seconds) + "s");
                 Tools.NotifyAllOps("Saving Complete.");
             }
             piece1.Dispose();
@@ -335,22 +388,42 @@ namespace Map
             if (!crop)
             {
                 int quarter = (Main.maxTilesX / 4);
-                using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                if (api_call)
+                {
                     for (int i = 0; i < quarter; i++)
                     {
-                        prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
                         maprenderloop(i, piece1, 0);
                     }
+                }
+                else
+                {
+                    using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                        for (int i = 0; i < quarter; i++)
+                        {
+                            prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
+                            maprenderloop(i, piece1, 0);
+                        }
+                }
             }
             else
             {
                 int quarter = ((x2 - x1) / 4);
-                using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                if (api_call)
+                {
                     for (int i = 0; i < quarter; i++)
                     {
-                        prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
                         maprenderloop(x1 + i, piece1, 0, y1, y2);
                     }
+                }
+                else
+                {
+                    using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
+                        for (int i = 0; i < quarter; i++)
+                        {
+                            prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
+                            maprenderloop(x1 + i, piece1, 0, y1, y2);
+                        }
+                }
             }
         }
 

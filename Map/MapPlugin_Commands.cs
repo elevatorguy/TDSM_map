@@ -27,6 +27,41 @@ namespace Map
         public int x2 = 0;
         public int y2 = 0;
         public bool api_call;
+        public static bool generate_tiles;
+
+        /*
+        * benchmark: this is 0.5 to 1 second slower on a large map than just mapping the world and splitting it in the map command.
+        */
+        public void WebMapCommand(ISender sender, ArgumentList argz)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            int countx = 0;
+            int county = 0;
+            for(int x = 0; x < Main.maxTilesX; x = x + 256)
+            {
+                county = 0;
+                for(int y = 0; y < Main.maxTilesY; y = y + 256)
+                {
+                    System.Drawing.Bitmap chunk = Map.API.Mapper.map(x,y,x+256,y+256);
+                    CreateDirectory(string.Concat(TDSM.API.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    chunk.Save(string.Concat(TDSM.API.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_" + countx + "_" + county + ".png"));
+                    county++;
+                    chunk.Dispose();
+                    chunk = null;
+                }
+                countx++;
+            }
+            watch.Stop();
+            TDSM.API.Tools.NotifyAllOps("Save duration: " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000* watch.Elapsed.Seconds) + " Seconds");
+            //TDSM.API.Tools.NotifyAllOps("Spawn: ("Main.spawnTileX +", " + Main.spawnTileY + ")");
+
+            if(!File.Exists(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html")))
+            {
+                string html = "<html><head><link rel = \"stylesheet\" href = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css\" />   <title> Terraria world </title>      </head>            <body>      <div id = \"map\" style = \"height: 100%;\"></div>         <script src = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js\"></script>          <script>          var map = L.map('map', {                    maxZoom: 18,  minZoom: 18,  crs:                    L.CRS.Simple          }).setView([0, 0], 18);                var southWest = map.unproject([0, 2400], map.getMaxZoom());                var northEast = map.unproject([8400, 0], map.getMaxZoom());                map.setMaxBounds(new L.LatLngBounds(southWest, northEast));                L.tileLayer('map-tiles/map_{x}_{y}.png', {                    attribution: 'Imagery © <a href=\"http://github.com/elevatorguy/TDSM_map\">Map</a>',}).addTo(map);                var marker = L.marker(map.unproject([200, 200], map.getMaxZoom())).addTo(map);                marker.bindPopup(\"<b>Hello world!</b><br>I am a popup.\").openPopup();</script></body></html> ";
+                System.IO.File.WriteAllText(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
+            }
+        }
 
 		public void MapCommand ( ISender sender, ArgumentList argz)
 		{
@@ -63,6 +98,7 @@ namespace Map
                 string y1 = "";
                 string y2 = "";
                 crop = false;
+                generate_tiles = false;
 				var options = new OptionSet ()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -77,7 +113,8 @@ namespace Map
                     { "x2|xB=", v => { x2 = v; crop = true; } },
                     { "y1|yA=", v => { y1 = v; crop = true; } },
                     { "y2|yB=", v => { y2 = v; crop = true; } },
-				};
+                    { "w|web", v => generate_tiles = true },
+                };
 				var args = options.Parse (argz);
 
                 Player player = sender as Player;
