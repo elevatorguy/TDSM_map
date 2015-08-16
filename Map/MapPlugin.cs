@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Drawing;
 using Terraria;
 using TShockAPI;
-using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using TerrariaApi.Server;
@@ -85,7 +82,7 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 3, 8, 0808); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 3, 8, 0816); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
         public override void Initialize()

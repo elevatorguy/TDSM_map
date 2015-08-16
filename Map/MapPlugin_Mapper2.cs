@@ -101,7 +101,6 @@ namespace Map
                 MapPlugin.bmp.Dispose();
                 MapPlugin.bmp = null;
             }
-
             if (!crop)
             {
                 x1 = 0;
@@ -303,19 +302,222 @@ namespace Map
                 }
             }
 
-            if(pixelfailureflag)
+            if (pixelfailureflag)
             {
                 utils.SendLogs("<map> WARNING: pixel fail write on hlchests.", Color.Yellow);
                 pixelfailureflag = false;
             }
-            if(!api_call)
+            if (!api_call)
             {
                 utils.SendLogs("Saving Data...", Color.WhiteSmoke);
-                bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
-                bmp.Dispose();
-                bmp = null;
+                if (generate_tiles)
+                {
+                    //create directory and make sure it's empty.
+                    CreateDirectory(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    System.IO.DirectoryInfo map_tiles = new DirectoryInfo(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    foreach (FileInfo file in map_tiles.GetFiles())
+                    {
+                        file.Delete();
+                    }
+
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    int countx = 0;
+                    int county = 0;
+                    int filecount = 0;
+                    Bitmap tile = null;
+                    System.Drawing.Imaging.PixelFormat format = bmp.PixelFormat;
+                    int xsize = 256;
+                    int ysize = 256;
+                    Bitmap blank = new Bitmap(256, 256, format);
+                    System.Drawing.Point zero = new System.Drawing.Point(0, 0);
+                    for (int x = 0; x < Main.maxTilesX; x = x + 256)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 256)
+                        {
+                            if (tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            xsize = 256;
+                            ysize = 256;
+                            if (x + 256 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if (y + 256 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            System.Drawing.Rectangle size = new System.Drawing.Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.DrawImage(tile, zero);
+                            }
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
+                            }
+                            filecount++;
+                            county++;
+                        }
+                        countx++;
+                    }
+                    Bitmap zoom16 = null;
+                    countx = 0;
+                    for (int x = 0; x < Main.maxTilesX; x = x + 1024)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 1024)
+                        {
+                            if (tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            xsize = 1024;
+                            ysize = 1024;
+                            if (x + 1024 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if (y + 1024 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            Size tilesize = new Size(xsize / 4, ysize / 4);
+                            System.Drawing.Rectangle size = new System.Drawing.Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+
+                            if (zoom16 != null)
+                            {
+                                zoom16.Dispose();
+                                zoom16 = null;
+                            }
+                            zoom16 = new Bitmap(tile, tilesize);
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.DrawImage(zoom16, zero);
+                            }
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
+                            }
+                            filecount++;
+                            county++;
+                        }
+                        countx++;
+                    }
+                    Bitmap zoom17 = null;
+                    countx = 0;
+                    for (int x = 0; x < Main.maxTilesX; x = x + 512)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 512)
+                        {
+                            if (tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            xsize = 512;
+                            ysize = 512;
+                            if (x + 512 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if (y + 512 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            Size tilesize = new Size(xsize / 2, ysize / 2);
+                            System.Drawing.Rectangle size = new System.Drawing.Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+
+                            if (zoom17 != null)
+                            {
+                                zoom17.Dispose();
+                                zoom17 = null;
+                            }
+                            zoom17 = new Bitmap(tile, tilesize);
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.DrawImage(zoom17, zero);
+                            }
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
+                            }
+                            filecount++;
+                            county++;
+                        }
+                        countx++;
+                    }
+                    /*Bitmap zoom19 = null;
+                    countx = 0;
+                    for (int x = 0; x < Main.maxTilesX; x = x + 128)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 128)
+                        {
+                            if (tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            xsize = 128;
+                            ysize = 128;
+                            if (x + 128 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if (y + 128 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            Size tilesize = new Size(xsize * 2, ysize * 2);
+                            System.Drawing.Rectangle size = new System.Drawing.Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+
+                            if (zoom19 != null)
+                            {
+                                zoom19.Dispose();
+                                zoom19 = null;
+                            }
+                            zoom19 = new Bitmap(tile, tilesize);
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.DrawImage(zoom19, zero);
+                            }
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_19_" + countx + "_" + county + ".png"));
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221,221,221)), 0, 0, 256, 256);
+                            }
+                            filecount++;
+                            county++;
+                        }
+                        countx++;
+                    }*/
+                    string html = "<html>\r\n<head>\r\n<link rel=\"stylesheet\" href=\"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css\"/>\r\n<title>Terraria world</title>\r\n</head>\r\n<body>\r\n<div id=\"map\" style=\"height: 100%;\"></div>\r\n<script src=\"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js\"></script>\r\n<script>\r\n\tvar map = L.map('map', {\r\n\t\tmaxZoom: 18,\r\n\t\tminZoom: 16,\r\n\t\tcrs: L.CRS.Simple\r\n\t}).setView([0, 0], 18);\r\n\tvar southWest = map.unproject([0, " + Main.maxTilesY + "], map.getMaxZoom());\r\n\tvar northEast = map.unproject([" + Main.maxTilesX + ", 0], map.getMaxZoom());\r\n\tmap.setMaxBounds(new L.LatLngBounds(southWest, northEast));\r\n\t\tL.tileLayer('map-tiles/map_{z}_{x}_{y}.png', {\r\n\t\tattribution: 'Imagery : <a href=\"http://github.com/elevatorguy/TDSM_map/tree/tshock\">Map</a>, using <a href=\"https://github.com/mrkite/TerraFirma\">Terrafirma</a> colorscheme.',\r\n\t}).addTo(map);\r\n</script>\r\n</body>\r\n</html>\r\n";
+                    System.IO.File.WriteAllText(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
+                    watch.Stop();
+                    utils.SendLogs("Saved " + filecount + " file(s) in " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000 * watch.Elapsed.Seconds) + "s", Color.WhiteSmoke);
+                }
+                else
+                {
+                    bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+                    bmp.Dispose();
+                    bmp = null;
+                }
                 stopwatch.Stop();
-                utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
+                utils.SendLogs("Total duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
                 utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
             }
             piece1.Dispose();

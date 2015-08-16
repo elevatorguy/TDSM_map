@@ -22,6 +22,7 @@ namespace Map
         public int x2 = 0;
         public int y2 = 0;
         public bool api_call;
+        public static bool generate_tiles;
 
 		private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
 		
@@ -65,6 +66,7 @@ namespace Map
                 string y1 = "";
                 string y2 = "";
                 crop = false;
+                generate_tiles = false;
                 var options = new OptionSet()
 				{
 					{ "t|timestamp", v => timestamp = true },
@@ -79,6 +81,7 @@ namespace Map
                     { "x2|xB=", v => { x2 = v; crop = true; } },
                     { "y1|yA=", v => { y1 = v; crop = true; } },
                     { "y2|yB=", v => { y2 = v; crop = true; } },
+                    { "w|web", v => generate_tiles = true },
                 };
 				var args = options.Parse (argz);
 
