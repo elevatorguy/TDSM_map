@@ -352,7 +352,7 @@ namespace Map
                             blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 256, 256);
+                                graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
                             }
                             filecount++;
                             county++;
@@ -398,7 +398,7 @@ namespace Map
                             blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 256, 256);
+                                graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
                             }
                             filecount++;
                             county++;
@@ -444,7 +444,7 @@ namespace Map
                             blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 256, 256);
+                                graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
                             }
                             filecount++;
                             county++;
@@ -490,7 +490,7 @@ namespace Map
                             blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_19_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, 256, 256);
+                                graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
                             }
                             filecount++;
                             county++;
