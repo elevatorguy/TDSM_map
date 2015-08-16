@@ -14,6 +14,7 @@ Features
 + ability to change between color schemes
 + auto mapping ability in a certain interval of minutes
 + mapping only a specified rectangle of the map, faster than mapping and then cropping
++ Can generate files to view map in web browser.
 
 Permissions
 -----------
@@ -68,8 +69,16 @@ ingame command to change autosaving
 > `map -x1 500 -x2 600 -y1 500 -y2 600` (maps only a portion of the map, in this case from (500,500) to (600,600))
 (x1,y1) must be the top left corner, and (x2,y2) the bottom right corner.
 
+to generate tiles and html file for web viewing
+> `map -w` or `map -web`
+
 Updates
 -------
++ 4.2.8.0816: added new feature: generate files for web map viewing.
++ 4.3.8.0808: update to API 21.
++ 4.3.7.0724: update to API 20. Added mapping API v1 for external plugins to interface to the mapper.
++ 4.3.1.0710: update to API 19. added tiles/walls. (Terrafirma only...)
++ 4.2.10.0413: MoreTerra now maps again.
 + 4.2.7.0308: update to API 17. added tiles/walls. (Terrafirma only, MoreTerra is still broken.)
 + 4.2.3.0926: mapper keeps on mapping, ignoring bad keys. (KeyNotFoundException)
 + 4.2.3.0727: update to API 16. Permissions is now "map.create" instead of "map".
