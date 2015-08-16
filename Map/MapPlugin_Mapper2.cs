@@ -158,7 +158,7 @@ namespace Map
                     try
                     {
                         System.Drawing.Color dimColor;
-                        for (y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); (y + y1) < y2; y++)
                         {
                             dimColor = dimC(UInt32Defs[WALL_END_INDEX + (y + y1)]);
                             graphicsHandle.DrawLine(new Pen(dimColor), 0, y, bmp.Width, y);
@@ -182,7 +182,7 @@ namespace Map
                     if (state != 2)
                     {
                         //this fades the background from rock to hell
-                        for (y = (int)(Main.rockLayer - y1); y < y2; y++)
+                        for (y = (int)(Main.rockLayer - y1); (y + y1) < y2; y++)
                         {
                             graphicsHandle.DrawLine(new Pen(ColorDefs[WALL_END_INDEX + (y + y1)]), 0, y, bmp.Width, y);
                         }
