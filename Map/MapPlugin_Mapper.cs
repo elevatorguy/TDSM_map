@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
-using TDSM.API.Logging;
-using TDSM.API;
+using OTA;
+using OTA.Logging;
 using Terraria;
 using System;
 

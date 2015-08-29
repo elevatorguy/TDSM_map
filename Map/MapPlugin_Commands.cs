@@ -1,8 +1,8 @@
 using Terraria;
-using TDSM.API.Command;
+using OTA.Command;
 using NDesk.Options;
 using System;
-using TDSM.API.Logging;
+using OTA.Logging;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -44,8 +44,8 @@ namespace Map
                 for(int y = 0; y < Main.maxTilesY; y = y + 256)
                 {
                     System.Drawing.Bitmap chunk = Map.API.Mapper.map(x,y,x+256,y+256);
-                    CreateDirectory(string.Concat(TDSM.API.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles"));
-                    chunk.Save(string.Concat(TDSM.API.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_" + countx + "_" + county + ".png"));
+                    CreateDirectory(string.Concat(OTA.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    chunk.Save(string.Concat(OTA.Globals.DataPath , Path.DirectorySeparatorChar , "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_" + countx + "_" + county + ".png"));
                     county++;
                     chunk.Dispose();
                     chunk = null;
@@ -53,13 +53,13 @@ namespace Map
                 countx++;
             }
             watch.Stop();
-            TDSM.API.Tools.NotifyAllOps("Save duration: " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000* watch.Elapsed.Seconds) + " Seconds");
+            OTA.Tools.NotifyAllOps("Save duration: " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000* watch.Elapsed.Seconds) + " Seconds");
             //TDSM.API.Tools.NotifyAllOps("Spawn: ("Main.spawnTileX +", " + Main.spawnTileY + ")");
 
-            if(!File.Exists(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html")))
+            if(!File.Exists(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html")))
             {
                 string html = "<html><head><link rel = \"stylesheet\" href = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css\" />   <title> Terraria world </title>      </head>            <body>      <div id = \"map\" style = \"height: 100%;\"></div>         <script src = \"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js\"></script>          <script>          var map = L.map('map', {                    maxZoom: 18,  minZoom: 18,  crs:                    L.CRS.Simple          }).setView([0, 0], 18);                var southWest = map.unproject([0, 2400], map.getMaxZoom());                var northEast = map.unproject([8400, 0], map.getMaxZoom());                map.setMaxBounds(new L.LatLngBounds(southWest, northEast));                L.tileLayer('map-tiles/map_{x}_{y}.png', {                    attribution: 'Imagery © <a href=\"http://github.com/elevatorguy/TDSM_map\">Map</a>',}).addTo(map);                var marker = L.marker(map.unproject([200, 200], map.getMaxZoom())).addTo(map);                marker.bindPopup(\"<b>Hello world!</b><br>I am a popup.\").openPopup();</script></body></html> ";
-                System.IO.File.WriteAllText(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
+                System.IO.File.WriteAllText(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
             }
         }
 

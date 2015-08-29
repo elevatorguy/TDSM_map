@@ -5,8 +5,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System;
 using System.Threading;
-using TDSM.API.Logging;
-using TDSM.API;
+using OTA;
+using OTA.Logging;
 using Terraria;
 
 namespace Map
@@ -306,8 +306,8 @@ namespace Map
                 if (generate_tiles)
                 {
                     //create directory and make sure it's empty.
-                    CreateDirectory(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
-                    System.IO.DirectoryInfo map_tiles = new DirectoryInfo(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    CreateDirectory(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
+                    System.IO.DirectoryInfo map_tiles = new DirectoryInfo(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles"));
                     foreach (FileInfo file in map_tiles.GetFiles())
                     {
                         file.Delete();
@@ -350,7 +350,7 @@ namespace Map
                             {
                                 graphics.DrawImage(tile, zero);
                             }
-                            blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
@@ -396,7 +396,7 @@ namespace Map
                             {
                                 graphics.DrawImage(zoom16, zero);
                             }
-                            blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
@@ -442,7 +442,7 @@ namespace Map
                             {
                                 graphics.DrawImage(zoom17, zero);
                             }
-                            blank.Save(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(Color.FromArgb(221,221,221)), 0, 0, 256, 256);
@@ -499,9 +499,9 @@ namespace Map
                         countx++;
                     }*/
                     string html = "<html>\r\n<head>\r\n<link rel=\"stylesheet\" href=\"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css\"/>\r\n<title>Terraria world</title>\r\n</head>\r\n<body>\r\n<div id=\"map\" style=\"height: 100%;\"></div>\r\n<script src=\"http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js\"></script>\r\n<script>\r\n\tvar map = L.map('map', {\r\n\t\tmaxZoom: 18,\r\n\t\tminZoom: 16,\r\n\t\tcrs: L.CRS.Simple\r\n\t}).setView([0, 0], 18);\r\n\tvar southWest = map.unproject([0, " + Main.maxTilesY+ "], map.getMaxZoom());\r\n\tvar northEast = map.unproject([" + Main.maxTilesX+ ", 0], map.getMaxZoom());\r\n\tmap.setMaxBounds(new L.LatLngBounds(southWest, northEast));\r\n\t\tL.tileLayer('map-tiles/map_{z}_{x}_{y}.png', {\r\n\t\tattribution: 'Imagery : <a href=\"http://github.com/elevatorguy/TDSM_map\">Map</a>, using <a href=\"https://github.com/mrkite/TerraFirma\">Terrafirma</a> colorscheme.',\r\n\t}).addTo(map);\r\n</script>\r\n</body>\r\n</html>\r\n";
-                    System.IO.File.WriteAllText(string.Concat(TDSM.API.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
+                    System.IO.File.WriteAllText(string.Concat(OTA.Globals.DataPath, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
                     watch.Stop();
-                    TDSM.API.Tools.NotifyAllOps("Saved "+filecount+" file(s) in " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000 * watch.Elapsed.Seconds) + "s");
+                    OTA.Tools.NotifyAllOps("Saved "+filecount+" file(s) in " + watch.Elapsed.Seconds + "." + (watch.ElapsedMilliseconds - 1000 * watch.Elapsed.Seconds) + "s");
                 }
                 else
                 {
@@ -510,7 +510,7 @@ namespace Map
                     bmp = null;
                 }
                 stopwatch.Stop();
-                TDSM.API.Tools.NotifyAllOps("Total duration: " + stopwatch.Elapsed.Seconds + "." + (stopwatch.ElapsedMilliseconds - 1000 * stopwatch.Elapsed.Seconds) + "s");
+                OTA.Tools.NotifyAllOps("Total duration: " + stopwatch.Elapsed.Seconds + "." + (stopwatch.ElapsedMilliseconds - 1000 * stopwatch.Elapsed.Seconds) + "s");
                 Tools.NotifyAllOps("Saving Complete.");
             }
             piece1.Dispose();

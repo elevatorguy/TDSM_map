@@ -1,10 +1,10 @@
-using TDSM.API.Plugin;
-using TDSM.API.Misc;
-using TDSM.API;
+using OTA.Plugin;
+using OTA.Misc;
+using OTA;
 using System.IO;
-using TDSM.API.Logging;
+using OTA.Logging;
 using System;
-using TDSM.API.Command;
+using OTA.Command;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -67,7 +67,7 @@ namespace Map
 			Name = "Map";
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
-			Version = "0.39.2";
+			Version = "0.39.3";
 			TDSMBuild = 5;
 		}
 		
