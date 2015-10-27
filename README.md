@@ -74,6 +74,7 @@ to generate tiles and html file for web viewing
 
 Updates
 -------
++ 4.2.11.1026: update to API 22.
 + 4.2.8.0816: added new feature: generate files for web map viewing.
 + 4.3.8.0808: update to API 21.
 + 4.3.7.0724: update to API 20. Added mapping API v1 for external plugins to interface to the mapper.
