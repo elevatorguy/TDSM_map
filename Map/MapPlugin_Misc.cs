@@ -23,7 +23,7 @@ namespace Map
 
             foreach (var p in Main.player)
             {
-                if (p != null && p.Name != null && p.Name.ToLower() == name)
+                if (p != null && p.name != null && p.name.ToLower() == name)
                     return p;
             }
 

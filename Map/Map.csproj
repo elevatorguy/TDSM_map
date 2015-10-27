@@ -40,12 +40,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="TDSM.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TDSM.Core">
       <HintPath>..\..\TDSM\Binaries\Plugins\TDSM.Core.dll</HintPath>
     </Reference>
-    <Reference Include="TerrariaServer, Version=1.3.0.6, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TerrariaServer">
       <HintPath>..\..\TDSM\Binaries\TerrariaServer.exe</HintPath>
     </Reference>
   </ItemGroup>

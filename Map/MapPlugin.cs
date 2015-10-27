@@ -7,9 +7,12 @@ using System;
 using OTA.Command;
 using System.Threading;
 using System.Collections.Generic;
+using TDSM.Core;
+using TDSM.Core.Command;
 
 namespace Map
 {
+    [OTAVersion(1, 0)]
 	public partial class MapPlugin : BasePlugin
 	{
 		PropertiesFile properties;
@@ -68,7 +71,6 @@ namespace Map
 			Description = "Gives TDSM a World Mapper.";
 			Author = "elevatorguy";
 			Version = "0.39.3";
-			TDSMBuild = 5;
 		}
 		
 		protected override void Initialized (object state)
@@ -98,9 +100,10 @@ namespace Map
 				isEnabled = false;
 			}			
 			
-			AddCommand ("map")
+			this.AddCommand ("map")
 				.WithDescription ("map options")
                 .WithAccessLevel(AccessLevel.OP)
+                .SetDefaultUsage()
 				.WithHelpText ("map help")
 				.WithHelpText ("map -t")
 				.WithHelpText ("map -n outputname.png")
