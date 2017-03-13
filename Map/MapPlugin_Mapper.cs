@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using TShockAPI;
 using System;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace Map
 {
