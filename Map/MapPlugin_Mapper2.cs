@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Threading;
 using Terraria;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace Map
 {
