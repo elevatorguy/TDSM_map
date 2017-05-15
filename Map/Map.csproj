@@ -48,7 +48,7 @@
   <ItemGroup>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
-	<Reference Include="OTAPI">
+    <Reference Include="OTAPI">
       <HintPath>..\..\tshock_4.3.24\OTAPI.dll</HintPath>
     </Reference>
     <Reference Include="TerrariaServer">
