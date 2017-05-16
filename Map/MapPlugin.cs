@@ -85,8 +85,31 @@ namespace Map
             get { return new Version(4, 3, 24, 0515); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
+        private void PostInitialize(EventArgs args)
+        {
+            // these below require that the world be loaded
+
+            //UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
+            InitializeMapperDefs();
+            InitializeMapperDefs2();
+
+            //this pre blends colors for Terrafirma Color Scheme
+            initBList();
+
+            //start autosave thread
+            Thread autosavethread;
+            autosavethread = new Thread(autoSave);
+            autosavethread.Name = "Auto-Mapper";
+            autosavethread.Start();
+            while (!autosavethread.IsAlive) ;
+
+            instance = this;
+            initialized = true;
+        }
+
         public override void Initialize()
         {
+            ServerApi.Hooks.GamePostInitialize.Register(this, PostInitialize);
             Commands.ChatCommands.Add(new Command("map.create", MapCommand, "map"));
 
             string pluginFolder = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "map";
@@ -115,25 +138,6 @@ namespace Map
                 TShock.Log.Error("<map> ERROR: map command will not work until you change it");
                 isEnabled = false;
             }
-
-            // these below require that the world be loaded
-
-            //UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
-            InitializeMapperDefs();
-            InitializeMapperDefs2();
-
-            //this pre blends colors for Terrafirma Color Scheme
-            initBList();
-
-            //start autosave thread
-            Thread autosavethread;
-            autosavethread = new Thread(autoSave);
-            autosavethread.Name = "Auto-Mapper";
-            autosavethread.Start();
-            while (!autosavethread.IsAlive) ;
-
-            instance = this;
-            initialized = true;
         }
 
         protected override void Dispose(bool disposing)
