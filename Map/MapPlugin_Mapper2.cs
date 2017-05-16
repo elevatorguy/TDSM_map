@@ -43,9 +43,11 @@ namespace Map
         }
         public static Dictionary<UInt32, System.Drawing.Color> waterblendlist = new Dictionary<UInt32, System.Drawing.Color>();
         public static Dictionary<UInt32, System.Drawing.Color> lavablendlist = new Dictionary<UInt32, System.Drawing.Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> honeyblendlist = new Dictionary<UInt32, System.Drawing.Color>();
         //better to have a separate list for dim liquid lists
         public static Dictionary<UInt32, System.Drawing.Color> waterdimlist = new Dictionary<UInt32, System.Drawing.Color>();
         public static Dictionary<UInt32, System.Drawing.Color> lavadimlist = new Dictionary<UInt32, System.Drawing.Color>();
+        public static Dictionary<UInt32, System.Drawing.Color> honeydimlist = new Dictionary<UInt32, System.Drawing.Color>();
 
         public int paintbackground(System.Drawing.Color SKY, System.Drawing.Color EARTH, System.Drawing.Color HELL)
         {
@@ -726,7 +728,12 @@ namespace Map
                         {
                             if (lavablendlist.ContainsKey(tempColor))
                             {  // incase the map has hacked data
-                                SetPixel(bmp, x - piece, j - ymin, Main.tile[i, j].lava() ? lavablendlist[tempColor] : waterblendlist[tempColor], false);
+                                if (Main.tile[i, j].honey())
+                                    SetPixel(bmp, x - piece, j - ymin, honeyblendlist[tempColor], false);
+                                else if (Main.tile[i, j].lava())
+                                    SetPixel(bmp, x - piece, j - ymin, lavablendlist[tempColor], false);
+                                else
+                                    SetPixel(bmp, x - piece, j - ymin, waterblendlist[tempColor], false);
                             }
                         }
                     }
@@ -755,6 +762,7 @@ namespace Map
             //adds all the colors for walls/tiles/global
             UInt32 waterColor = 0x093DBF;
             UInt32 lavaColor = 0xFD2003;
+            UInt32 honeyColor = 0xFF9C0C;
             //blends water and lava with UInt32Defs
             using (var blendprog = new ProgressLogger(Main.maxTilesX - 1, "[map] Blending colors"))
                 for (int y = 0; y <= Main.maxTilesY + FADE_START_INDEX; y++)
@@ -772,13 +780,13 @@ namespace Map
                         UInt32 d = DimUInt32Defs[y];
                         blendprog.Value = y;
 
-                        doBlendResult(c, waterColor, lavaColor, "regular");
-                        doBlendResult(d, waterColor, lavaColor, "dim");
+                        doBlendResult(c, waterColor, lavaColor, honeyColor, "regular");
+                        doBlendResult(d, waterColor, lavaColor, honeyColor, "dim");
                     }
                 }
         }
 
-        private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor, string type)
+        private void doBlendResult(UInt32 c, UInt32 waterColor, UInt32 lavaColor, UInt32 honeyColor, string type)
         {
             if (type == "regular" && !(lavablendlist.ContainsKey(c)))
             {
@@ -786,6 +794,7 @@ namespace Map
 
                 waterblendlist.Add(c, waterblendresult);
                 lavablendlist.Add(c, toColor(alphaBlend(c, lavaColor, 0.5)));
+                honeyblendlist.Add(c, toColor(alphaBlend(c, honeyColor, 0.5)));
             }
             if (type == "dim" && !(lavadimlist.ContainsKey(c)))
             {
@@ -793,6 +802,7 @@ namespace Map
 
                 waterdimlist.Add(c, toColor(waterdimresult));
                 lavadimlist.Add(c, toColor(alphaBlend(c, dimI(lavaColor), 0.5)));
+                honeydimlist.Add(c, toColor(alphaBlend(c, dimI(honeyColor), 0.5)));
             }
         }
 
