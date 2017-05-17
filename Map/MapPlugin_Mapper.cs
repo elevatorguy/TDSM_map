@@ -10,12 +10,12 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Map
 {
-	public partial class MapPlugin
-	{
-		public static Dictionary<int, System.Drawing.Color> tileTypeDefs;
-		
-		public void mapWorld () 
-		{	
+    public partial class MapPlugin
+    {
+        public static Dictionary<int, System.Drawing.Color> tileTypeDefs;
+
+        public void mapWorld()
+        {
             if (!crop)
             {
                 x1 = 0;
@@ -25,18 +25,18 @@ namespace Map
             }
             else //enforce boundaries
             {
-                if(x1 < 0)
+                if (x1 < 0)
                     x1 = 0;
-                if(y1 < 0)
+                if (y1 < 0)
                     y1 = 0;
-                if(x2 > Main.maxTilesX)
+                if (x2 > Main.maxTilesX)
                     x2 = Main.maxTilesX;
-                if(y2 > Main.maxTilesY)
+                if (y2 > Main.maxTilesY)
                     y2 = Main.maxTilesY;
             }
-			Stopwatch stopwatch = new Stopwatch ();
+            Stopwatch stopwatch = new Stopwatch();
             utils.SendLogs("Saving Image...", Color.WhiteSmoke);
-			stopwatch.Start ();
+            stopwatch.Start();
 
             try
             {
@@ -51,55 +51,69 @@ namespace Map
                 return;
             }
 
-			Graphics graphicsHandle = Graphics.FromImage ((Image)bmp);
+            Graphics graphicsHandle = Graphics.FromImage((Image)bmp);
             graphicsHandle.FillRectangle(new SolidBrush(Constants.MoreTerra_Color.SKY), 0, 0, bmp.Width, (float)(Main.worldSurface));
             graphicsHandle.FillRectangle(new SolidBrush(Constants.MoreTerra_Color.WALL_BACKGROUND), 0, (float)(Main.worldSurface), bmp.Width, (float)(Main.rockLayer));
-            graphicsHandle.FillRectangle(new SolidBrush(Constants.MoreTerra_Color.WALL_HELL), 0, (float)(Main.rockLayer), bmp.Width, bmp.Height);               
+            graphicsHandle.FillRectangle(new SolidBrush(Constants.MoreTerra_Color.WALL_HELL), 0, (float)(Main.rockLayer), bmp.Width, bmp.Height);
 
-			using (var prog = new ProgressLogger(x2 - 1, "Saving image data"))
-				for (int i = x1; i < x2; i++) {
-					prog.Value = i;
-					for (int j = y1; j < y2; j++) {		
-					
-					//TODO: find a more understandable way on these if statements
-						if (Main.tile[i, j].wall == 0) {
-							if (Main.tile[i, j].active()) {
-                                bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
-							} else {
+            using (var prog = new ProgressLogger(x2 - 1, "Saving image data"))
+                for (int i = x1; i < x2; i++)
+                {
+                    prog.Value = i;
+                    for (int j = y1; j < y2; j++)
+                    {
 
-								if (Main.tile[i, j].liquid > 0) {
-									if (Main.tile[i, j].lava()) {
-                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.LAVA);
-									} else {
-                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WATER);
-									}	
-								}
-							}
-						} else {
+                        //TODO: find a more understandable way on these if statements
+                        if (Main.tile[i, j].wall == 0)
+                        {
                             if (Main.tile[i, j].active())
                             {
                                 bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
-							} else {
+                            }
+                            else
+                            {
+
+                                if (Main.tile[i, j].liquid > 0)
+                                {
+                                    if (Main.tile[i, j].lava())
+                                    {
+                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.LAVA);
+                                    }
+                                    else
+                                    {
+                                        bmp.SetPixel(i - x1, j - y1, Constants.MoreTerra_Color.WATER);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Main.tile[i, j].active())
+                            {
+                                bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].type]);
+                            }
+                            else
+                            {
                                 bmp.SetPixel(i - x1, j - y1, tileTypeDefs[Main.tile[i, j].wall + 450]);
-							}
-						}
-						
-					}
-				}
-                utils.SendLogs("Saving Data...", Color.WhiteSmoke);
-				bmp.Save (string.Concat (p, Path.DirectorySeparatorChar, filename));
-				stopwatch.Stop ();
-                utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
-                utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
-				bmp = null;
-                isMapping = false;
-		}
-		
-		public partial class Constants //credits go to the authors of MoreTerra
-		{ 
-			public static class MoreTerra_Color 
-			{
-				public static System.Drawing.Color DIRT = ColorTranslator.FromHtml("#976B4B"); // #AF8365
+                            }
+                        }
+
+                    }
+                }
+            utils.SendLogs("Saving Data...", Color.WhiteSmoke);
+            bmp.Save(string.Concat(p, Path.DirectorySeparatorChar, filename));
+            stopwatch.Stop();
+            utils.SendLogs("Save duration: " + stopwatch.Elapsed.Seconds + " Second(s)", Color.WhiteSmoke);
+            utils.SendLogs("Saving Complete.", Color.WhiteSmoke);
+            bmp = null;
+            isMapping = false;
+        }
+
+        public partial class Constants //credits go to the authors of MoreTerra
+        {
+            public static class MoreTerra_Color
+            {
+                public static System.Drawing.Color DIRT = ColorTranslator.FromHtml("#976B4B"); // #AF8365
                 public static System.Drawing.Color STONE = ColorTranslator.FromHtml("#808080"); // #808080
                 public static System.Drawing.Color GRASS = ColorTranslator.FromHtml("#1CD85E"); // #1CD85E
                 public static System.Drawing.Color PLANTS = ColorTranslator.FromHtml("#1AC454"); // Plants
@@ -567,13 +581,13 @@ namespace Map
                 public static System.Drawing.Color CAVE_WALL2 = ColorTranslator.FromHtml("#084803"); // Unknown
                 public static System.Drawing.Color COUNT = ColorTranslator.FromHtml("#758452"); // Unknown
 
-				public static System.Drawing.Color UNKNOWN = System.Drawing.Color.Magenta;
-			}
-		}
-		
-		public static void InitializeMapperDefs () //Credits go to the authors of MoreTerra
-		{	
-			tileTypeDefs = new Dictionary<int, System.Drawing.Color> (623);
+                public static System.Drawing.Color UNKNOWN = System.Drawing.Color.Magenta;
+            }
+        }
+
+        public static void InitializeMapperDefs() //Credits go to the authors of MoreTerra
+        {
+            tileTypeDefs = new Dictionary<int, System.Drawing.Color>(623);
 
             tileTypeDefs[0] = Constants.MoreTerra_Color.DIRT; // #AF8365
             tileTypeDefs[1] = Constants.MoreTerra_Color.STONE; // #808080
@@ -854,16 +868,17 @@ namespace Map
             tileTypeDefs[331] = Constants.MoreTerra_Color.SILVER_CACHE; // Unknown
             tileTypeDefs[332] = Constants.MoreTerra_Color.GOLD_CACHE; // Unknown
             tileTypeDefs[333] = Constants.MoreTerra_Color.ENCHANTED_SWORD; // Unknown
-			
-			for (int i = 334; i < 448; i++) {
-				tileTypeDefs [i] = System.Drawing.Color.Magenta;
-			}
 
-			tileTypeDefs [448] = Constants.MoreTerra_Color.SKY;
-			tileTypeDefs [449] = Constants.MoreTerra_Color.WATER;
-			tileTypeDefs [450] = Constants.MoreTerra_Color.LAVA;
+            for (int i = 334; i < 448; i++)
+            {
+                tileTypeDefs[i] = System.Drawing.Color.Magenta;
+            }
 
-			// Walls
+            tileTypeDefs[448] = Constants.MoreTerra_Color.SKY;
+            tileTypeDefs[449] = Constants.MoreTerra_Color.WATER;
+            tileTypeDefs[450] = Constants.MoreTerra_Color.LAVA;
+
+            // Walls
             tileTypeDefs[451] = Constants.MoreTerra_Color.STONE_WALL; // #424242
             tileTypeDefs[452] = Constants.MoreTerra_Color.DIRT_WALL_UNSAFE; // Wall Dirt
             tileTypeDefs[453] = Constants.MoreTerra_Color.EBONSTONE_WALL_UNSAFE; // #3D3A4E
@@ -1036,6 +1051,6 @@ namespace Map
             tileTypeDefs[620] = Constants.MoreTerra_Color.CAVE_WALL; // Unknown
             tileTypeDefs[621] = Constants.MoreTerra_Color.CAVE_WALL2; // Unknown
             tileTypeDefs[622] = Constants.MoreTerra_Color.COUNT; // Unknown
-		}
-	}
+        }
+    }
 }

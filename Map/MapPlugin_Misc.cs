@@ -75,265 +75,264 @@ namespace Map
             //there were tiles with multiple give ID's
             //so I use a list of int(s) as the output
             List<int> list = new List<int>();
-                if (tile == 0 || tile == 2)
+            if (tile == 0 || tile == 2)
+            {
+                list.Add(2);
+            }
+            else if (tile == 1)
+            {
+                list.Add(3);
+            }
+            else if (tile == 3 || tile == 73)
+            {
+                list.Add(283);
+            }
+            else if (tile == 4)
+            {
+                list.Add(8);
+            }
+            else if (tile == 5)
+            {
+                list.Add(27);
+                list.Add(9);
+            }
+            else if (tile == 6)
+            {
+                list.Add(11);
+            }
+            else if (tile == 7)
+            {
+                list.Add(12);
+            }
+            else if (tile == 8)
+            {
+                list.Add(13);
+            }
+            else if (tile == 9)
+            {
+                list.Add(14);
+            }
+            else if (tile == 13)
+            {
+                list.Add(28);
+                list.Add(110);
+                list.Add(350);
+                list.Add(351);
+                list.Add(31);
+            }
+            else if (tile == 19)
+            {
+                list.Add(94);
+            }
+            else if (tile == 22)
+            {
+                list.Add(56);
+            }
+            else if (tile == 23)
+            {
+                list.Add(2);
+            }
+            else if (tile == 25)
+            {
+                list.Add(61);
+            }
+            else if (tile == 30)
+            {
+                list.Add(9);
+            }
+            else if (tile == 33)
+            {
+                list.Add(105);
+            }
+            else if (tile == 37)
+            {
+                list.Add(116);
+            }
+            else if (tile == 38)
+            {
+                list.Add(129);
+            }
+            else if (tile == 39)
+            {
+                list.Add(131);
+            }
+            else if (tile == 40)
+            {
+                list.Add(133);
+            }
+            else if (tile == 41)
+            {
+                list.Add(134);
+            }
+            else if (tile == 43)
+            {
+                list.Add(137);
+            }
+            else if (tile == 44)
+            {
+                list.Add(139);
+            }
+            else if (tile == 45)
+            {
+                list.Add(141);
+            }
+            else if (tile == 46)
+            {
+                list.Add(143);
+            }
+            else if (tile == 47)
+            {
+                list.Add(145);
+            }
+            else if (tile == 48)
+            {
+                list.Add(147);
+            }
+            else if (tile == 49)
+            {
+                list.Add(148);
+            }
+            else if (tile == 51)
+            {
+                list.Add(150);
+            }
+            else if (tile == 53)
+            {
+                list.Add(169);
+            }
+            else if (tile != 54)
+            {
+                if (tile == 56)
                 {
-                    list.Add(2);
+                    list.Add(173);
                 }
-                else if (tile == 1)
+                else if (tile == 57)
                 {
-                    list.Add(3);
+                    list.Add(172);
                 }
-                else if (tile == 3 || tile == 73)
+                else if (tile == 58)
                 {
-                    list.Add(283);
+                    list.Add(174);
                 }
-                else if (tile == 4)
+                else if (tile == 60)
                 {
-                    list.Add(8);
+                    list.Add(176);
                 }
-                else if (tile == 5)
+                else if (tile == 70)
                 {
-                    list.Add(27);
-                    list.Add(9);
+                    list.Add(176);
                 }
-                else if (tile == 6)
+                else if (tile == 75)
                 {
-                    list.Add(11);
+                    list.Add(192);
                 }
-                else if (tile == 7)
+                else if (tile == 76)
                 {
-                    list.Add(12);
+                    list.Add(214);
                 }
-                else if (tile == 8)
+                else if (tile == 78)
                 {
-                    list.Add(13);
+                    list.Add(222);
                 }
-                else if (tile == 9)
+                else if (tile == 81)
                 {
-                    list.Add(14);
+                    list.Add(275);
                 }
-                else if (tile == 13)
+                else if (tile == 80)
                 {
-                    list.Add(28);
-                    list.Add(110);
-                    list.Add(350);
-                    list.Add(351);
-                    list.Add(31);
+                    list.Add(276);
                 }
-                else if (tile == 19)
+                else if (tile == 61 || tile == 74)
                 {
-                    list.Add(94);
+                    list.Add(223);
+                    list.Add(208);
+                    list.Add(195);
                 }
-                else if (tile == 22)
+                else if (tile == 59 || tile == 60)
                 {
-                    list.Add(56);
+                    list.Add(176);
                 }
-                else if (tile == 23)
+                else if (tile == 71 || tile == 72)
                 {
-                    list.Add(2);
+                    list.Add(194);
+                    list.Add(183);
                 }
-                else if (tile == 25)
+                else if (tile >= 63 && tile <= 68)
                 {
-                    list.Add(61);
+                    list.Add((int)(tile - 63 + 177));
                 }
-                else if (tile == 30)
+                else if (tile == 50)
                 {
-                    list.Add(9);
+                    list.Add(165);
+                    list.Add(149);
                 }
-                else if (tile == 33)
-                {
-                    list.Add(105);
-                }
-                else if (tile == 37)
-                {
-                    list.Add(116);
-                }
-                else if (tile == 38)
-                {
-                    list.Add(129);
-                }
-                else if (tile == 39)
-                {
-                    list.Add(131);
-                }
-                else if (tile == 40)
-                {
-                    list.Add(133);
-                }
-                else if (tile == 41)
-                {
-                    list.Add(134);
-                }
-                else if (tile == 43)
-                {
-                    list.Add(137);
-                }
-                else if (tile == 44)
-                {
-                    list.Add(139);
-                }
-                else if (tile == 45)
-                {
-                    list.Add(141);
-                }
-                else if (tile == 46)
-                {
-                    list.Add(143);
-                }
-                else if (tile == 47)
-                {
-                    list.Add(145);
-                }
-                else if (tile == 48)
-                {
-                    list.Add(147);
-                }
-                else if (tile == 49)
-                {
-                    list.Add(148);
-                }
-                else if (tile == 51)
-                {
-                    list.Add(150);
-                }
-                else if (tile == 53)
-                {
-                    list.Add(169);
-                }
-                else if (tile != 54)
-                {
-                    if (tile == 56)
-                    {
-                        list.Add(173);
-                    }
-                    else if (tile == 57)
-                    {
-                        list.Add(172);
-                    }
-                    else if (tile == 58)
-                    {
-                        list.Add(174);
-                    }
-                    else if (tile == 60)
-                    {
-                        list.Add(176);
-                    }
-                    else if (tile == 70)
-                    {
-                        list.Add(176);
-                    }
-                    else if (tile == 75)
-                    {
-                        list.Add(192);
-                    }
-                    else if (tile == 76)
-                    {
-                        list.Add(214);
-                    }
-                    else if (tile == 78)
-                    {
-                        list.Add(222);
-                    }
-                    else if (tile == 81)
-                    {
-                        list.Add(275);
-                    }
-                    else if (tile == 80)
-                    {
-                        list.Add(276);
-                    }
-                    else if (tile == 61 || tile == 74)
-                    {
-                        list.Add(223);
-                        list.Add(208);
-                        list.Add(195);
-                    }
-                    else if (tile == 59 || tile == 60)
-                    {
-                        list.Add(176);
-                    }
-                    else if (tile == 71 || tile == 72)
-                    {
-                        list.Add(194);
-                        list.Add(183);
-                    }
-                    else if (tile >= 63 && tile <= 68)
-                    {
-                        list.Add((int)(tile - 63 + 177));
-                    }
-                    else if (tile == 50)
-                    {
-                        list.Add(165);
-                        list.Add(149);
-                    }
 
-                }
-                    if (wall == 1)
-                    {
-                        list.Add(26);
-                    }
-                    if (wall == 4)
-                    {
-                        list.Add(93);
-                    }
-                    if (wall == 5)
-                    {
-                        list.Add(130);
-                    }
-                    if (wall == 6)
-                    {
-                        list.Add(132);
-                    }
-                    if (wall == 7)
-                    {
-                        list.Add(135);
-                    }
-                    if (wall == 8)
-                    {
-                        list.Add(138);
-                    }
-                    if (wall == 9)
-                    {
-                        list.Add(140);
-                    }
-                    if (wall == 10)
-                    {
-                        list.Add(142);
-                    }
-                    if (wall == 11)
-                    {
-                        list.Add(144);
-                    }
-                    if (wall == 12)
-                    {
-                        list.Add(146);
-                    }
-                    if (wall == 14)
-                    {
-                        list.Add(330);
-                    }
-                    if (wall == 16)
-                    {
-                        list.Add(30);
-                    }
-                    if (wall == 17)
-                    {
-                        list.Add(135);
-                    }
-                    if (wall == 18)
-                    {
-                        list.Add(138);
-                    }
-                    if (wall == 19)
-                    {
-                        list.Add(140);
-                    }
-                    if (wall == 20)
-                    {
-                        list.Add(330);
-                    }
-        return list;
+            }
+            if (wall == 1)
+            {
+                list.Add(26);
+            }
+            if (wall == 4)
+            {
+                list.Add(93);
+            }
+            if (wall == 5)
+            {
+                list.Add(130);
+            }
+            if (wall == 6)
+            {
+                list.Add(132);
+            }
+            if (wall == 7)
+            {
+                list.Add(135);
+            }
+            if (wall == 8)
+            {
+                list.Add(138);
+            }
+            if (wall == 9)
+            {
+                list.Add(140);
+            }
+            if (wall == 10)
+            {
+                list.Add(142);
+            }
+            if (wall == 11)
+            {
+                list.Add(144);
+            }
+            if (wall == 12)
+            {
+                list.Add(146);
+            }
+            if (wall == 14)
+            {
+                list.Add(330);
+            }
+            if (wall == 16)
+            {
+                list.Add(30);
+            }
+            if (wall == 17)
+            {
+                list.Add(135);
+            }
+            if (wall == 18)
+            {
+                list.Add(138);
+            }
+            if (wall == 19)
+            {
+                list.Add(140);
+            }
+            if (wall == 20)
+            {
+                list.Add(330);
+            }
+            return list;
         }
     }
 }
-

@@ -124,7 +124,7 @@ namespace Map
             }
 
             Stopwatch stopwatch = new Stopwatch();
-            if(!api_call)
+            if (!api_call)
             {
                 utils.SendLogs("Saving Image...", Color.WhiteSmoke);
                 stopwatch.Start();
@@ -169,7 +169,7 @@ namespace Map
                     catch (KeyNotFoundException e)
                     {
                         utils.SendLogs("<map> ERROR: could not fade the dimmed background from rock to hell.", Color.Red);
-                        utils.SendLogs(e.StackTrace.ToString()+", with key " + (FADE_START_INDEX + (y + y1)).ToString(), Color.WhiteSmoke);
+                        utils.SendLogs(e.StackTrace.ToString() + ", with key " + (FADE_START_INDEX + (y + y1)).ToString(), Color.WhiteSmoke);
                         //continue and see if we keep getting errors when painting the actual world
                     }
                 }
@@ -207,7 +207,7 @@ namespace Map
 
                     //continue and see if we keep getting errors when painting the actual world
                 }
-                
+
             }
 
             piece1 = (Bitmap)bmp.Clone();
@@ -565,12 +565,12 @@ namespace Map
             }
             else
             {
-                int quarter = ((x2-x1) / 4);
+                int quarter = ((x2 - x1) / 4);
                 using (var prog = new ProgressLogger(quarter - 1, "Saving image data"))
                     for (int i = 0; i < quarter; i++)
                     {
                         prog.Value = i; // each thread finished about the same time so I put the progress logger on one of them
-                        maprenderloop(x1 + i, piece1, 0,y1,y2);
+                        maprenderloop(x1 + i, piece1, 0, y1, y2);
                     }
             }
         }
@@ -590,7 +590,7 @@ namespace Map
                 int quarter = ((x2 - x1) / 4);
                 for (int i = 0; i < quarter; i++)
                 {
-                    maprenderloop(x1 + i + quarter, piece2, quarter,y1,y2);
+                    maprenderloop(x1 + i + quarter, piece2, quarter, y1, y2);
                 }
             }
         }
@@ -610,7 +610,7 @@ namespace Map
                 int quarter = ((x2 - x1) / 4);
                 for (int i = 0; i < quarter; i++)
                 {
-                    maprenderloop(x1 + i + 2 * quarter, piece3, 2 * quarter,y1,y2);
+                    maprenderloop(x1 + i + 2 * quarter, piece3, 2 * quarter, y1, y2);
                 }
             }
         }
@@ -630,7 +630,7 @@ namespace Map
                 int quarter = ((x2 - x1) / 4);
                 for (int i = 0; i < quarter; i++)
                 {
-                    maprenderloop(x1 + i + 3 * quarter, piece4, 3 * quarter,y1,y2);
+                    maprenderloop(x1 + i + 3 * quarter, piece4, 3 * quarter, y1, y2);
                 }
             }
         }
@@ -640,7 +640,7 @@ namespace Map
          */
         private void maprenderloop(int i, Bitmap bmp, int piece)
         {
-            maprenderloop(i,bmp,piece,0,Main.maxTilesY);
+            maprenderloop(i, bmp, piece, 0, Main.maxTilesY);
         }
 
         /**
@@ -755,7 +755,7 @@ namespace Map
                 //this might be a new item added to the game that we havn't added to the plugin yet.
             }
 
-            if(pixelfailureflag)
+            if (pixelfailureflag)
             {
                 utils.SendLogs("<map> WARNING: Could not draw certain pixel at row (" + i + ",y).", Color.Yellow);
                 pixelfailureflag = false;

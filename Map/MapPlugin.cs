@@ -11,28 +11,28 @@ namespace Map
     [ApiVersion(2, 1)]
     public partial class MapPlugin : TerrariaPlugin
     {
-		PropertiesFile properties;
+        PropertiesFile properties;
         Timer autosavetimer;
-		bool isEnabled = false;
+        bool isEnabled = false;
 
         public static MapPlugin instance;
 
         public static bool initialized = false;
 
-		string mapoutputpath
-		{
-			get { return properties.getValue ("mapoutput-path", Environment.CurrentDirectory); }
-		}
+        string mapoutputpath
+        {
+            get { return properties.getValue("mapoutput-path", Environment.CurrentDirectory); }
+        }
 
         string autosavepath
         {
             get { return properties.getValue("autosave-path", Environment.CurrentDirectory); }
         }
-		
-		string colorscheme
-		{
-			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
-		}
+
+        string colorscheme
+        {
+            get { return properties.getValue("color-scheme", "Terrafirma"); }
+        }
 
         string autosavename
         {
@@ -46,7 +46,7 @@ namespace Map
 
         int autosaveinterval
         {
-            get { return properties.getValue("autosave-interval", 30);  } // in minutes
+            get { return properties.getValue("autosave-interval", 30); } // in minutes
         }
 
         bool autosavetimestamp
@@ -64,11 +64,11 @@ namespace Map
             get { return properties.getValue("autosave-highlightID", "chest"); }
         }
 
-        public MapPlugin(Main game)  : base(game)
+        public MapPlugin(Main game) : base(game)
         {
             // constructor
         }
-		
+
         public override string Name
         {
             get { return "Map"; }
@@ -144,7 +144,7 @@ namespace Map
             base.Dispose(disposing);
         }
 
-        
+
         public void autoSave()
         {
             if (!isEnabled)
@@ -164,14 +164,14 @@ namespace Map.API
     {
         public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
         {
-            if(MapPlugin.initialized && !MapPlugin.instance.isMapping)
+            if (MapPlugin.initialized && !MapPlugin.instance.isMapping)
             {
                 TSPlayer console = new TSPlayer(-1);
                 List<string> coords = new List<string>();
-                coords.Add("-x1="+x1);
-                coords.Add("-x2="+x2);
-                coords.Add("-y1="+y1);
-                coords.Add("-y2="+y2);
+                coords.Add("-x1=" + x1);
+                coords.Add("-x2=" + x2);
+                coords.Add("-y1=" + y1);
+                coords.Add("-y2=" + y2);
                 CommandArgs arguments = new CommandArgs("api-call", console, coords); // the command method interprets this, along with the data in the properties file
 
                 MapPlugin.instance.MapCommand(arguments);
