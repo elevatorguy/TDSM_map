@@ -225,6 +225,10 @@ namespace Map
                 part2 = new Thread(mapthread2);
                 part3 = new Thread(mapthread3);
                 part4 = new Thread(mapthread4);
+                part1.IsBackground = true;
+                part2.IsBackground = true;
+                part3.IsBackground = true;
+                part4.IsBackground = true;
                 part1.Name = "Map mapper 1";
                 part2.Name = "Map mapper 2";
                 part3.Name = "Map mapper 3";
@@ -257,7 +261,10 @@ namespace Map
             }
 
             //wait for threads to finish mapping.
-            while (part1.IsAlive || part2.IsAlive || part3.IsAlive || part4.IsAlive) ;
+            part1.Join();
+            part2.Join();
+            part3.Join();
+            part4.Join();
 
             //mapping is done.. now to create final bitmap
 
