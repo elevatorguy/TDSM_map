@@ -12,6 +12,7 @@ namespace Map
     public partial class MapPlugin : TerrariaPlugin
     {
 		PropertiesFile properties;
+        Timer autosavetimer;
 		bool isEnabled = false;
 
         public static MapPlugin instance;
@@ -97,11 +98,8 @@ namespace Map
             initBList();
 
             //start autosave thread
-            Thread autosavethread;
-            autosavethread = new Thread(autoSave);
-            autosavethread.Name = "Auto-Mapper";
-            autosavethread.Start();
-            while (!autosavethread.IsAlive) ;
+            if (autosaveenabled)
+                autosavetimer = new Timer(s => { autoSave(); }, null, autosaveinterval * 60000, Timeout.Infinite);
 
             instance = this;
             initialized = true;
@@ -149,28 +147,13 @@ namespace Map
         
         public void autoSave()
         {
-            bool firstrun = true;
-            DateTime lastsave = new DateTime();
+            if (!isEnabled)
+                return;
             TSPlayer console = new TSPlayer(-1);
             List<string> empty = new List<string>();
             CommandArgs arguments = new CommandArgs("automap", console, empty); // the command method interprets this, along with the data in the properties file
-            while(isEnabled)
-            {
-                if (autosaveenabled)
-                {
-                    if (!firstrun && (DateTime.UtcNow > lastsave.AddMinutes(autosaveinterval)))
-                    {
-                        MapCommand(arguments);
-                        lastsave = DateTime.UtcNow;
-                    }
-                    if (firstrun)
-                    {
-                        firstrun = false;
-                        lastsave = DateTime.UtcNow;
-                    }
-                }
-                Thread.Sleep(1000);
-            }
+            MapCommand(arguments);
+            autosavetimer.Change(autosaveinterval * 60000, Timeout.Infinite);
         }
     }
 }
