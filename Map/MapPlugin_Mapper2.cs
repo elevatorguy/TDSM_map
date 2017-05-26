@@ -367,7 +367,7 @@ namespace Map
                             {
                                 graphics.DrawImage(tile, zero);
                             }
-                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
@@ -413,7 +413,7 @@ namespace Map
                             {
                                 graphics.DrawImage(zoom16, zero);
                             }
-                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_16_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_14_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
@@ -459,7 +459,7 @@ namespace Map
                             {
                                 graphics.DrawImage(zoom17, zero);
                             }
-                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_15_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
                                 graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
@@ -469,7 +469,7 @@ namespace Map
                         }
                         countx++;
                     }
-                    /*Bitmap zoom19 = null;
+                    Bitmap zoom19 = null;
                     countx = 0;
                     for (int x = 0; x < Main.maxTilesX; x = x + 128)
                     {
@@ -503,18 +503,92 @@ namespace Map
                             zoom19 = new Bitmap(tile, tilesize);
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.DrawImage(zoom19, zero);
+                                //graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                                //graphics.DrawImage(bmp, new Rectangle(0, 0, xsize * 2, ysize * 2), size, GraphicsUnit.Pixel);
+                                for (int i = 0; i < xsize; ++i)
+                                {
+                                    for (int j = 0; j < ysize; ++j)
+                                    {
+                                        for (int k = 0; k < 2; ++k)
+                                        {
+                                            for (int l = 0; l < 2; ++l)
+                                            {
+                                                blank.SetPixel(i * 2 + k, j * 2 + l, bmp.GetPixel(x + i, y + j));
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_19_" + countx + "_" + county + ".png"));
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_17_" + countx + "_" + county + ".png"));
                             using (var graphics = Graphics.FromImage(blank))
                             {
-                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221,221,221)), 0, 0, 256, 256);
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
                             }
                             filecount++;
                             county++;
                         }
                         countx++;
-                    }*/
+                    }
+                    Bitmap zoom20 = null;
+                    countx = 0;
+                    for (int x = 0; x < Main.maxTilesX; x = x + 64)
+                    {
+                        county = 0;
+                        for (int y = 0; y < Main.maxTilesY; y = y + 64)
+                        {
+                            if (tile != null)
+                            {
+                                tile.Dispose();
+                                tile = null;
+                            }
+                            xsize = 64;
+                            ysize = 64;
+                            if (x + 64 > Main.maxTilesX)
+                            {
+                                xsize = Main.maxTilesX - x;
+                            }
+                            if (y + 64 > Main.maxTilesY)
+                            {
+                                ysize = Main.maxTilesY - y;
+                            }
+                            Size tilesize = new Size(xsize * 4, ysize * 4);
+                            System.Drawing.Rectangle size = new System.Drawing.Rectangle(x, y, xsize, ysize);
+                            tile = bmp.Clone(size, format);
+
+                            if (zoom20 != null)
+                            {
+                                zoom20.Dispose();
+                                zoom20 = null;
+                            }
+                            zoom20 = new Bitmap(tile, tilesize);
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                //graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                                //graphics.DrawImage(bmp, new Rectangle(0, 0, xsize * 4, ysize * 4), size, GraphicsUnit.Pixel);
+                                for (int i = 0; i < xsize; ++i)
+                                {
+                                    for (int j = 0; j < ysize; ++j)
+                                    {
+                                        for (int k = 0; k < 4; ++k)
+                                        {
+                                            for (int l = 0; l < 4; ++l)
+                                            {
+                                                blank.SetPixel(i * 4 + k, j * 4 + l, bmp.GetPixel(x + i, y + j));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            blank.Save(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map-tiles", Path.DirectorySeparatorChar, "map_18_" + countx + "_" + county + ".png"));
+                            using (var graphics = Graphics.FromImage(blank))
+                            {
+                                graphics.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(221, 221, 221)), 0, 0, 256, 256);
+                            }
+                            filecount++;
+                            county++;
+                        }
+                        countx++;
+                    }
                     string html = "<html>\r\n<head>\r\n<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.0.3/dist/leaflet.css\"/>\r\n<title>" + Main.worldName + "</title>\r\n</head>\r\n<body style=\"margin: 0; padding: 0;\">\r\n<div id=\"map\" style=\"height: 100%;\"></div>\r\n<script src=\"https://unpkg.com/leaflet@1.0.3/dist/leaflet.js\"></script>\r\n<script>\r\n\tvar map = L.map('map', {\r\n\t\tmaxZoom: 18,\r\n\t\tminZoom: 14,\r\n\t\tcrs: L.CRS.Simple,\r\n\t\tattributionControl: false\r\n\t});\r\n\tvar southWest = map.unproject([0, " + Main.maxTilesY * 4 + "], map.getMaxZoom());\r\n\tvar northEast = map.unproject([" + Main.maxTilesX * 4 + ", 0], map.getMaxZoom());\r\n\tmap.setMaxBounds(new L.LatLngBounds(southWest, northEast));\r\n\tL.tileLayer('map-tiles/map_{z}_{x}_{y}.png').addTo(map);\r\n\tmap.setView([0, 0], 16);\r\n\tmap.whenReady(function() {\r\n\t\tmap.setView(map.unproject([3205, 402]), 16);\r\n\t});\r\n</script>\r\n</body>\r\n</html>\r\n";
                     System.IO.File.WriteAllText(string.Concat(p, Path.DirectorySeparatorChar, "map", Path.DirectorySeparatorChar, "map.html"), html);
                     watch.Stop();
@@ -813,7 +887,7 @@ namespace Map
             }
         }
 
-        public partial class Constants //credits go to the authors of Terrafirma				
+        public partial class Constants //credits go to the authors of Terrafirma                
         {
             public static class Terrafirma_Color
             {
