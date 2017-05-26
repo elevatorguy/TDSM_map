@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Terraria;
-using TShockAPI;
 using System.IO;
 using System.Threading;
+using Terraria;
 using TerrariaApi.Server;
+using TShockAPI;
 
 namespace Map
 {
@@ -13,53 +13,53 @@ namespace Map
     {
         PropertiesFile properties;
         Timer autosavetimer;
-        bool isEnabled = false;
+        bool isEnabled;
 
         public static MapPlugin instance;
 
-        public static bool initialized = false;
+        public static bool initialized;
 
-        string mapoutputpath
+        string OutputPath
         {
             get { return properties.getValue("mapoutput-path", Environment.CurrentDirectory); }
         }
 
-        string autosavepath
+        string AutosavePath
         {
             get { return properties.getValue("autosave-path", Environment.CurrentDirectory); }
         }
 
-        string colorscheme
+        string Colorscheme
         {
             get { return properties.getValue("color-scheme", "Terrafirma"); }
         }
 
-        string autosavename
+        string AutosaveName
         {
             get { return properties.getValue("autosave-filename", "autosave.png"); }
         }
 
-        bool autosaveenabled
+        bool AutosaveEnabled
         {
             get { return properties.getValue("autosave-enabled", false); }
         }
 
-        int autosaveinterval
+        int AutosaveInterval
         {
             get { return properties.getValue("autosave-interval", 30); } // in minutes
         }
 
-        bool autosavetimestamp
+        bool AutosaveTimestamp
         {
             get { return properties.getValue("autosave-timestamp", false); }
         }
 
-        bool autosavehighlight
+        bool AutosaveHighlight
         {
             get { return properties.getValue("autosave-highlight", false); }
         }
 
-        string autosavehightlightID
+        string AutosaveHighlightID
         {
             get { return properties.getValue("autosave-highlightID", "chest"); }
         }
@@ -98,8 +98,8 @@ namespace Map
             initBList();
 
             //start autosave thread
-            if (autosaveenabled)
-                autosavetimer = new Timer(s => { autoSave(); }, null, autosaveinterval * 60000, Timeout.Infinite);
+            if (AutosaveEnabled)
+                autosavetimer = new Timer(s => { Autosave(); }, null, AutosaveInterval * 60000, Timeout.Infinite);
 
             instance = this;
             initialized = true;
@@ -115,18 +115,18 @@ namespace Map
 
             properties = new PropertiesFile(pluginFolder + Path.DirectorySeparatorChar + "map.properties");
             properties.Load();
-            var dummy = mapoutputpath;
-            var dummy2 = colorscheme;
-            var dummy3 = autosavepath;
-            var dummy4 = autosaveinterval;
-            var dummy5 = autosavetimestamp;
-            var dummy6 = autosavehighlight;
-            var dummy7 = autosavehightlightID;
-            var dummy8 = autosaveenabled;
-            var dummy9 = autosavename;
+            var dummy = OutputPath;
+            var dummy2 = Colorscheme;
+            var dummy3 = AutosavePath;
+            var dummy4 = AutosaveInterval;
+            var dummy5 = AutosaveTimestamp;
+            var dummy6 = AutosaveHighlight;
+            var dummy7 = AutosaveHighlightID;
+            var dummy8 = AutosaveEnabled;
+            var dummy9 = AutosaveName;
             properties.Save();
 
-            if (colorscheme == "MoreTerra" || colorscheme == "Terrafirma")
+            if (Colorscheme == "MoreTerra" || Colorscheme == "Terrafirma")
             {
                 isEnabled = true;
             }
@@ -145,7 +145,7 @@ namespace Map
         }
 
 
-        public void autoSave()
+        public void Autosave()
         {
             if (!isEnabled)
                 return;
@@ -153,29 +153,33 @@ namespace Map
             List<string> empty = new List<string>();
             CommandArgs arguments = new CommandArgs("automap", console, empty); // the command method interprets this, along with the data in the properties file
             MapCommand(arguments);
-            autosavetimer.Change(autosaveinterval * 60000, Timeout.Infinite);
+            autosavetimer.Change(AutosaveInterval * 60000, Timeout.Infinite);
         }
     }
 }
 
 namespace Map.API
 {
-    public class Mapper
+    public static class Mapper
     {
-        public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
+        public static System.Drawing.Bitmap Map(int x1, int y1, int x2, int y2)
         {
             if (MapPlugin.initialized && !MapPlugin.instance.isMapping)
             {
                 TSPlayer console = new TSPlayer(-1);
-                List<string> coords = new List<string>();
-                coords.Add("-x1=" + x1);
-                coords.Add("-x2=" + x2);
-                coords.Add("-y1=" + y1);
-                coords.Add("-y2=" + y2);
+                List<string> coords = new List<string>
+                {
+                    "-x1=" + x1,
+                    "-x2=" + x2,
+                    "-y1=" + y1,
+                    "-y2=" + y2
+                };
                 CommandArgs arguments = new CommandArgs("api-call", console, coords); // the command method interprets this, along with the data in the properties file
 
                 MapPlugin.instance.MapCommand(arguments);
-                while (MapPlugin.instance.isMapping) ;
+                while (MapPlugin.instance.isMapping)
+                {
+                }
             }
             return MapPlugin.bmp;
         }

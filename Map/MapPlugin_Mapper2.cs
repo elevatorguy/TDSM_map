@@ -1,9 +1,9 @@
-using System.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System;
 using System.Threading;
 using Terraria;
 using Color = Microsoft.Xna.Framework.Color;

@@ -1,8 +1,7 @@
-
-using System.IO;
 using System;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using Terraria;
 
 namespace Map
