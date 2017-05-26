@@ -49,13 +49,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
     <Reference Include="OTAPI">
-      <HintPath>..\..\tshock_4.3.24\OTAPI.dll</HintPath>
+      <HintPath>References\OTAPI.dll</HintPath>
     </Reference>
     <Reference Include="TerrariaServer">
-      <HintPath>..\..\tshock_4.3.24\TerrariaServer.exe</HintPath>
+      <HintPath>References\TerrariaServer.exe</HintPath>
     </Reference>
     <Reference Include="TShockAPI">
-      <HintPath>..\..\tshock_4.3.24\ServerPlugins\TShockAPI.dll</HintPath>
+      <HintPath>References\TShockAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />
