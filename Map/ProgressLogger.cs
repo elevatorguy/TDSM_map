@@ -36,7 +36,7 @@ namespace Map
             {
                 if (value < current) return;
                 current = value;
-                //				Log.UpdateProgressLogger (this);
+                // Log.UpdateProgressLogger (this);
             }
         }
 
