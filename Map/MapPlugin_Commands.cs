@@ -1,10 +1,10 @@
 using System;
-using TShockAPI;
-using NDesk.Options;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using NDesk.Options;
 using Terraria;
+using TShockAPI;
 
 namespace Map
 {
@@ -51,7 +51,7 @@ namespace Map
                     player.SendErrorMessage("Still currently mapping.");
                     return;
                 }
-                p = mapoutputpath;
+                p = OutputPath;
                 filename = "world-now.png";
                 bool timestamp = false;
                 bool reload = false;
@@ -60,7 +60,7 @@ namespace Map
                 hlchests = false;
                 string nameOrID = "";
                 bool savefromcommand = false;
-                string cs = colorscheme;
+                string cs = Colorscheme;
                 bool autosaveedit = false;
                 string x1 = "";
                 string x2 = "";
@@ -138,7 +138,7 @@ namespace Map
 
                 if (autosaveedit)
                 {
-                    if (autosaveenabled)
+                    if (AutosaveEnabled)
                     {
                         properties.setValue("autosave-enabled", "False");
                         player.SendInfoMessage("autosave disabled.");
@@ -160,7 +160,7 @@ namespace Map
 
                     if (timestamp)
                     {
-                        if (autosavetimestamp)
+                        if (AutosaveTimestamp)
                         {
                             properties.setValue("autosave-timestamp", "False");
                             player.SendInfoMessage("autosave now using regular name.");
@@ -211,14 +211,14 @@ namespace Map
 
                 if (autosave)
                 {
-                    p = autosavepath;
-                    filename = autosavename;
-                    timestamp = autosavetimestamp;
-                    if (autosavehighlight)
+                    p = AutosavePath;
+                    filename = AutosaveName;
+                    timestamp = AutosaveTimestamp;
+                    if (AutosaveHighlight)
                     {
-                        nameOrID = autosavehightlightID;
+                        nameOrID = AutosaveHighlightID;
                     }
-                    highlight = autosavehighlight;
+                    highlight = AutosaveHighlight;
                 }
 
                 if (timestamp)
