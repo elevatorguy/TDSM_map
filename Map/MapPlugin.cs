@@ -1,73 +1,74 @@
 using System;
 using System.Collections.Generic;
-using Terraria;
-using TShockAPI;
 using System.IO;
 using System.Threading;
+using Terraria;
 using TerrariaApi.Server;
+using TShockAPI;
 
 namespace Map
 {
-    [ApiVersion(1, 25)]
+    [ApiVersion(2, 1)]
     public partial class MapPlugin : TerrariaPlugin
     {
-		PropertiesFile properties;
-		bool isEnabled = false;
+        PropertiesFile properties;
+        Timer autosavetimer;
+        bool isEnabled;
 
         public static MapPlugin instance;
 
-        public static bool initialized = false;
+        public static bool initialized;
 
-		string mapoutputpath
-		{
-			get { return properties.getValue ("mapoutput-path", Environment.CurrentDirectory); }
-		}
+        string OutputPath
+        {
+            get { return properties.getValue("mapoutput-path", Environment.CurrentDirectory); }
+        }
 
-        string autosavepath
+        string AutosavePath
         {
             get { return properties.getValue("autosave-path", Environment.CurrentDirectory); }
         }
-		
-		string colorscheme
-		{
-			get { return properties.getValue ("color-scheme", "Terrafirma"); }		
-		}
 
-        string autosavename
+        string Colorscheme
+        {
+            get { return properties.getValue("color-scheme", "Terrafirma"); }
+        }
+
+        string AutosaveName
         {
             get { return properties.getValue("autosave-filename", "autosave.png"); }
         }
 
-        bool autosaveenabled
+        bool AutosaveEnabled
         {
             get { return properties.getValue("autosave-enabled", false); }
         }
 
-        int autosaveinterval
+        int AutosaveInterval
         {
-            get { return properties.getValue("autosave-interval", 30);  } // in minutes
+            get { return properties.getValue("autosave-interval", 30); } // in minutes
         }
 
-        bool autosavetimestamp
+        bool AutosaveTimestamp
         {
             get { return properties.getValue("autosave-timestamp", false); }
         }
 
-        bool autosavehighlight
+        bool AutosaveHighlight
         {
             get { return properties.getValue("autosave-highlight", false); }
         }
 
-        string autosavehightlightID
+        string AutosaveHighlightID
         {
             get { return properties.getValue("autosave-highlightID", "chest"); }
         }
 
-        public MapPlugin(Main game)  : base(game)
+        public MapPlugin(Main game) : base(game)
         {
             // constructor
         }
-		
+
         public override string Name
         {
             get { return "Map"; }
@@ -82,40 +83,11 @@ namespace Map
         }
         public override Version Version
         {
-            get { return new Version(4, 3, 19, 1015); } //Version number reflects tshock version, and date map plugin was updated.
+            get { return new Version(4, 3, 24, 0516); } //Version number reflects tshock version, and date map plugin was updated.
         }
 
-        public override void Initialize()
+        private void PostInitialize(EventArgs args)
         {
-            Commands.ChatCommands.Add(new Command("map.create", MapCommand, "map"));
-
-            string pluginFolder = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "map";
-            CreateDirectory(pluginFolder);
-
-            properties = new PropertiesFile(pluginFolder + Path.DirectorySeparatorChar + "map.properties");
-            properties.Load();
-            var dummy = mapoutputpath;
-            var dummy2 = colorscheme;
-            var dummy3 = autosavepath;
-            var dummy4 = autosaveinterval;
-            var dummy5 = autosavetimestamp;
-            var dummy6 = autosavehighlight;
-            var dummy7 = autosavehightlightID;
-            var dummy8 = autosaveenabled;
-            var dummy9 = autosavename;
-            properties.Save();
-
-            if (colorscheme == "MoreTerra" || colorscheme == "Terrafirma")
-            {
-                isEnabled = true;
-            }
-            else
-            {
-                TShock.Log.Error("<map> ERROR: colorscheme must be either 'MoreTerra' or 'Terrafirma'");
-                TShock.Log.Error("<map> ERROR: map command will not work until you change it");
-                isEnabled = false;
-            }
-
             // these below require that the world be loaded
 
             //UInt32Defs and ColorDefs for colors, and background fade in Terrafirma Color Scheme
@@ -126,14 +98,44 @@ namespace Map
             initBList();
 
             //start autosave thread
-            Thread autosavethread;
-            autosavethread = new Thread(autoSave);
-            autosavethread.Name = "Auto-Mapper";
-            autosavethread.Start();
-            while (!autosavethread.IsAlive) ;
+            if (AutosaveEnabled)
+                autosavetimer = new Timer(s => { Autosave(); }, null, AutosaveInterval * 60000, Timeout.Infinite);
 
             instance = this;
             initialized = true;
+        }
+
+        public override void Initialize()
+        {
+            ServerApi.Hooks.GamePostInitialize.Register(this, PostInitialize);
+            Commands.ChatCommands.Add(new Command("map.create", MapCommand, "map"));
+
+            string pluginFolder = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "map";
+            CreateDirectory(pluginFolder);
+
+            properties = new PropertiesFile(pluginFolder + Path.DirectorySeparatorChar + "map.properties");
+            properties.Load();
+            var dummy = OutputPath;
+            var dummy2 = Colorscheme;
+            var dummy3 = AutosavePath;
+            var dummy4 = AutosaveInterval;
+            var dummy5 = AutosaveTimestamp;
+            var dummy6 = AutosaveHighlight;
+            var dummy7 = AutosaveHighlightID;
+            var dummy8 = AutosaveEnabled;
+            var dummy9 = AutosaveName;
+            properties.Save();
+
+            if (Colorscheme == "MoreTerra" || Colorscheme == "Terrafirma")
+            {
+                isEnabled = true;
+            }
+            else
+            {
+                TShock.Log.Error("<map> ERROR: colorscheme must be either 'MoreTerra' or 'Terrafirma'");
+                TShock.Log.Error("<map> ERROR: map command will not work until you change it");
+                isEnabled = false;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -142,53 +144,42 @@ namespace Map
             base.Dispose(disposing);
         }
 
-        
-        public void autoSave()
+
+        public void Autosave()
         {
-            bool firstrun = true;
-            DateTime lastsave = new DateTime();
+            if (!isEnabled)
+                return;
             TSPlayer console = new TSPlayer(-1);
             List<string> empty = new List<string>();
             CommandArgs arguments = new CommandArgs("automap", console, empty); // the command method interprets this, along with the data in the properties file
-            while(isEnabled)
-            {
-                if (autosaveenabled)
-                {
-                    if (!firstrun && (DateTime.UtcNow > lastsave.AddMinutes(autosaveinterval)))
-                    {
-                        MapCommand(arguments);
-                        lastsave = DateTime.UtcNow;
-                    }
-                    if (firstrun)
-                    {
-                        firstrun = false;
-                        lastsave = DateTime.UtcNow;
-                    }
-                }
-                Thread.Sleep(1000);
-            }
+            MapCommand(arguments);
+            autosavetimer.Change(AutosaveInterval * 60000, Timeout.Infinite);
         }
     }
 }
 
 namespace Map.API
 {
-    public class Mapper
+    public static class Mapper
     {
-        public static System.Drawing.Bitmap map(int x1, int y1, int x2, int y2)
+        public static System.Drawing.Bitmap Map(int x1, int y1, int x2, int y2)
         {
-            if(MapPlugin.initialized && !MapPlugin.instance.isMapping)
+            if (MapPlugin.initialized && !MapPlugin.instance.isMapping)
             {
                 TSPlayer console = new TSPlayer(-1);
-                List<string> coords = new List<string>();
-                coords.Add("-x1="+x1);
-                coords.Add("-x2="+x2);
-                coords.Add("-y1="+y1);
-                coords.Add("-y2="+y2);
+                List<string> coords = new List<string>
+                {
+                    "-x1=" + x1,
+                    "-x2=" + x2,
+                    "-y1=" + y1,
+                    "-y2=" + y2
+                };
                 CommandArgs arguments = new CommandArgs("api-call", console, coords); // the command method interprets this, along with the data in the properties file
 
                 MapPlugin.instance.MapCommand(arguments);
-                while (MapPlugin.instance.isMapping) ;
+                while (MapPlugin.instance.isMapping)
+                {
+                }
             }
             return MapPlugin.bmp;
         }

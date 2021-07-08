@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using TShockAPI;
 
@@ -94,7 +92,7 @@ namespace Map
             catch (IOException e)
             {
                 if (log)
-                    TShock.Log.Error("Save to \""+propertiesPath+"\" failed: "+e.Message);
+                    TShock.Log.Error("Save to \"" + propertiesPath + "\" failed: " + e.Message);
             }
             catch (SystemException e)
             {
