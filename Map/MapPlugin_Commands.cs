@@ -8,10 +8,10 @@ using Terraria;
 
 namespace Map
 {
-	public partial class MapPlugin
-	{
-		public static string p;
-		public static string filename;
+    public partial class MapPlugin
+    {
+        public static string p;
+        public static string filename;
         public static bool highlight;
         public static bool hlchests;
         private static int highlightID;
@@ -24,42 +24,43 @@ namespace Map
         public bool api_call;
         public static bool generate_tiles;
 
-		private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
-		
-		public void MapCommand(CommandArgs argzz)
-		{
+        private TShockAPI.Utils utils = TShockAPI.Utils.Instance;
+
+        public void MapCommand(CommandArgs argzz)
+        {
             bool autosave = false;
             api_call = false;
-            if(argzz.Message == "automap")
+            if (argzz.Message == "automap")
             {
                 autosave = true;
             }
-            if(argzz.Message == "api-call")
+            if (argzz.Message == "api-call")
             {
                 api_call = true; //don't save file... we only need the bitmap object.
             }
 
             TSPlayer player = argzz.Player;
-			if(player == null)
-				return;
-            
-			List<string> argz = argzz.Parameters;
-			try {
+            if (player == null)
+                return;
+
+            List<string> argz = argzz.Parameters;
+            try
+            {
                 if (isMapping)
                 {
-					player.SendErrorMessage("Still currently mapping.");
+                    player.SendErrorMessage("Still currently mapping.");
                     return;
                 }
-				p = mapoutputpath;
-				filename = "world-now.png";
+                p = mapoutputpath;
+                filename = "world-now.png";
                 bool timestamp = false;
-				bool reload = false;
+                bool reload = false;
                 bool highlight = false;
-				highlightID = 0;
+                highlightID = 0;
                 hlchests = false;
                 string nameOrID = "";
-				bool savefromcommand = false;
-				string cs = colorscheme;
+                bool savefromcommand = false;
+                string cs = colorscheme;
                 bool autosaveedit = false;
                 string x1 = "";
                 string x2 = "";
@@ -68,14 +69,14 @@ namespace Map
                 crop = false;
                 generate_tiles = false;
                 var options = new OptionSet()
-				{
-					{ "t|timestamp", v => timestamp = true },
-					{ "n|name=", v => filename = v },
-					{ "L|reload", v => reload = true },
-					{ "s|save", v => savefromcommand = true },
-					{ "p|path=", v => p = v },
+                {
+                    { "t|timestamp", v => timestamp = true },
+                    { "n|name=", v => filename = v },
+                    { "L|reload", v => reload = true },
+                    { "s|save", v => savefromcommand = true },
+                    { "p|path=", v => p = v },
                     { "h|highlight=", v => { nameOrID = v; highlight = true; } },
-					{ "c|colorscheme=", v => cs = v },
+                    { "c|colorscheme=", v => cs = v },
                     { "a|autosave", v => autosaveedit = true },
                     { "x1|xA=", v => { x1 = v; crop = true; } },
                     { "x2|xB=", v => { x2 = v; crop = true; } },
@@ -83,9 +84,9 @@ namespace Map
                     { "y2|yB=", v => { y2 = v; crop = true; } },
                     { "w|web", v => generate_tiles = true },
                 };
-				var args = options.Parse (argz);
+                var args = options.Parse(argz);
 
-                if(crop)
+                if (crop)
                 {
                     if (x1.Equals("") || x2.Equals("") || y1.Equals("") || y2.Equals(""))
                     {
@@ -117,7 +118,7 @@ namespace Map
 
                             if ((x1num >= x2num) || (y1num >= y2num))
                             {
-                                player.SendErrorMessage("("+x1num+","+y1num+")("+x2num+","+y2num+")  (x1,y1) must be the top left corner.");
+                                player.SendErrorMessage("(" + x1num + "," + y1num + ")(" + x2num + "," + y2num + ")  (x1,y1) must be the top left corner.");
                                 return;
                             }
 
@@ -182,9 +183,9 @@ namespace Map
 
                 if (reload || autosave || api_call)
                 {
-                    if(reload)
+                    if (reload)
                         player.SendInfoMessage("map: Reloaded settings database, entries: " + properties.Count);
-                    if(autosave)
+                    if (autosave)
                         TShock.Log.Info("<map> Reloaded settings database, entries: " + properties.Count);
 
                     properties.Load();
@@ -220,17 +221,19 @@ namespace Map
                     highlight = autosavehighlight;
                 }
 
-				if (timestamp) {
-					DateTime value = DateTime.Now;
-					string time = value.ToString ("yyyy-MM-dd_HH-mm-ss");
-					filename = string.Concat ("terraria-", time, ".png");
-				}		
-			
-				if(savefromcommand){
-					properties.setValue ("color-scheme", cs);
-					properties.setValue ("mapoutput-path", p);
-					properties.Save();
-				}
+                if (timestamp)
+                {
+                    DateTime value = DateTime.Now;
+                    string time = value.ToString("yyyy-MM-dd_HH-mm-ss");
+                    filename = string.Concat("terraria-", time, ".png");
+                }
+
+                if (savefromcommand)
+                {
+                    properties.setValue("color-scheme", cs);
+                    properties.setValue("mapoutput-path", p);
+                    properties.Save();
+                }
                 // chests are not an item so i draw them from the chest array
                 if (highlight && nameOrID.ToLower() != "chest")
                 {
@@ -241,45 +244,55 @@ namespace Map
                     hlchests = true;
                 }
 
-				if (args.Count == 0 && isEnabled) {
-					if(!reload && Directory.Exists(p)){
-						if(cs=="Terrafirma"){
+                if (args.Count == 0 && isEnabled)
+                {
+                    if (!reload && Directory.Exists(p))
+                    {
+                        if (cs == "Terrafirma")
+                        {
                             isMapping = true;
                             //for now highlighting is only in terrafirma color scheme
                             MapPlugin.highlight = highlight;
 
-							Thread imagethread;
-							imagethread = new Thread(mapWorld2);
+                            Thread imagethread;
+                            imagethread = new Thread(mapWorld2);
                             imagethread.Name = "Mapper";
-							imagethread.Start();
-							while (!imagethread.IsAlive);
-								// the thread terminates itself since there is no while loop in mapWorld2
-						}
-						else if(cs=="MoreTerra"){
+                            imagethread.Start();
+                            while (!imagethread.IsAlive) ;
+                            // the thread terminates itself since there is no while loop in mapWorld2
+                        }
+                        else if (cs == "MoreTerra")
+                        {
                             isMapping = true;
-							Thread imagethread;
-							imagethread = new Thread(mapWorld);
+                            Thread imagethread;
+                            imagethread = new Thread(mapWorld);
                             imagethread.Name = "Mapper";
-							imagethread.Start();
-							while (!imagethread.IsAlive);
-								// the thread terminates itself since there is no while loop in mapWorld
-						}
-						else{
+                            imagethread.Start();
+                            while (!imagethread.IsAlive) ;
+                            // the thread terminates itself since there is no while loop in mapWorld
+                        }
+                        else
+                        {
                             TShock.Log.Error("Save ERROR: check colorscheme");
-						}
-						if( !(Directory.Exists(p)) ){
-						    player.SendErrorMessage ("map: "+p+" does not exist.");
+                        }
+                        if (!(Directory.Exists(p)))
+                        {
+                            player.SendErrorMessage("map: " + p + " does not exist.");
                             TShock.Log.Error("<map> ERROR: Loaded Directory does not exist.");
-				        }
-					}
-				} else {
+                        }
+                    }
+                }
+                else
+                {
                     return;
-				}
-			} catch (OptionException) {
+                }
+            }
+            catch (OptionException)
+            {
                 return;
-			}
-		
-		}
+            }
+
+        }
 
         public bool highlightsearch(TSPlayer player, string nameOrID)
         {
@@ -304,6 +317,5 @@ namespace Map
 
             return true;
         }
-	}
+    }
 }
-
